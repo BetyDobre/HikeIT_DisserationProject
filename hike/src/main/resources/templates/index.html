@@ -4,7 +4,7 @@
 		<!-- Mobile Specific Meta -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- Favicon-->
-		<link rel="shortcut icon" th:href="@{img/logo.png}">
+		<link rel="shortcut icon" th:href="@{img/favicon.png}">
 		<!-- Author Meta -->
 		<meta name="author" content="colorlib">
 		<!-- Meta Description -->
@@ -43,9 +43,9 @@
 			  			</div>
 			  			<div class="col-lg-6 col-sm-6 col-6 header-top-right">
 							<div class="header-social">
-								<a href="#"><i class="fa fa-facebook"></i></a>
-								<a href="#"><i class="fa fa-instagram"></i></a>
-								<a href="#"><i class="fa fa-youtube"></i></a>
+								<a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
+								<a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram"></i></a>
+								<a href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube"></i></a>
 							</div>
 			  			</div>
 			  		</div>			  					
@@ -58,28 +58,17 @@
 				      </div>
 				      <nav id="nav-menu-container">
 				        <ul class="nav-menu">
-				          <li><a th:href="@{/}">Acasa</a></li>
-				          <li><a th:href="@{/}">Login</a></li>
+				          <li><a th:href="@{/}">Acasă</a></li>
 				          <li><a th:href="@{/}">Trasee</a></li>
-				          <li><a th:href="@{/}">Blog</a></li>
-				          <li><a th:href="@{/}">Contact</a></li>
+				          <li><a th:href="@{/blog}">Blog</a></li>
+				          <li><a th:href="@{/contact}">Contact</a></li>
 				          <li class="menu-has-children"><a href="">Blog</a>
 				            <ul>
 				              <li><a th:href="@{/}">Blog Home</a></li>
 				              <li><a th:href="@{/}">Blog Single</a></li>
 				            </ul>
-				          </li>	
-				          <li class="menu-has-children"><a href="">Pages</a>
-				            <ul>
-				            	  <li><a href="elements.html">Elements</a></li>
-						          <li class="menu-has-children"><a href="">Level 2 </a>
-						            <ul>
-						              <li><a href="#">Item One</a></li>
-						              <li><a href="#">Item Two</a></li>
-						            </ul>
-						          </li>					                		
-				            </ul>
 				          </li>
+							<li><a th:href="@{/}">Login</a></li>
 				        </ul>
 				      </nav><!-- #nav-menu-container -->					      		  
 					</div>
@@ -92,12 +81,12 @@
 				<div class="container">
 					<div class="row fullscreen align-items-center justify-content-between">
 						<div class="col-lg-6 col-md-6 banner-left">
-							<h6 class="text-white">Departe de galagia si aglomeratia oraselor</h6>
-							<h1 class="text-white">TRASEE PENTRU TOATA LUMEA</h1>
+							<h6 class="text-white">Departe de gălăgia și aglomerația orașelor</h6>
+							<h1 class="text-white">TRASEE PENTRU TOATĂ LUMEA</h1>
 							<p class="text-white">
-								Daca vrei sa incepi sa faci drumetii sau daca esti deja experimentat, aici vei gasi informatiile de care ai nevoie.
+								Dacă vrei să începi să faci drumeții sau dacă ești deja experimentat, aici vei găsi informațiile de care ai nevoie.
 							</p>
-							<a href="#" class="primary-btn text-uppercase">DESCOPERA</a>
+							<a href="#" class="primary-btn text-uppercase">DESCOPERĂ</a>
 						</div>
 <!--						<div class="col-lg-4 col-md-6 banner-right">-->
 <!--							<ul class="nav nav-tabs" id="myTab" role="tablist">-->
@@ -152,62 +141,24 @@
 			</section>
 			<!-- End banner Area -->
 
-			<!-- Start popular-destination Area -->
-			<section class="popular-destination-area section-gap">
+			<!-- Start about-info Area -->
+			<section class="about-info-area section-gap">
 				<div class="container">
-		            <div class="row d-flex justify-content-center">
-		                <div class="menu-content pb-70 col-lg-8">
-		                    <div class="title text-center">
-		                        <h1 class="mb-10">Popular Destinations</h1>
-		                        <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast, day.</p>
-		                    </div>
-		                </div>
-		            </div>						
-					<div class="row">
-						<div class="col-lg-4">
-							<div class="single-destination relative">
-								<div class="thumb relative">
-									<div class="overlay overlay-bg"></div>
-									<img class="img-fluid" th:src="@{/img/d1.jpg}" alt="">
-								</div>
-								<div class="desc">	
-									<a href="#" class="price-btn">$150</a>			
-									<h4>Mountain River</h4>
-									<p>Paraguay</p>			
-								</div>
-							</div>
+					<div class="row align-items-center">
+						<div class="col-lg-6 info-left">
+							<img class="img-fluid" th:src="@{/img/acasa/drumetieEu.jpg}" alt="Drumetie" >
 						</div>
-						<div class="col-lg-4">
-							<div class="single-destination relative">
-								<div class="thumb relative">
-									<div class="overlay overlay-bg"></div>
-									<img class="img-fluid" th:src="@{/img/d2.jpg}" alt="">
-								</div>
-								<div class="desc">	
-									<a href="#" class="price-btn">$250</a>			
-									<h4>Dream City</h4>
-									<p>Paris</p>			
-								</div>
-							</div>
+						<div class="col-lg-6 info-right">
+							<h6>Despre noi</h6>
+							<h1>Cine și de ce?</h1>
+							<p>
+								Ideea acestui site vine din pasiunea personală pentru drumețiile montane pe teritoriul Carpațiilor României îmbinată cu pasiunea pentru domeniul IT și cunoștințele acumulate pe parcursul facultații si a experienței personale până în acest moment. Sper ca informațiile găsite aici sa fie de ajutor și să înglobeze mult mai ușor tot ce am stâns eu din multe surse.
+							</p>
 						</div>
-						<div class="col-lg-4">
-							<div class="single-destination relative">
-								<div class="thumb relative">
-									<div class="overlay overlay-bg"></div>
-									<img class="img-fluid" th:src="@{/img/d3.jpg}" alt="">
-								</div>
-								<div class="desc">	
-									<a href="#" class="price-btn">$350</a>			
-									<h4>Cloud Mountain</h4>
-									<p>Sri Lanka</p>			
-								</div>
-							</div>
-						</div>												
 					</div>
-				</div>	
+				</div>
 			</section>
-			<!-- End popular-destination Area -->
-			
+			<!-- End about-info Area -->
 
 			<!-- Start price Area -->
 			<section class="price-area section-gap">
@@ -215,105 +166,13 @@
 		            <div class="row d-flex justify-content-center">
 		                <div class="menu-content pb-70 col-lg-8">
 		                    <div class="title text-center">
-		                        <h1 class="mb-10">We Provide Affordable Prices</h1>
-		                        <p>Well educated, intellectual people, especially scientists at all times demonstrate considerably.</p>
+		                        <h1 class="mb-10">Acoperire totală</h1>
+		                        <p>Aici puteți găsi trasee indiferent de zona țării în care vă aflați.</p>
 		                    </div>
 		                </div>
 		            </div>						
-					<div class="row">
-						<div class="col-lg-4">
-							<div class="single-price">
-								<h4>Cheap Packages</h4>
-								<ul class="price-list">
-									<li class="d-flex justify-content-between align-items-center">
-										<span>New York</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Maldives</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Sri Lanka</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Nepal</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Thiland</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>	
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Singapore</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>														
-								</ul>
-							</div>
-						</div>
-						<div class="col-lg-4">
-							<div class="single-price">
-								<h4>Luxury Packages</h4>
-								<ul class="price-list">
-									<li class="d-flex justify-content-between align-items-center">
-										<span>New York</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Maldives</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Sri Lanka</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Nepal</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Thiland</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>	
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Singapore</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>														
-								</ul>
-							</div>
-						</div>
-						<div class="col-lg-4">
-							<div class="single-price">
-								<h4>Camping Packages</h4>
-								<ul class="price-list">
-									<li class="d-flex justify-content-between align-items-center">
-										<span>New York</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Maldives</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Sri Lanka</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Nepal</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Thiland</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>	
-									<li class="d-flex justify-content-between align-items-center">
-										<span>Singapore</span>
-										<a href="#" class="price-btn">$1500</a>
-									</li>														
-								</ul>
-							</div>
-						</div>												
+					<div class="row d-flex justify-content-center">
+						<img th:src="@{/img/acasa/hartaRomaniei.jpg}" width="760px" height="500px" alt="Harta Romaniei">
 					</div>
 				</div>	
 			</section>
@@ -326,8 +185,8 @@
 		            <div class="row d-flex justify-content-center">
 		                <div class="menu-content pb-70 col-lg-9">
 		                    <div class="title text-center">
-		                        <h1 class="mb-10">Other issues we can help you with</h1>
-		                        <p>We all live in an age that belongs to the young at heart. Life that is.</p>
+		                        <h1 class="mb-10">Ce trebuie sa stii despre trasee?</h1>
+		                        <p>Informații utile de care trebuie să ții cont înainte să alegi un traseu.</p>
 		                    </div>
 		                </div>
 		            </div>					
@@ -335,52 +194,44 @@
 						<div class="col-lg-3 col-md-6">
 							<div class="single-other-issue">
 								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/o1.jpg}" alt="">
+									<img class="img-fluid" th:src="@{/img/acasa/difficulty.png}" alt="">
 								</div>
-								<a href="#">
-									<h4>Rent a Car</h4>
-								</a>
+								<h4>Dificultate</h4>
 								<p>
-									The preservation of human life is the ultimate value, a pillar of ethics and the foundation.
+									Dificultatea comparată cu nivelul dumneavoastră de experiență.
 								</p>
 							</div>
 						</div>
 						<div class="col-lg-3 col-md-6">
 							<div class="single-other-issue">
 								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/o2.jpg}" alt="">
+									<img class="img-fluid" th:src="@{/img/acasa/clepsidra.png}" alt="Time">
 								</div>
-								<a href="#">
-									<h4>Cruise Booking</h4>
-								</a>
+								<h4>Durată</h4>
 								<p>
-									I was always somebody who felt quite sorry for myself, what I had not got compared.
+									Durata ținând cont de anotimp și de numărul de ore de lumină din zi.
 								</p>
 							</div>
 						</div>
 						<div class="col-lg-3 col-md-6">
 							<div class="single-other-issue">
 								<div class="thumb">
-									<img class="img-fluid" th:src="@{img/o3.jpg}" alt="">
+									<img class="img-fluid" th:src="@{/img/acasa/echipament.png}" alt="Echipament">
 								</div>
-								<a href="#">
-									<h4>To Do List</h4>
-								</a>
+								<h4>Echipament</h4>
 								<p>
-									The following article covers a topic that has recently moved to center stage–at least it seems.
+									Echipamentul sportiv necesare pentru caracteristicile traseului.
 								</p>
 							</div>
 						</div>
 						<div class="col-lg-3 col-md-6">
 							<div class="single-other-issue">
 								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/o4.jpg}" alt="">
+									<img class="img-fluid" th:src="@{/img/acasa/levels.jpg}" alt="Nivele">
 								</div>
-								<a href="#">
-									<h4>Food Features</h4>
-								</a>
+								<h4>Diferența de nivel</h4>
 								<p>
-									There are many kinds of narratives and organizing principles. Science is driven by evidence.
+									Diferența de altitudine dintre punctul de plecare și punctul de sosire.
 								</p>
 							</div>
 						</div>																		
@@ -388,134 +239,30 @@
 				</div>	
 			</section>
 			<!-- End other-issue Area -->
-			
 
-			<!-- Start testimonial Area -->
-		    <section class="testimonial-area section-gap">
-		        <div class="container">
-		            <div class="row d-flex justify-content-center">
-		                <div class="menu-content pb-70 col-lg-8">
-		                    <div class="title text-center">
-		                        <h1 class="mb-10">Testimonial from our Clients</h1>
-		                        <p>The French Revolution constituted for the conscience of the dominant aristocratic class a fall from </p>
-		                    </div>
-		                </div>
-		            </div>
-		            <div class="row">
-		                <div class="active-testimonial">
-		                    <div class="single-testimonial item d-flex flex-row">
-		                        <div class="thumb">
-		                            <img class="img-fluid" th:src="@{/img/elements/user1.png}" alt="">
-		                        </div>
-		                        <div class="desc">
-		                            <p>
-		                                Do you want to be even more successful? Learn to love learning and growth. The more effort you put into improving your skills, the bigger the payoff you.		     
-		                            </p>
-		                            <h4>Harriet Maxwell</h4>
-	                            	<div class="star">
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star"></span>				
-									</div>	
-		                        </div>
-		                    </div>
-		                    <div class="single-testimonial item d-flex flex-row">
-		                        <div class="thumb">
-		                            <img class="img-fluid" th:src="@{/img/elements/user2.png}" alt="">
-		                        </div>
-		                        <div class="desc">
-		                            <p>
-		                                A purpose is the eternal condition for success. Every former smoker can tell you just how hard it is to stop smoking cigarettes. However.
-		                            </p>
-		                            <h4>Carolyn Craig</h4>
-	                           		<div class="star">
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>			
-									</div>	
-		                        </div>
-		                    </div>
-		                    <div class="single-testimonial item d-flex flex-row">
-		                        <div class="thumb">
-		                            <img class="img-fluid" th:src="@{/img/elements/user1.png}" alt="">
-		                        </div>
-		                        <div class="desc">
-		                            <p>
-		                                Do you want to be even more successful? Learn to love learning and growth. The more effort you put into improving your skills, the bigger the payoff you.		     
-		                            </p>
-		                            <h4>Harriet Maxwell</h4>
-	                            	<div class="star">
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star"></span>				
-									</div>	
-		                        </div>
-		                    </div>
-		                    <div class="single-testimonial item d-flex flex-row">
-		                        <div class="thumb">
-		                            <img class="img-fluid" th:src="@{/img/elements/user2.png}" alt="">
-		                        </div>
-		                        <div class="desc">
-		                            <p>
-		                                A purpose is the eternal condition for success. Every former smoker can tell you just how hard it is to stop smoking cigarettes. However.
-		                            </p>
-		                            <h4>Carolyn Craig</h4>
-	                           		<div class="star">
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>			
-									</div>	
-		                        </div>
-		                    </div>
-		                    <div class="single-testimonial item d-flex flex-row">
-		                        <div class="thumb">
-		                            <img class="img-fluid" th:src="@{/img/elements/user1.png}" alt="">
-		                        </div>
-		                        <div class="desc">
-		                            <p>
-		                                Do you want to be even more successful? Learn to love learning and growth. The more effort you put into improving your skills, the bigger the payoff you.		     
-		                            </p>
-		                            <h4>Harriet Maxwell</h4>
-	                            	<div class="star">
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star"></span>				
-									</div>	
-		                        </div>
-		                    </div>
-		                    <div class="single-testimonial item d-flex flex-row">
-		                        <div class="thumb">
-		                            <img class="img-fluid" th:src="@{/img/elements/user2.png}" alt="">
-		                        </div>
-		                        <div class="desc">
-		                            <p>
-		                                A purpose is the eternal condition for success. Every former smoker can tell you just how hard it is to stop smoking cigarettes. However.
-		                            </p>
-		                            <h4>Carolyn Craig</h4>
-	                           		<div class="star">
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star checked"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>			
-									</div>	
-		                        </div>
-		                    </div>		                    		                    
-		                </div>
-		            </div>
-		        </div>
-		    </section>
-		    <!-- End testimonial Area -->
+			<!-- Start blog Area -->
+			<section class="recent-blog-area section-gap">
+				<div class="container">
+					<div class="row d-flex justify-content-center">
+						<div class="menu-content pb-60 col-lg-9">
+							<div class="title text-center">
+								<h1 class="mb-10">Grupele Muntoase din Romania</h1>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="active-recent-blog-carusel">
+							<div th:each="grupa : ${grupe}" class="single-recent-blog-post item">
+								<div class="thumb">
+									<img th:src="@{/grupaMuntoasa/getImage/{id}(id=${grupa.id})}" width="200px" height="300px" th:alt="Poza">
+								</div>
+								<h4 class="title" th:text="${grupa.titlu}"></h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- End recent-blog Area -->
 
 			<!-- Start home-about Area -->
 			<section class="home-about-area">
@@ -523,222 +270,59 @@
 					<div class="row align-items-center justify-content-end">
 						<div class="col-lg-6 col-md-12 home-about-left">
 							<h1>
-								Did not find your Package? <br>
-								Feel free to ask us. <br>
-								We‘ll make it for you
+								Nu ai găsit ce te interesa? <br>
+								Întreabă-ne! <br>
 							</h1>
 							<p>
-								inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards especially in the workplace. That’s why it’s crucial that, as women, our behavior on the job is beyond reproach. inappropriate behavior is often laughed.
+								În cazul în care îți este neclară orice informație despre un traseu, ai nevoie de ceva în plus, ai sugestii de noi postări pentru blog, vrei să devii unul din bloggerii nostri sau vrei sa ne dai feedback pentru site, ne poți contacta.
 							</p>
-							<a href="#" class="primary-btn text-uppercase">request custom price</a>
+							<a th:href="@{/contact}" class="primary-btn text-uppercase">Vreau o informatie</a>
 						</div>
 						<div class="col-lg-6 col-md-12 home-about-right no-padding">
-							<img class="img-fluid" th:src="@{/img/about-img.jpg}" alt="">
+							<img class="img-fluid" th:src="@{/img/acasa/baleaLake.jpg}" alt="">
 						</div>
 					</div>
 				</div>	
 			</section>
 			<!-- End home-about Area -->
-			
-	
-			<!-- Start blog Area -->
-			<section class="recent-blog-area section-gap">
-				<div class="container">
-					<div class="row d-flex justify-content-center">
-						<div class="menu-content pb-60 col-lg-9">
-							<div class="title text-center">
-								<h1 class="mb-10">Latest from Our Blog</h1>
-								<p>With the exception of Nietzsche, no other madman has contributed so much to human sanity as has.</p>
-							</div>
-						</div>
-					</div>							
-					<div class="row">
-						<div class="active-recent-blog-carusel">
-							<div class="single-recent-blog-post item">
-								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/b1.jpg}" alt="">
-								</div>
-								<div class="details">
-									<div class="tags">
-										<ul>
-											<li>
-												<a href="#">Travel</a>
-											</li>
-											<li>
-												<a href="#">Life Style</a>
-											</li>											
-										</ul>
-									</div>
-									<a href="#"><h4 class="title">Low Cost Advertising</h4></a>
-									<p>
-										Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer.
-									</p>
-									<h6 class="date">31st January,2018</h6>
-								</div>	
-							</div>
-							<div class="single-recent-blog-post item">
-								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/b2.jpg}" alt="">
-								</div>
-								<div class="details">
-									<div class="tags">
-										<ul>
-											<li>
-												<a href="#">Travel</a>
-											</li>
-											<li>
-												<a href="#">Life Style</a>
-											</li>											
-										</ul>
-									</div>
-									<a href="#"><h4 class="title">Creative Outdoor Ads</h4></a>
-									<p>
-										Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer.
-									</p>
-									<h6 class="date">31st January,2018</h6>
-								</div>	
-							</div>
-							<div class="single-recent-blog-post item">
-								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/b3.jpg}" alt="">
-								</div>
-								<div class="details">
-									<div class="tags">
-										<ul>
-											<li>
-												<a href="#">Travel</a>
-											</li>
-											<li>
-												<a href="#">Life Style</a>
-											</li>											
-										</ul>
-									</div>
-									<a href="#"><h4 class="title">It's Classified How To Utilize Free</h4></a>
-									<p>
-										Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer.
-									</p>
-									<h6 class="date">31st January,2018</h6>
-								</div>	
-							</div>	
-							<div class="single-recent-blog-post item">
-								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/b1.jpg}" alt="">
-								</div>
-								<div class="details">
-									<div class="tags">
-										<ul>
-											<li>
-												<a href="#">Travel</a>
-											</li>
-											<li>
-												<a href="#">Life Style</a>
-											</li>											
-										</ul>
-									</div>
-									<a href="#"><h4 class="title">Low Cost Advertising</h4></a>
-									<p>
-										Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer.
-									</p>
-									<h6 class="date">31st January,2018</h6>
-								</div>	
-							</div>
-							<div class="single-recent-blog-post item">
-								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/b2.jpg}" alt="">
-								</div>
-								<div class="details">
-									<div class="tags">
-										<ul>
-											<li>
-												<a href="#">Travel</a>
-											</li>
-											<li>
-												<a href="#">Life Style</a>
-											</li>											
-										</ul>
-									</div>
-									<a href="#"><h4 class="title">Creative Outdoor Ads</h4></a>
-									<p>
-										Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer.
-									</p>
-									<h6 class="date">31st January,2018</h6>
-								</div>	
-							</div>
-							<div class="single-recent-blog-post item">
-								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/b3.jpg}" alt="">
-								</div>
-								<div class="details">
-									<div class="tags">
-										<ul>
-											<li>
-												<a href="#">Travel</a>
-											</li>
-											<li>
-												<a href="#">Life Style</a>
-											</li>											
-										</ul>
-									</div>
-									<a href="#"><h4 class="title">It's Classified How To Utilize Free</h4></a>
-									<p>
-										Acres of Diamonds… you’ve read the famous story, or at least had it related to you. A farmer.
-									</p>
-									<h6 class="date">31st January,2018</h6>
-								</div>	
-							</div>														
-
-						</div>
-					</div>
-				</div>	
-			</section>
-			<!-- End recent-blog Area -->			
 
 			<!-- start footer Area -->		
 			<footer class="footer-area section-gap">
 				<div class="container">
-
 					<div class="row">
 						<div class="col-lg-3  col-md-6 col-sm-6">
 							<div class="single-footer-widget">
-								<h6>About Agency</h6>
 								<p>
-									The world has become so fast paced that people don’t want to stand by reading a page of information, they would much rather look at a presentation and understand the message. It has come to a point 
+									"Urcați pe munți și înțelegeți-i bine. Pacea naturii va curge în voi în timp ce soarele va curge în copaci. Vânturile vor sufla propria prospețime în tine, iar furtunile le vor da energia, în timp ce grijile vor scăpa de tine ca frunzele toamnei."
 								</p>
 							</div>
 						</div>
 						<div class="col-lg-3 col-md-6 col-sm-6">
 							<div class="single-footer-widget">
-								<h6>Navigation Links</h6>
+								<h6>Link-uri utile</h6>
 								<div class="row">
 									<div class="col">
 										<ul>
 											<li><a href="#">Home</a></li>
-											<li><a href="#">Feature</a></li>
-											<li><a href="#">Services</a></li>
-											<li><a href="#">Portfolio</a></li>
+											<li><a href="https://www.proalpin.ro/camping/harti.html" target="_blank">Hărți montane</a></li>
+											<li><a href="https://www.decathlon.ro/" target="_blank">Echipament montan</a></li>
+											<li><a th:href="@{/trasee}">Trasee</a></li>
+											<li><a th:href="@{/blog}">Blog</a></li>
 										</ul>
 									</div>
-									<div class="col">
-										<ul>
-											<li><a href="#">Team</a></li>
-											<li><a href="#">Pricing</a></li>
-											<li><a href="#">Blog</a></li>
-											<li><a href="#">Contact</a></li>
-										</ul>
-									</div>										
-								</div>							
+								</div>
 							</div>
-						</div>							
+						</div>
 						<div class="col-lg-3  col-md-6 col-sm-6">
 							<div class="single-footer-widget">
 								<h6>Newsletter</h6>
 								<p>
-									For business professionals caught between high OEM price and mediocre print and graphic output.									
+									Pentru a fi la curent cu ultimele trasee descoperite și noi povești de pe munte, abonați-vă la newsletter-ul nostru.
 								</p>								
 								<div id="mc_embed_signup">
 									<form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
 										<div class="input-group d-flex flex-row">
-											<input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+											<input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresa de Email'" required="" type="email">
 											<button class="btn bb-btn"><span class="lnr lnr-location"></span></button>		
 										</div>									
 										<div class="mt-10 info"></div>
@@ -748,29 +332,29 @@
 						</div>
 						<div class="col-lg-3  col-md-6 col-sm-6">
 							<div class="single-footer-widget mail-chimp">
-								<h6 class="mb-20">InstaFeed</h6>
-								<ul class="instafeed d-flex flex-wrap">
-									<li><img th:src="@{/img/i1.jpg}" alt=""></li>
-									<li><img th:src="@{/img/i2.jpg}" alt=""></li>
-									<li><img th:src="@{/img/i3.jpg}" alt=""></li>
-									<li><img th:src="@{/img/i4.jpg}" alt=""></li>
-									<li><img th:src="@{/img/i5.jpg}" alt=""></li>
-									<li><img th:src="@{/img/i6.jpg}" alt=""></li>
-									<li><img th:src="@{/img/i7.jpg}" alt=""></li>
-									<li><img th:src="@{/img/i8.jpg}" alt=""></li>
+								<h6 class="mb-20">Contact</h6>
+								<ul class="fa-ul" style="margin-left: 1.65em;">
+									<li class="mb-3">
+										<p class="fa-li"><i class="fa fa-home"></i></p><p class="ms-2">București, Bd. Regina Elisabeta</p>
+									</li>
+									<li class="mb-3">
+										<p class="fa-li"><i class="fa fa-envelope"></i></p><p class="ms-2">hikeit@gmail.com</p>
+									</li>
+									<li class="mb-3">
+										<p class="fa-li"><i class="fa fa-phone"></i></p><p class="ms-2">+ 0723456789</p>
+									</li>
 								</ul>
 							</div>
-						</div>						
+						</div>
 					</div>
 
 					<div class="row footer-bottom d-flex justify-content-between align-items-center">
-						<p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+						<p class="col-lg-8 col-sm-12 footer-text m-0">
+						Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved</p>
 						<div class="col-lg-4 col-sm-12 footer-social">
-							<a href="#"><i class="fa fa-facebook"></i></a>
-							<a href="#"><i class="fa fa-instagram"></i></a>
-							<a href="#"><i class="fa fa-youtube"></i></a>
+							<a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
+							<a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a>
+							<a href="https://www.youtube.com/"><i class="fa fa-youtube"></i></a>
 						</div>
 					</div>
 				</div>
