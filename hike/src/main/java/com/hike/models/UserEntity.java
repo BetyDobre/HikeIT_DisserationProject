@@ -27,9 +27,14 @@ public class UserEntity {
     private String username;
     private String parola;
     private String email;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dataNastere;
     private String sex;
-    private Byte[] pozaProfil;
+
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] pozaProfil;
 
     @CreationTimestamp
     private LocalDateTime createdOn;

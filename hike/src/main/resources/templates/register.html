@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -96,38 +96,71 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-6">
                     <div class="form-block">
-                        <form action="#" method="post">
-                            <div class="form-group first" style="text-align: center;">
+                        <form method="post" role="form" th:action="@{/register}" th:object="${user}" enctype="multipart/form-data">
+                            <div class="form-group" style="text-align: center;">
                                 <label for = "pozaProfil"><i class="fa fa-user-circle fa-5x"></i></label>
                                 </br>
-                                <input id="pozaProfil" name="pozaProfil" type="file" style="display: none;">
+                                <input id="pozaProfil" name="pozaProfil" type="file">
                             </div>
+                            <p th:if="${#fields.hasErrors('pozaProfil')}" class="text-danger">Poza de profil nu a putut fi încărcată corect. Încercați din nou cu o nouă fotografie.</p>
+
                             <div class="form-group first">
-                                <label for="nume">Nume</label>
-                                <input type="text" name="nume" id="nume" placeholder="Popescu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Popescu'" required class="single-input">
+                                <label for="nume">Nume*</label>
+                                <input th:field="*{nume}" type="text" name="nume" id="nume" placeholder="Popescu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Popescu'" class="single-input">
+                                <p th:if="${#fields.hasErrors('nume')}" th:errors="*{nume}" class="text-danger">Numele introdus nu este valid.</p>
                             </div>
+
                             <div class="form-group first">
-                                <label for="prenume">Prenume</label>
-                                <input type="text" name="prenume" id = "prenume" placeholder="Andrei" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Andrei'" required class="single-input">
+                                <label for="prenume">Prenume*</label>
+                                <input th:field="*{prenume}" type="text" name="prenume" id = "prenume" placeholder="Andrei" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Andrei'" class="single-input">
+                                <p th:if="${#fields.hasErrors('prenume')}" th:errors="*{prenume}" class="text-danger">Prenumele introdus nu este valid.</p>
                             </div>
+
                             <div class="form-group first">
-                                <label for="username">Username</label>
-                                <input type="text"  placeholder="andrei1234" onfocus="this.placeholder = ''" onblur="this.placeholder = 'andrei1234'" id="username" required class="single-input">
+                                <label for="username">Username*</label>
+                                <input th:field="*{username}" type="text"  placeholder="andrei1234" onfocus="this.placeholder = ''" onblur="this.placeholder = 'andrei1234'" id="username" class="single-input">
+                                <p th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}">Numele de utilizator introdus nu este valid.</p>
                             </div>
+
                             <div class="form-group first">
-                                <label for="email">Email</label>
-                                <input type="email" name="Email" id = "email" placeholder="andrei@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required class="single-input" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                                <label for="email">Email*</label>
+                                <input th:field="*{email}" type="email" name="Email" id = "email" placeholder="andrei@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" class="single-input">
+                                <p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}">Email-ul introdus nu este valid.</p>
                             </div>
+
                             <div class="form-group last mb-3">
-                                <label for="parola">Parola</label>
-                                <input type="password" id = "parola" placeholder="Parola"  required class="single-input">
+                                <label for="parola">Parola*</label>
+                                <input th:field="*{parola}" type="password" id = "parola" placeholder="Parola"  class="single-input">
+                                <p th:if="${#fields.hasErrors('parola')}" th:errors="*{parola}" class="text-danger">Parola introdusă nu este validă.</p>
                             </div>
+
                             <div class="form-group last mb-3">
-                                <label for="conf_parola">Confirmare parola</label>
-                                <input type="password" id = "conf_parola" placeholder="Parola"  required class="single-input">
+                                <label for="conf_parola">Confirmare parola*</label>
+                                <input th:field="*{confirmareParola}" type="password" id = "conf_parola" placeholder="Parola" class="single-input">
+                                <p th:if="${#fields.hasErrors('confirmareParola')}" class="text-danger" th:errors="*{confirmareParola}"></p>
                             </div>
-                            <a href="#" class="genric-btn primary circle d-flex justify-content-center">ÎNREGISTRARE</a>
-                            </br>
+
+                            <div class="form-group last mb-3">
+                                <label for="data_nastere">Data nastere</label>
+                                <input th:field="*{dataNastere}" type="date" id = "data_nastere" placeholder="dd/MM/yyyy" class="single-input">
+                                <p th:if="${#fields.hasErrors('dataNastere')}" th:errors="*{dataNastere}"  class="text-danger">Data de naștere introdusă nu este validă.</p>
+                            </div>
+
+                            <div class="form-group last mb-3">
+                                <label for="sex">Sex*</label>
+                                <div class="default-select">
+                                    <select th:field="*{sex}" name="sex" id="sex">
+                                        <option value="">--Alegeți--</option>
+                                        <option th:value="'F'">F</option>
+                                        <option th:value="'M'">M</option>
+                                        <option th:value="'N'">Prefer să nu spun</option>
+                                    </select>
+                                </div>
+                                <p th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}" class="text-danger"></p>
+                            </div>
+
+                            <button th:href="@{/register}" type = "submit" class="genric-btn primary circle" style="width: 100%">ÎNREGISTRARE</button>
+
                         </form>
                     </div>
                 </div>
@@ -215,7 +248,6 @@
 <script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/main.js}"></script>
 <script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_VW5BhR0sVQkxA_QDNLGJPwnAA6pMqXQ&callback=Function.prototype"></script>
 <script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
 <script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>

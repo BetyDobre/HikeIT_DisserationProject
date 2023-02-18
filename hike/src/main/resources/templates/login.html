@@ -90,21 +90,29 @@
     </div>
   </section>
   <!-- End banner Area -->
+
   <section class="sample-text-area">
   <div class="contents order-2 order-md-1">
     <div class="container">
       <div class="row align-items-center justify-content-center">
         <div class="col-md-6">
+          <p th:if="${param.success}" class="alert alert-success">Te-ai înregistrat cu success! Acum poți intra în cont.</p>
+          <p th:if="${param.error}" class="alert alert-danger">Username sau parolă incorecte.</p>
+          <p th:if="${param.logout}" class="alert alert-success">Te-ai delogat cu success.</p>
           <div class="form-block">
-            <form action="#" method="post">
+            <form th:action="@{/login}" method="post">
               <div class="form-group first">
-                <label for="username">Username/Email</label>
-                <input type="text"  placeholder="email@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'email@gmail.com'" id="username" required class="single-input">
+                <label for="username">Username</label>
+                <input type="text" placeholder="email@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'email@gmail.com'"
+                       id="username" name = "username" required class="single-input">
               </div>
+
               <div class="form-group last mb-3">
-                <label for="parola">Parola</label>
-                <input type="password" placeholder="Parola" id="parola" required class="single-input">
+                <label for="password">Parola</label>
+                <input type="password" placeholder="Parola"
+                       id="password" name="password" required class="single-input">
               </div>
+
               <div class="d-sm-flex mb-5 align-items-center">
                 <label class="control control--checkbox mb-3 mb-sm-0"><span class="caption">Păstrază-mă autentificat</span>
                   <input type="checkbox" checked="checked" />
@@ -112,8 +120,9 @@
                 </label>
                 <span class="ml-auto"><a href="#" class="forgot-pass">Parolă uitată</a></span>
               </div>
-              <a href="#" class="genric-btn primary circle d-flex justify-content-center">LOGIN</a>
+              <button type="submit" value="Login" class="genric-btn primary circle" style="width: 100%">LOGIN</button>
               </br>
+
               <p class="text-center">Nu ai un cont încă? <a th:href="@{/register}">Înregistrează-te acum!</a></p>
             </form>
           </div>
@@ -202,7 +211,6 @@
   <script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
   <script type="text/javascript" th:src="@{/js/main.js}"></script>
   <script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_VW5BhR0sVQkxA_QDNLGJPwnAA6pMqXQ&callback=Function.prototype"></script>
   <script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
   <script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
   <script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
