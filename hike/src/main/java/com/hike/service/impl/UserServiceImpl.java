@@ -1,6 +1,7 @@
 package com.hike.service.impl;
 
 import com.hike.dto.RegistrationDto;
+import com.hike.models.AuthProvider;
 import com.hike.models.Role;
 import com.hike.models.UserEntity;
 import com.hike.repository.RoleRepository;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -37,6 +39,7 @@ public class UserServiceImpl implements UserService {
         user.setPozaProfil(registrationDto.getPozaProfil());
         user.setSex(registrationDto.getSex());
         user.setParola(passwordEncoder.encode(registrationDto.getParola()));
+        user.setAuthProvider(AuthProvider.LOCAL);
 
         Role role = roleRepository.findByName("USER");
         user.setRoles(Arrays.asList(role));
@@ -54,5 +57,34 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username);
     }
 
+    @Override
+    public void processOAuthPostLogin(String username, String email, String nume, String prenume, String sex, String poza) {
+        UserEntity existUser = userRepository.findByUsername(username);
 
+        if (existUser == null) {
+            UserEntity newUser = new UserEntity();
+            newUser.setUsername(username);
+            newUser.setEmail(email);
+            newUser.setNume(nume);
+            newUser.setPrenume(prenume);
+            newUser.setPozaGoogle(poza);
+            if(sex != null){
+                if(sex.toLowerCase().equals("male")){
+                    newUser.setSex("M");
+                }
+                else if(sex.toLowerCase().equals("female")){
+                    newUser.setSex("F");
+                }
+            }
+            else {
+                newUser.setSex("N");
+            }
+            newUser.setAuthProvider(AuthProvider.GOOGLE);
+
+            Role role = roleRepository.findByName("USER");
+            newUser.setRoles(Arrays.asList(role));
+
+            userRepository.save(newUser);
+        }
+    }
 }

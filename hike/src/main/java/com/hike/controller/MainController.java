@@ -38,4 +38,7 @@ public class MainController {
     {
         return "blog";
     }
+
+    @GetMapping("/404")
+    public String errorPage(Model model) { return "404";}
 }

@@ -31,7 +31,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("user")RegistrationDto user,
-                           BindingResult result, Model model, @RequestPart("pozaProfil") MultipartFile file){
+                           BindingResult result, Model model, @RequestParam("pozaProfil") MultipartFile file){
         if(result.hasErrors()){
             System.out.println(result.getAllErrors());
 
@@ -61,5 +61,4 @@ public class AuthController {
     public String loginPage(){
         return "login";
     }
-
 }

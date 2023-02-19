@@ -5,7 +5,7 @@ insert ignore into roles values(1, 'ADMIN');
 insert ignore into roles values(2, 'USER');
 insert ignore into roles values(3, 'BLOGGER');
 
-insert ignore into users(id, nume, prenume, username, parola, email, dataNastere, sex, pozaProfil, createdOn) values(1, 'Dobre', 'Betty', 'betydbr', '$2a$10$9cyJxHIS19vw/Udl5gAx7u9bxsuhPZLTUFeBSDFmTwRPsTCPiJZA2', 'bety@gmail.com', STR_TO_DATE('19-03-2000', '%d-%c-%Y'), 'F', null, SYSDATE());
+insert ignore into users(id, authProvider, nume, prenume, username, parola, email, dataNastere, sex, pozaProfil, createdOn) values(1,'LOCAL','Dobre', 'Betty', 'betydbr', '$2a$10$9cyJxHIS19vw/Udl5gAx7u9bxsuhPZLTUFeBSDFmTwRPsTCPiJZA2', 'bety@gmail.com', STR_TO_DATE('19-03-2000', '%d-%c-%Y'), 'F', null, SYSDATE());
 insert ignore into users_roles values (1, 1);
 
 insert ignore into grupe_muntoase(id, titlu, pozaHarta) values (1, 'Piatra Craiului', LOAD_FILE('C:\\Users\\Betty\\Desktop\\HikeIT_DisserationProject\\hike\\src\\main\\resources\\static\\img\\grupeMuntoase\\piatraCraiului.jpg'));

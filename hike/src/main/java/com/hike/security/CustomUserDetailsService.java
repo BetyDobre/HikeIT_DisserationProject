@@ -1,5 +1,6 @@
 package com.hike.security;
 
+import com.hike.models.CustomUserDetails;
 import com.hike.models.UserEntity;
 import com.hike.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +26,21 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = userRepository.findFirstByUsername(username);
         if(user !=  null){
-            User authUser = new User(
-                    user.getEmail(),
+            CustomUserDetails authUser = new CustomUserDetails(
+                    user.getUsername(),
                     user.getParola(),
                     user.getRoles().stream().map((role) -> new SimpleGrantedAuthority(role.getName()))
-                            .collect(Collectors.toList())
+                            .collect(Collectors.toList()),
+                    user.getPozaProfil(),
+                    user.getNume(),
+                    user.getPrenume(),
+                    user.getPrenume() + " " + user.getNume(),
+                    user.getAuthProvider().toString()
             );
+
             return authUser;
         }else {
-            throw new UsernameNotFoundException("Username sau parola invalide");
+            throw new UsernameNotFoundException("Username sau parola invalide.");
         }
     }
 }

@@ -24,12 +24,9 @@ public class ImageServiceImpl implements ImageService {
     public void saveUserPhoto(Long id, MultipartFile file) {
         try {
             Optional<UserEntity> user = userRepository.findById(id);
-            byte[] byteObjects = new byte[file.getBytes().length];
-            int i = 0;
-            for (byte b : file.getBytes()) {
-                byteObjects[i++] = b;
-            }
+            byte[] byteObjects = file.getBytes();
             user.get().setPozaProfil(byteObjects);
+
             userRepository.save(user.get());
         } catch (IOException e) {
             System.out.println("Couldn't set image: " + e.getMessage());

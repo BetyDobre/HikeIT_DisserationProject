@@ -13,6 +13,7 @@
     <meta name="keywords" content="">
     <!-- meta character set -->
     <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer-when-downgrade" />
     <!-- Site Title -->
     <title>Login</title>
 
@@ -122,8 +123,16 @@
               </div>
               <button type="submit" value="Login" class="genric-btn primary circle" style="width: 100%">LOGIN</button>
               </br>
-
               <p class="text-center">Nu ai un cont încă? <a th:href="@{/register}">Înregistrează-te acum!</a></p>
+
+              <div class="or-container"><div class="line-separator"></div> <div class="or-label">or</div><div class="line-separator"></div></div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <a class="btn btn-google btn-block btn-outline-light" th:href="@{/oauth2/authorization/google}" referrerpolicy="no-referrer-when-downgrade"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Conectează-te cu Google</a>
+                </div>
+              </div>
+
             </form>
           </div>
         </div>
@@ -219,5 +228,6 @@
   <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
   <script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
   <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   </body>
 </html>

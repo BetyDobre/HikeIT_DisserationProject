@@ -10,4 +10,6 @@ public interface UserService {
     UserEntity findByEmail(String email);
 
     UserEntity findByUsername(String username);
+
+    void processOAuthPostLogin(String username, String email, String nume, String prenume, String sex, String poza);
 }

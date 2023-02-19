@@ -39,11 +39,16 @@ public class UserEntity {
     @CreationTimestamp
     private LocalDateTime createdOn;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private AuthProvider authProvider;
+
+    private String pozaGoogle;
 }
