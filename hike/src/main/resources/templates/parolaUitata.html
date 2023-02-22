@@ -1,95 +1,13 @@
   <!DOCTYPE html>
   <html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <!-- Mobile Specific Meta -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon-->
-    <link rel="shortcut icon" th:href="@{img/favicon.png}">
-    <!-- Author Meta -->
-    <meta name="author" content="colorlib">
-    <!-- Meta Description -->
-    <meta name="description" content="">
-    <!-- Meta Keyword -->
-    <meta name="keywords" content="">
-    <!-- meta character set -->
-    <meta charset="UTF-8">
-    <meta name="referrer" content="no-referrer-when-downgrade" />
-    <!-- Site Title -->
-    <title>Parola uitată</title>
-
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
-    <!--
-    CSS
-    ============================================= -->
-    <link rel="stylesheet" th:href="@{/css/linearicons.css}">
-    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
-    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
-    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
-    <link rel="stylesheet" th:href="@{/css/nice-select.css}">
-    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
-    <link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
-    <link rel="stylesheet" th:href="@{/css/main.css}">
-
-  </head>
+  <head th:replace="fragments :: head_fragment(pageTitle = 'Parolă uitată')"/>
   <body>
-  <header id="header">
-    <div class="header-top">
-      <div class="container">
-        <div class="row align-items-lg-end">
-          <div class="col-lg-6 col-sm-6 col-6 header-top-left">
-            <ul>
-              <li><a href="#"></a></li>
-            </ul>
-          </div>
-          <div class="col-lg-6 col-sm-6 col-6 header-top-right">
-            <div class="header-social">
-              <a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
-              <a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram"></i></a>
-              <a href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube"></i></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container main-menu">
-      <div class="row align-items-center justify-content-between d-flex">
-        <div id="logo">
-          <a th:href="@{/}"><img th:src="@{/img/logo-white.png}" alt="" title="HikeIT" /></a>
-        </div>
-        <nav id="nav-menu-container">
-          <ul class="nav-menu">
-            <li><a th:href="@{/}">Acasă</a></li>
-            <li><a th:href="@{/trasee}">Trasee</a></li>
-            <li><a th:href="@{/blog}">Blog</a></li>
-            <li><a th:href="@{/contact}">Contact</a></li>
-            <li class="menu-has-children"><a href="">Blog</a>
-              <ul>
-                <li><a th:href="@{/}">Blog Home</a></li>
-                <li><a th:href="@{/}">Blog Single</a></li>
-              </ul>
-            </li>
-            <li><a th:href="@{/login}">Login</a></li>
-          </ul>
-        </nav><!-- #nav-menu-container -->
-      </div>
-    </div>
-  </header><!-- #header -->
+  <!--  header-->
+  <header th:replace="fragments :: header_fragment"/>
+  <!-- #header -->
 
   <!-- start banner Area -->
-  <section class="relative about-banner">
-    <div class="overlay overlay-bg"></div>
-    <div class="container">
-      <div class="row d-flex align-items-center justify-content-center">
-        <div class="about-content col-lg-12">
-          <h1 class="text-white">
-            Parola uitată
-          </h1>
-          <p class="text-white link-nav"><a th:href="@{/}">Acasă</a>  <span class="lnr lnr-arrow-right"></span>  <a th:href="@{/login}"> Login</a>  <span class="lnr lnr-arrow-right"></span>  <a th:href="@{/parolaUitata}"> Parola uitată</a></p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <section th:replace="fragments :: banner_fragment(title = 'Parolă uitată', link = 'parolaUitata')"/>
   <!-- End banner Area -->
 
   <section class="sample-text-area">
@@ -118,78 +36,7 @@
   </section>
 
   <!-- start footer Area -->
-  <footer class="footer-area section-gap">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-3  col-md-6 col-sm-6">
-          <div class="single-footer-widget">
-            <p>
-              "Urcați pe munți și înțelegeți-i bine. Pacea naturii va curge în voi în timp ce soarele va curge în copaci. Vânturile vor sufla propria prospețime în tine, iar furtunile le vor da energia, în timp ce grijile vor scăpa de tine ca frunzele toamnei."
-            </p>
-          </div>
-        </div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
-          <div class="single-footer-widget">
-            <h6>Link-uri utile</h6>
-            <div class="row">
-              <div class="col">
-                <ul>
-                  <li><a href="#">Home</a></li>
-                  <li><a href="https://www.proalpin.ro/camping/harti.html" target="_blank">Hărți montane</a></li>
-                  <li><a href="https://www.decathlon.ro/" target="_blank">Echipament montan</a></li>
-                  <li><a th:href="@{/trasee}">Trasee</a></li>
-                  <li><a th:href="@{/blog}">Blog</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3  col-md-6 col-sm-6">
-          <div class="single-footer-widget">
-            <h6>Newsletter</h6>
-            <p>
-              Pentru a fi la curent cu ultimele trasee descoperite și noi povești de pe munte, abonați-vă la newsletter-ul nostru.
-            </p>
-            <div id="mc_embed_signup">
-              <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                <div class="input-group d-flex flex-row">
-                  <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresa de Email'" required="" type="email">
-                  <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-                </div>
-                <div class="mt-10 info"></div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3  col-md-6 col-sm-6">
-          <div class="single-footer-widget mail-chimp">
-            <h6 class="mb-20">Contact</h6>
-            <ul class="fa-ul" style="margin-left: 1.65em;">
-              <li class="mb-3">
-                <p class="fa-li"><i class="fa fa-home"></i></p><p class="ms-2">București, Bd. Regina Elisabeta 404</p>
-              </li>
-              <li class="mb-3">
-                <p class="fa-li"><i class="fa fa-envelope"></i></p><p class="ms-2">hikeit@gmail.com</p>
-              </li>
-              <li class="mb-3">
-                <p class="fa-li"><i class="fa fa-phone"></i></p><p class="ms-2">+40 723456789</p>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="row footer-bottom d-flex justify-content-between align-items-center">
-        <p class="col-lg-8 col-sm-12 footer-text m-0">
-          Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved</p>
-        <div class="col-lg-4 col-sm-12 footer-social">
-          <a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
-          <a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a>
-          <a href="https://www.youtube.com/"><i class="fa fa-youtube"></i></a>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <footer th:replace="fragments :: footer_fragment"/>
   <!-- End footer Area -->
 
   <script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>

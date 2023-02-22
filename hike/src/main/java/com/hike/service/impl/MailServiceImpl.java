@@ -23,12 +23,23 @@ public class MailServiceImpl implements MailService {
     private Environment env;
 
     @Override
-    public void sendEmail(String email, String content) throws MessagingException, UnsupportedEncodingException {
+    public void sendEmail(String type, String email, String content) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
-        helper.setFrom(env.getProperty("mail.from"), "HikeIT");
         helper.setTo(email);
-        helper.setSubject(env.getProperty("mail.subject"));
+        helper.setFrom(env.getProperty("mail.from"), "HikeIT");
+
+        switch (type){
+            case "reset":
+                helper.setSubject(env.getProperty("mail.resetare.subject"));
+                break;
+            case "newsletter":
+                helper.setSubject(env.getProperty("mail.newsletter.subject"));
+                break;
+            default:
+                helper.setSubject("Informare HikeIT");
+        }
+
         helper.setText(content, true);
 
         javaMailSender.send(message);

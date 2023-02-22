@@ -1,260 +1,104 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head>
-    <!-- Mobile Specific Meta -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Favicon-->
-    <link rel="shortcut icon" th:href="@{img/favicon.png}">
-    <!-- Author Meta -->
-    <meta name="author" content="colorlib">
-    <!-- Meta Description -->
-    <meta name="description" content="">
-    <!-- Meta Keyword -->
-    <meta name="keywords" content="">
-    <!-- meta character set -->
-    <meta charset="UTF-8">
-    <!-- Site Title -->
-    <title>Înregistrare</title>
+    <head th:replace="fragments :: head_fragment(pageTitle = 'Înregistrare')"/>
+    <body>
+    <header th:replace="fragments :: header_fragment"/>
 
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
-    <!--
-    CSS
-    ============================================= -->
-    <link rel="stylesheet" th:href="@{/css/linearicons.css}">
-    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
-    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
-    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
-    <link rel="stylesheet" th:href="@{/css/nice-select.css}">
-    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
-    <link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
-    <link rel="stylesheet" th:href="@{/css/main.css}">
-
-</head>
-<body>
-<header id="header">
-    <div class="header-top">
-        <div class="container">
-            <div class="row align-items-lg-end">
-                <div class="col-lg-6 col-sm-6 col-6 header-top-left">
-                    <ul>
-                        <li><a href="#"></a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-6 col-sm-6 col-6 header-top-right">
-                    <div class="header-social">
-                        <a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
-                        <a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram"></i></a>
-                        <a href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container main-menu">
-        <div class="row align-items-center justify-content-between d-flex">
-            <div id="logo">
-                <a th:href="@{/}"><img th:src="@{/img/logo-white.png}" alt="" title="HikeIT" /></a>
-            </div>
-            <nav id="nav-menu-container">
-                <ul class="nav-menu">
-                    <li><a th:href="@{/}">Acasă</a></li>
-                    <li><a th:href="@{/trasee}">Trasee</a></li>
-                    <li><a th:href="@{/blog}">Blog</a></li>
-                    <li><a th:href="@{/contact}">Contact</a></li>
-                    <li class="menu-has-children"><a href="">Blog</a>
-                        <ul>
-                            <li><a th:href="@{/}">Blog Home</a></li>
-                            <li><a th:href="@{/}">Blog Single</a></li>
-                        </ul>
-                    </li>
-                    <li><a th:href="@{/login}">Login</a></li>
-                </ul>
-            </nav><!-- #nav-menu-container -->
-        </div>
-    </div>
-</header><!-- #header -->
-
-<!-- start banner Area -->
-<section class="relative about-banner">
-    <div class="overlay overlay-bg"></div>
-    <div class="container">
-        <div class="row d-flex align-items-center justify-content-center">
-            <div class="about-content col-lg-12">
-                <h1 class="text-white">
-                    Înregistrare
-                </h1>
-                <p class="text-white link-nav"><a th:href="@{/}">Acasă</a>  <span class="lnr lnr-arrow-right"></span>  <a th:href="@{/register}"> Înregistrare</a></p>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- End banner Area -->
-<section class="sample-text-area">
-    <div class="contents order-2 order-md-1">
-        <div class="container">
-            <div class="row align-items-center justify-content-center">
-                <div class="col-md-6">
-                    <div class="form-block">
-                        <form method="post" th:action="@{/register}" th:object="${user}"> <!--enctype="multipart/form-data"-->
-                            <div class="form-group" style="text-align: center;">
-                                <label for = "pozaProfil"><i class="fa fa-user-circle fa-5x"></i></label>
-                                </br>
-                                <input id="pozaProfil" name="pozaProfil" type="file">
-                            </div>
-                            <p th:if="${#fields.hasErrors('pozaProfil')}" class="text-danger">Poza de profil nu a putut fi încărcată corect. Încercați din nou cu o nouă fotografie.</p>
-
-                            <div class="form-group first">
-                                <label for="nume">Nume*</label>
-                                <input th:field="*{nume}" type="text" name="nume" id="nume" placeholder="Popescu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Popescu'" class="single-input">
-                                <p th:if="${#fields.hasErrors('nume')}" th:errors="*{nume}" class="text-danger">Numele introdus nu este valid.</p>
-                            </div>
-
-                            <div class="form-group first">
-                                <label for="prenume">Prenume*</label>
-                                <input th:field="*{prenume}" type="text" name="prenume" id = "prenume" placeholder="Andrei" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Andrei'" class="single-input">
-                                <p th:if="${#fields.hasErrors('prenume')}" th:errors="*{prenume}" class="text-danger">Prenumele introdus nu este valid.</p>
-                            </div>
-
-                            <div class="form-group first">
-                                <label for="username">Username*</label>
-                                <input th:field="*{username}" type="text"  placeholder="andrei1234" onfocus="this.placeholder = ''" onblur="this.placeholder = 'andrei1234'" id="username" class="single-input">
-                                <p th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}">Numele de utilizator introdus nu este valid.</p>
-                            </div>
-
-                            <div class="form-group first">
-                                <label for="email">Email*</label>
-                                <input th:field="*{email}" type="email" name="Email" id = "email" placeholder="andrei@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" class="single-input">
-                                <p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}">Email-ul introdus nu este valid.</p>
-                            </div>
-
-                            <div class="form-group last mb-3">
-                                <label for="parola">Parola*</label>
-                                <input th:field="*{parola}" type="password" id = "parola" placeholder="Parola..."  class="single-input">
-                                <p th:if="${#fields.hasErrors('parola')}" th:errors="*{parola}" class="text-danger">Parola introdusă nu este validă.</p>
-                            </div>
-
-                            <div class="form-group last mb-3">
-                                <label for="conf_parola">Confirmare parola*</label>
-                                <input th:field="*{confirmareParola}" type="password" id = "conf_parola" placeholder="Confirmare parola..." class="single-input">
-                                <p th:if="${#fields.hasErrors('confirmareParola')}" class="text-danger" th:errors="*{confirmareParola}"></p>
-                            </div>
-
-                            <div class="form-group last mb-3">
-                                <label for="data_nastere">Data nastere</label>
-                                <input th:field="*{dataNastere}" type="date" id = "data_nastere" placeholder="dd/MM/yyyy" class="single-input">
-                                <p th:if="${#fields.hasErrors('dataNastere')}" th:errors="*{dataNastere}"  class="text-danger">Data de naștere introdusă nu este validă.</p>
-                            </div>
-
-                            <div class="form-group last mb-3">
-                                <label for="sex">Sex*</label>
-                                <div class="default-select">
-                                    <select th:field="*{sex}" name="sex" id="sex">
-                                        <option value="">--Alegeți--</option>
-                                        <option th:value="'F'">F</option>
-                                        <option th:value="'M'">M</option>
-                                        <option th:value="'N'">Prefer să nu spun</option>
-                                    </select>
+    <section th:replace="fragments :: banner_fragment(title = 'Creare cont', link = 'register')"/>
+    <section class="sample-text-area">
+        <div class="contents order-2 order-md-1">
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-6">
+                        <div class="form-block">
+                            <form method="post" th:action="@{/register}" th:object="${user}"> <!--enctype="multipart/form-data"-->
+                                <div class="form-group" style="text-align: center;">
+                                    <label for = "pozaProfil"><i class="fa fa-user-circle fa-5x"></i></label>
+                                    </br>
+                                    <input id="pozaProfil" name="pozaProfil" type="file">
                                 </div>
-                                <p th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}" class="text-danger"></p>
-                            </div>
+                                <p th:if="${#fields.hasErrors('pozaProfil')}" class="text-danger">Poza de profil nu a putut fi încărcată corect. Încercați din nou cu o nouă fotografie.</p>
 
-                            <button th:href="@{/register}" type = "submit" class="genric-btn primary circle" style="width: 100%">ÎNREGISTRARE</button>
+                                <div class="form-group first">
+                                    <label for="nume">Nume*</label>
+                                    <input th:field="*{nume}" type="text" name="nume" id="nume" placeholder="Popescu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Popescu'" class="single-input">
+                                    <p th:if="${#fields.hasErrors('nume')}" th:errors="*{nume}" class="text-danger">Numele introdus nu este valid.</p>
+                                </div>
 
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+                                <div class="form-group first">
+                                    <label for="prenume">Prenume*</label>
+                                    <input th:field="*{prenume}" type="text" name="prenume" id = "prenume" placeholder="Andrei" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Andrei'" class="single-input">
+                                    <p th:if="${#fields.hasErrors('prenume')}" th:errors="*{prenume}" class="text-danger">Prenumele introdus nu este valid.</p>
+                                </div>
 
-<!-- start footer Area -->
-<footer class="footer-area section-gap">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <p>
-                        "Urcați pe munți și înțelegeți-i bine. Pacea naturii va curge în voi în timp ce soarele va curge în copaci. Vânturile vor sufla propria prospețime în tine, iar furtunile le vor da energia, în timp ce grijile vor scăpa de tine ca frunzele toamnei."
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Link-uri utile</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="https://www.proalpin.ro/camping/harti.html" target="_blank">Hărți montane</a></li>
-                                <li><a href="https://www.decathlon.ro/" target="_blank">Echipament montan</a></li>
-                                <li><a th:href="@{/trasee}">Trasee</a></li>
-                                <li><a th:href="@{/blog}">Blog</a></li>
-                            </ul>
+                                <div class="form-group first">
+                                    <label for="username">Username*</label>
+                                    <input th:field="*{username}" type="text"  placeholder="andrei1234" onfocus="this.placeholder = ''" onblur="this.placeholder = 'andrei1234'" id="username" class="single-input">
+                                    <p th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}">Numele de utilizator introdus nu este valid.</p>
+                                </div>
+
+                                <div class="form-group first">
+                                    <label for="email">Email*</label>
+                                    <input th:field="*{email}" type="email" name="Email" id = "email" placeholder="andrei@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" class="single-input">
+                                    <p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}">Email-ul introdus nu este valid.</p>
+                                </div>
+
+                                <div class="form-group last mb-3">
+                                    <label for="parola">Parola*</label>
+                                    <input th:field="*{parola}" type="password" id = "parola" placeholder="Parola..."  class="single-input">
+                                    <p th:if="${#fields.hasErrors('parola')}" th:errors="*{parola}" class="text-danger">Parola introdusă nu este validă.</p>
+                                </div>
+
+                                <div class="form-group last mb-3">
+                                    <label for="conf_parola">Confirmare parola*</label>
+                                    <input th:field="*{confirmareParola}" type="password" id = "conf_parola" placeholder="Confirmare parola..." class="single-input">
+                                    <p th:if="${#fields.hasErrors('confirmareParola')}" class="text-danger" th:errors="*{confirmareParola}"></p>
+                                </div>
+
+                                <div class="form-group last mb-3">
+                                    <label for="data_nastere">Data nastere</label>
+                                    <input th:field="*{dataNastere}" type="date" id = "data_nastere" placeholder="dd/MM/yyyy" class="single-input">
+                                    <p th:if="${#fields.hasErrors('dataNastere')}" th:errors="*{dataNastere}"  class="text-danger">Data de naștere introdusă nu este validă.</p>
+                                </div>
+
+                                <div class="form-group last mb-3">
+                                    <label for="sex">Sex*</label>
+                                    <div class="default-select">
+                                        <select th:field="*{sex}" name="sex" id="sex">
+                                            <option value="">--Alegeți--</option>
+                                            <option th:value="'F'">F</option>
+                                            <option th:value="'M'">M</option>
+                                            <option th:value="'N'">Prefer să nu spun</option>
+                                        </select>
+                                    </div>
+                                    <p th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}" class="text-danger"></p>
+                                </div>
+
+                                <button th:href="@{/register}" type = "submit" class="genric-btn primary circle" style="width: 100%">ÎNREGISTRARE</button>
+
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        Pentru a fi la curent cu ultimele trasee descoperite și noi povești de pe munte, abonați-vă la newsletter-ul nostru.
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresa de Email'" required="" type="email">
-                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget mail-chimp">
-                    <h6 class="mb-20">Contact</h6>
-                    <ul class="fa-ul" style="margin-left: 1.65em;">
-                        <li class="mb-3">
-                            <p class="fa-li"><i class="fa fa-home"></i></p><p class="ms-2">București, Bd. Regina Elisabeta 404</p>
-                        </li>
-                        <li class="mb-3">
-                            <p class="fa-li"><i class="fa fa-envelope"></i></p><p class="ms-2">hikeit@gmail.com</p>
-                        </li>
-                        <li class="mb-3">
-                            <p class="fa-li"><i class="fa fa-phone"></i></p><p class="ms-2">+40 723456789</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </div>
+    </section>
 
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0">
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved</p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
-                <a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a>
-                <a href="https://www.youtube.com/"><i class="fa fa-youtube"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
-<!-- End footer Area -->
+    <!-- start footer Area -->
+    <footer th:replace="fragments :: footer_fragment"/>
+    <!-- End footer Area -->
 
-<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/main.js}"></script>
-<script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
-<script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
-<script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
+    <script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
 </body>
 </html>

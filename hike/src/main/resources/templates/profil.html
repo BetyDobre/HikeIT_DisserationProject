@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments :: head_fragment(pageTitle = 'Profilul meu')"/>
+    <body>
+    <!--  header-->
+    <header th:replace="fragments :: header_fragment"/>
+    <!-- #header -->
+    <!-- start banner Area -->
+    <section th:replace="fragments :: banner_fragment(title = 'Profilul meu', link = 'profil')"/>
+    <!-- End banner Area -->
 
-</body>
+    <!-- start footer Area -->
+    <footer th:replace="fragments :: footer_fragment"/>
+    <!-- End footer Area -->
+    </body>
 </html>

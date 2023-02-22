@@ -54,7 +54,7 @@ public class UserController {
                     + "<p><b><a href=\"" + resetParolaLink + "\">"+resetParolaLink+"</a><b></p>"
                     + "<p>Ignoră acest email dacă nu ai solicitat tu schimbarea parolei.</p>";
 
-            mailService.sendEmail(email, content);
+            mailService.sendEmail("reset",email, content);
             model.addAttribute("message", "Email-ul a fost trimis!");
 
         }

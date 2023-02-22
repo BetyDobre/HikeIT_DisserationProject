@@ -1,341 +1,190 @@
 	<!DOCTYPE html>
 	<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-	<head>
-		<!-- Mobile Specific Meta -->
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<!-- Favicon-->
-		<link rel="shortcut icon" th:href="@{img/favicon.png}">
-		<!-- Author Meta -->
-		<meta name="author" content="colorlib">
-		<!-- Meta Description -->
-		<meta name="description" content="">
-		<!-- Meta Keyword -->
-		<meta name="keywords" content="">
-		<!-- meta character set -->
-		<meta charset="UTF-8">
-		<!-- Site Title -->
-		<title>HikeIT</title>
+	<!--	head-->
+	<head th:replace="fragments :: head_fragment(pageTitle = 'HikeIT', link = '')"/>
+	<!--	end head-->
+	<body>
+	<!--	header-->
+	<header th:replace="fragments :: header_fragment"/>
 
-		<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
-			<!--
-			CSS
-			============================================= -->
-			<link rel="stylesheet" th:href="@{/css/linearicons.css}">
-			<link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
-			<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
-			<link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
-			<link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
-			<link rel="stylesheet" th:href="@{/css/nice-select.css}">
-			<link rel="stylesheet" th:href="@{/css/animate.min.css}">
-			<link rel="stylesheet" th:href="@{/css/owl.carousel.css}">
-			<link rel="stylesheet" th:href="@{/css/main.css}">
+	<!-- start banner Area -->
+	<section class="banner-area relative">
+		<div class="overlay overlay-bg"></div>
+		<div class="container">
+			<div class="row fullscreen align-items-center justify-content-between">
+				<div class="col-lg-6 col-md-6 banner-left">
+					<h6 class="text-white">Departe de gălăgia și aglomerația orașelor</h6>
+					<h1 class="text-white">TRASEE PENTRU TOATĂ LUMEA</h1>
+					<p class="text-white">
+						Dacă vrei să începi să faci drumeții sau dacă ești deja experimentat, aici vei găsi informațiile de care ai nevoie.
+					</p>
+					<a href="#" class="primary-btn text-uppercase">DESCOPERĂ</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End banner Area -->
 
-		</head>
-		<body>
-			<header id="header">
-				<div class="header-top">
-					<div class="container">
-			  		<div class="row align-items-lg-end">
-			  			<div class="col-lg-6 col-sm-6 col-6 header-top-left">
-			  				<ul>
-			  					<li><a href="#"></a></li>
-			  				</ul>
-			  			</div>
-			  			<div class="col-lg-6 col-sm-6 col-6 header-top-right">
-							<div class="header-social">
-								<a href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
-								<a href="https://www.instagram.com/" target="_blank"><i class="fa fa-instagram"></i></a>
-								<a href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube"></i></a>
+		<!-- Start about-info Area -->
+		<section class="about-info-area section-gap">
+			<div class="container">
+				<div class="row align-items-center">
+					<div class="col-lg-6 info-left">
+						<img class="img-fluid" th:src="@{/img/acasa/drumetieEu.jpg}" alt="Drumetie" >
+					</div>
+					<div class="col-lg-6 info-right">
+						<h6>Despre noi</h6>
+						<h1>Cine și de ce?</h1>
+						<p>
+							Ideea acestui site vine din pasiunea personală pentru drumețiile montane pe teritoriul Carpațiilor României îmbinată cu pasiunea pentru domeniul IT și cunoștințele acumulate pe parcursul facultații si a experienței personale până în acest moment. Sper ca informațiile găsite aici sa fie de ajutor și să înglobeze mult mai ușor tot ce am stâns eu din multe surse.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End about-info Area -->
+
+		<!-- Start price Area -->
+		<section class="price-area section-gap">
+			<div class="container">
+				<div class="row d-flex justify-content-center">
+					<div class="menu-content pb-70 col-lg-8">
+						<div class="title text-center">
+							<h1 class="mb-10">Acoperire totală</h1>
+							<p>Aici puteți găsi trasee indiferent de zona țării în care vă aflați.</p>
+						</div>
+					</div>
+				</div>
+				<div class="row d-flex justify-content-center">
+					<img th:src="@{/img/acasa/hartaRomaniei.jpg}" width="760px" height="500px" alt="Harta Romaniei">
+				</div>
+			</div>
+		</section>
+		<!-- End price Area -->
+
+
+		<!-- Start other-issue Area -->
+		<section class="other-issue-area section-gap">
+			<div class="container">
+				<div class="row d-flex justify-content-center">
+					<div class="menu-content pb-70 col-lg-9">
+						<div class="title text-center">
+							<h1 class="mb-10">Ce trebuie sa stii despre trasee?</h1>
+							<p>Informații utile de care trebuie să ții cont înainte să alegi un traseu.</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-3 col-md-6">
+						<div class="single-other-issue">
+							<div class="thumb">
+								<img class="img-fluid" th:src="@{/img/acasa/difficulty.png}" alt="">
 							</div>
-			  			</div>
-			  		</div>
-					</div>
-				</div>
-				<div class="container main-menu">
-					<div class="row align-items-center justify-content-between d-flex">
-				      <div id="logo">
-				        <a th:href="@{/}"><img th:src="@{/img/logo-white.png}" alt="" title="HikeIT" /></a>
-				      </div>
-				      <nav id="nav-menu-container">
-				        <ul class="nav-menu">
-				          <li><a th:href="@{/}">Acasă</a></li>
-				          <li><a th:href="@{/trasee}">Trasee</a></li>
-				          <li><a th:href="@{/blog}">Blog</a></li>
-				          <li><a th:href="@{/contact}">Contact</a></li>
-				          <li class="menu-has-children"><a href="">Blog</a>
-				            <ul>
-				              <li><a th:href="@{/}">Blog Home</a></li>
-				              <li><a th:href="@{/}">Blog Single</a></li>
-				            </ul>
-				          </li>
-							<li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
-							<li sec:authorize="isAuthenticated()"><a class="fa fa-user" th:href="@{/profil}"></a>
-								<ul>
-									<li class="text-center"><img th:if="${#authentication.getPrincipal().getProvider() == 'GOOGLE'}" th:src="${#authentication.getPrincipal().getPhoto()}" class="rounded-circle"></li>
-									<div th:switch="${#authentication.getPrincipal().getProvider()}">
-										<li th:case="'GOOGLE'" class="text-center"><p th:text="${#authentication.getPrincipal().getUsername()}" class="font-weight-bold"></p></li>
-										<li th:case="'LOCAL'" class="text-center"><p th:text="${#authentication.getPrincipal().getFullName()}" class="font-weight-bold"></p></li>
-									</div>
-<!--									<li class="text-center"><p th:text="${#authentication.getPrincipal().getUsername()}" class="font-weight-bold"></p></li>-->
-									<li><a th:href="@{/profil}">Profil</a></li>
-									<li><a th:href="@{/logout}">Logout</a></li>
-								</ul>
-							</li>
-				        </ul>
-				      </nav><!-- #nav-menu-container -->
-					</div>
-				</div>
-			</header><!-- #header -->
-
-			<!-- start banner Area -->
-			<section class="banner-area relative">
-				<div class="overlay overlay-bg"></div>				
-				<div class="container">
-					<div class="row fullscreen align-items-center justify-content-between">
-						<div class="col-lg-6 col-md-6 banner-left">
-							<h6 class="text-white">Departe de gălăgia și aglomerația orașelor</h6>
-							<h1 class="text-white">TRASEE PENTRU TOATĂ LUMEA</h1>
-							<p class="text-white">
-								Dacă vrei să începi să faci drumeții sau dacă ești deja experimentat, aici vei găsi informațiile de care ai nevoie.
-							</p>
-							<a href="#" class="primary-btn text-uppercase">DESCOPERĂ</a>
-						</div>
-					</div>
-				</div>					
-			</section>
-			<!-- End banner Area -->
-<!--			<p>Logged user: <span sec:authentication="name"></span>, Roles: <span sec:authentication="principal.authorities"></span></p>-->
-			<!-- Start about-info Area -->
-			<section class="about-info-area section-gap">
-				<div class="container">
-					<div class="row align-items-center">
-						<div class="col-lg-6 info-left">
-							<img class="img-fluid" th:src="@{/img/acasa/drumetieEu.jpg}" alt="Drumetie" >
-						</div>
-						<div class="col-lg-6 info-right">
-							<h6>Despre noi</h6>
-							<h1>Cine și de ce?</h1>
+							<h4>Dificultate</h4>
 							<p>
-								Ideea acestui site vine din pasiunea personală pentru drumețiile montane pe teritoriul Carpațiilor României îmbinată cu pasiunea pentru domeniul IT și cunoștințele acumulate pe parcursul facultații si a experienței personale până în acest moment. Sper ca informațiile găsite aici sa fie de ajutor și să înglobeze mult mai ușor tot ce am stâns eu din multe surse.
+								Dificultatea comparată cu nivelul dumneavoastră de experiență.
 							</p>
 						</div>
 					</div>
-				</div>
-			</section>
-			<!-- End about-info Area -->
-
-			<!-- Start price Area -->
-			<section class="price-area section-gap">
-				<div class="container">
-		            <div class="row d-flex justify-content-center">
-		                <div class="menu-content pb-70 col-lg-8">
-		                    <div class="title text-center">
-		                        <h1 class="mb-10">Acoperire totală</h1>
-		                        <p>Aici puteți găsi trasee indiferent de zona țării în care vă aflați.</p>
-		                    </div>
-		                </div>
-		            </div>						
-					<div class="row d-flex justify-content-center">
-						<img th:src="@{/img/acasa/hartaRomaniei.jpg}" width="760px" height="500px" alt="Harta Romaniei">
-					</div>
-				</div>	
-			</section>
-			<!-- End price Area -->
-			
-
-			<!-- Start other-issue Area -->
-			<section class="other-issue-area section-gap">
-				<div class="container">
-		            <div class="row d-flex justify-content-center">
-		                <div class="menu-content pb-70 col-lg-9">
-		                    <div class="title text-center">
-		                        <h1 class="mb-10">Ce trebuie sa stii despre trasee?</h1>
-		                        <p>Informații utile de care trebuie să ții cont înainte să alegi un traseu.</p>
-		                    </div>
-		                </div>
-		            </div>					
-					<div class="row">
-						<div class="col-lg-3 col-md-6">
-							<div class="single-other-issue">
-								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/acasa/difficulty.png}" alt="">
-								</div>
-								<h4>Dificultate</h4>
-								<p>
-									Dificultatea comparată cu nivelul dumneavoastră de experiență.
-								</p>
+					<div class="col-lg-3 col-md-6">
+						<div class="single-other-issue">
+							<div class="thumb">
+								<img class="img-fluid" th:src="@{/img/acasa/clepsidra.png}" alt="Time">
 							</div>
-						</div>
-						<div class="col-lg-3 col-md-6">
-							<div class="single-other-issue">
-								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/acasa/clepsidra.png}" alt="Time">
-								</div>
-								<h4>Durată</h4>
-								<p>
-									Durata ținând cont de anotimp și de numărul de ore de lumină din zi.
-								</p>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6">
-							<div class="single-other-issue">
-								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/acasa/echipament.png}" alt="Echipament">
-								</div>
-								<h4>Echipament</h4>
-								<p>
-									Echipamentul sportiv necesare pentru caracteristicile traseului.
-								</p>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6">
-							<div class="single-other-issue">
-								<div class="thumb">
-									<img class="img-fluid" th:src="@{/img/acasa/levels.jpg}" alt="Nivele">
-								</div>
-								<h4>Diferența de nivel</h4>
-								<p>
-									Diferența de altitudine dintre punctul de plecare și punctul de sosire.
-								</p>
-							</div>
-						</div>																		
-					</div>
-				</div>	
-			</section>
-			<!-- End other-issue Area -->
-
-			<!-- Start blog Area -->
-			<section class="recent-blog-area section-gap">
-				<div class="container">
-					<div class="row d-flex justify-content-center">
-						<div class="menu-content pb-60 col-lg-9">
-							<div class="title text-center">
-								<h1 class="mb-10">Grupele Muntoase din Romania</h1>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="active-recent-blog-carusel">
-							<div th:each="grupa : ${grupe}" class="single-recent-blog-post item">
-								<div class="thumb">
-									<img th:src="@{/grupaMuntoasa/getImage/{id}(id=${grupa.id})}" width="200px" height="300px" th:alt="Poza">
-								</div>
-								<h4 class="title" th:text="${grupa.titlu}"></h4>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			<!-- End recent-blog Area -->
-
-			<!-- Start home-about Area -->
-			<section class="home-about-area">
-				<div class="container-fluid">
-					<div class="row align-items-center justify-content-end">
-						<div class="col-lg-6 col-md-12 home-about-left">
-							<h1>
-								Nu ai găsit ce te interesa? <br>
-								Întreabă-ne! <br>
-							</h1>
+							<h4>Durată</h4>
 							<p>
-								În cazul în care îți este neclară orice informație despre un traseu, ai nevoie de ceva în plus, ai sugestii de noi postări pentru blog, vrei să devii unul din bloggerii nostri sau vrei sa ne dai feedback pentru site, ne poți contacta.
+								Durata ținând cont de anotimp și de numărul de ore de lumină din zi.
 							</p>
-							<a th:href="@{/contact}" class="primary-btn text-uppercase">Vreau o informatie</a>
-						</div>
-						<div class="col-lg-6 col-md-12 home-about-right no-padding">
-							<img class="img-fluid" th:src="@{/img/acasa/baleaLake.jpg}" alt="">
 						</div>
 					</div>
-				</div>	
-			</section>
-			<!-- End home-about Area -->
-
-			<!-- start footer Area -->
-			<footer class="footer-area section-gap">
-				<div class="container">
-					<div class="row">
-						<div class="col-lg-3  col-md-6 col-sm-6">
-							<div class="single-footer-widget">
-								<p>
-									"Urcați pe munți și înțelegeți-i bine. Pacea naturii va curge în voi în timp ce soarele va curge în copaci. Vânturile vor sufla propria prospețime în tine, iar furtunile le vor da energia, în timp ce grijile vor scăpa de tine ca frunzele toamnei."
-								</p>
+					<div class="col-lg-3 col-md-6">
+						<div class="single-other-issue">
+							<div class="thumb">
+								<img class="img-fluid" th:src="@{/img/acasa/echipament.png}" alt="Echipament">
 							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 col-sm-6">
-							<div class="single-footer-widget">
-								<h6>Link-uri utile</h6>
-								<div class="row">
-									<div class="col">
-										<ul>
-											<li><a href="#">Home</a></li>
-											<li><a href="https://www.proalpin.ro/camping/harti.html" target="_blank">Hărți montane</a></li>
-											<li><a href="https://www.decathlon.ro/" target="_blank">Echipament montan</a></li>
-											<li><a th:href="@{/trasee}">Trasee</a></li>
-											<li><a th:href="@{/blog}">Blog</a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3  col-md-6 col-sm-6">
-							<div class="single-footer-widget">
-								<h6>Newsletter</h6>
-								<p>
-									Pentru a fi la curent cu ultimele trasee descoperite și noi povești de pe munte, abonați-vă la newsletter-ul nostru.
-								</p>
-								<div id="mc_embed_signup">
-									<form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-										<div class="input-group d-flex flex-row">
-											<input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresa de Email'" required="" type="email">
-											<button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-										</div>
-										<div class="mt-10 info"></div>
-									</form>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3  col-md-6 col-sm-6">
-							<div class="single-footer-widget mail-chimp">
-								<h6 class="mb-20">Contact</h6>
-								<ul class="fa-ul" style="margin-left: 1.65em;">
-									<li class="mb-3">
-										<p class="fa-li"><i class="fa fa-home"></i></p><p class="ms-2">București, Bd. Regina Elisabeta 404</p>
-									</li>
-									<li class="mb-3">
-										<p class="fa-li"><i class="fa fa-envelope"></i></p><p class="ms-2">hikeit@gmail.com</p>
-									</li>
-									<li class="mb-3">
-										<p class="fa-li"><i class="fa fa-phone"></i></p><p class="ms-2">+40 723456789</p>
-									</li>
-								</ul>
-							</div>
+							<h4>Echipament</h4>
+							<p>
+								Echipamentul sportiv necesare pentru caracteristicile traseului.
+							</p>
 						</div>
 					</div>
-
-					<div class="row footer-bottom d-flex justify-content-between align-items-center">
-						<p class="col-lg-8 col-sm-12 footer-text m-0">
-						Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved</p>
-						<div class="col-lg-4 col-sm-12 footer-social">
-							<a href="https://www.facebook.com/"><i class="fa fa-facebook"></i></a>
-							<a href="https://www.instagram.com/"><i class="fa fa-instagram"></i></a>
-							<a href="https://www.youtube.com/"><i class="fa fa-youtube"></i></a>
+					<div class="col-lg-3 col-md-6">
+						<div class="single-other-issue">
+							<div class="thumb">
+								<img class="img-fluid" th:src="@{/img/acasa/levels.jpg}" alt="Nivele">
+							</div>
+							<h4>Diferența de nivel</h4>
+							<p>
+								Diferența de altitudine dintre punctul de plecare și punctul de sosire.
+							</p>
 						</div>
 					</div>
 				</div>
-			</footer>
-			<!-- End footer Area -->
+			</div>
+		</section>
+		<!-- End other-issue Area -->
 
-			<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
-			<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
-			<script type="text/javascript" th:src="@{/js/main.js}"></script>
-			<script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
- 			<script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
-  			<script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
-			<script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
-			<script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
-			<script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
-			<script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
-			<script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
-			<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
-		</body>
+		<!-- Start blog Area -->
+		<section class="recent-blog-area section-gap">
+			<div class="container">
+				<div class="row d-flex justify-content-center">
+					<div class="menu-content pb-60 col-lg-9">
+						<div class="title text-center">
+							<h1 class="mb-10">Grupele Muntoase din Romania</h1>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="active-recent-blog-carusel">
+						<div th:each="grupa : ${grupe}" class="single-recent-blog-post item">
+							<div class="thumb">
+								<img th:src="@{/grupaMuntoasa/getImage/{id}(id=${grupa.id})}" width="200px" height="300px" th:alt="Poza">
+							</div>
+							<h4 class="title" th:text="${grupa.titlu}"></h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End recent-blog Area -->
+
+		<!-- Start home-about Area -->
+		<section class="home-about-area">
+			<div class="container-fluid">
+				<div class="row align-items-center justify-content-end">
+					<div class="col-lg-6 col-md-12 home-about-left">
+						<h1>
+							Nu ai găsit ce te interesa? <br>
+							Întreabă-ne! <br>
+						</h1>
+						<p>
+							În cazul în care îți este neclară orice informație despre un traseu, ai nevoie de ceva în plus, ai sugestii de noi postări pentru blog, vrei să devii unul din bloggerii nostri sau vrei sa ne dai feedback pentru site, ne poți contacta.
+						</p>
+						<a th:href="@{/contact}" class="primary-btn text-uppercase">Vreau o informatie</a>
+					</div>
+					<div class="col-lg-6 col-md-12 home-about-right no-padding">
+						<img class="img-fluid" th:src="@{/img/acasa/baleaLake.jpg}" alt="">
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- End home-about Area -->
+
+		<!-- start footer Area -->
+		<footer th:replace="fragments :: footer_fragment"/>
+		<!-- End footer Area -->
+
+		<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/main.js}"></script>
+		<script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
+		<script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
+		<script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+	</body>
 	</html>
