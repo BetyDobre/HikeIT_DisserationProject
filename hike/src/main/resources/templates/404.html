@@ -27,8 +27,8 @@
 			<div class="notfound-404">
 				<h1>4<span></span>4</h1>
 			</div>
-			<h2>Ups! Pagina nu a fost gasită.</h2>
-			<p>Scuze, pagina pe care o cauți nu există, a fost ștearsă sau e temporar indisponibilă.</p>
+			<h2>Ups! Pagina pe care o cauți nu a fost gasită.</h2>
+			<p th:if="${error!= null}" class="alert alert-danger">[[${error}]]</p>
 			<a th:href="@{/}">Înapoi pe pagina principală.</a>
 		</div>
 	</div>

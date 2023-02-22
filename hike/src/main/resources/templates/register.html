@@ -96,7 +96,7 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-md-6">
                     <div class="form-block">
-                        <form method="post" th:action="@{/register}" th:object="${user}" enctype="multipart/form-data">
+                        <form method="post" th:action="@{/register}" th:object="${user}"> <!--enctype="multipart/form-data"-->
                             <div class="form-group" style="text-align: center;">
                                 <label for = "pozaProfil"><i class="fa fa-user-circle fa-5x"></i></label>
                                 </br>
@@ -130,13 +130,13 @@
 
                             <div class="form-group last mb-3">
                                 <label for="parola">Parola*</label>
-                                <input th:field="*{parola}" type="password" id = "parola" placeholder="Parola"  class="single-input">
+                                <input th:field="*{parola}" type="password" id = "parola" placeholder="Parola..."  class="single-input">
                                 <p th:if="${#fields.hasErrors('parola')}" th:errors="*{parola}" class="text-danger">Parola introdusă nu este validă.</p>
                             </div>
 
                             <div class="form-group last mb-3">
                                 <label for="conf_parola">Confirmare parola*</label>
-                                <input th:field="*{confirmareParola}" type="password" id = "conf_parola" placeholder="Parola" class="single-input">
+                                <input th:field="*{confirmareParola}" type="password" id = "conf_parola" placeholder="Confirmare parola..." class="single-input">
                                 <p th:if="${#fields.hasErrors('confirmareParola')}" class="text-danger" th:errors="*{confirmareParola}"></p>
                             </div>
 

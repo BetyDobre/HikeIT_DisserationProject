@@ -1,6 +1,7 @@
 package com.hike.service.impl;
 
 import com.hike.dto.RegistrationDto;
+import com.hike.exception.ObjectNotFoundException;
 import com.hike.models.AuthProvider;
 import com.hike.models.Role;
 import com.hike.models.UserEntity;
@@ -8,11 +9,11 @@ import com.hike.repository.RoleRepository;
 import com.hike.repository.UserRepository;
 import com.hike.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Locale;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -86,5 +87,34 @@ public class UserServiceImpl implements UserService {
 
             userRepository.save(newUser);
         }
+    }
+
+    @Override
+    public void schimbaParolaToken(String token, String email) throws ObjectNotFoundException {
+        UserEntity user = userRepository.findByEmail(email);
+
+        if (user != null){
+            user.setResetParolaToken(token);
+            userRepository.save(user);
+        }
+        else{
+            throw new ObjectNotFoundException("Nu s-a putut gasi user-ul cu emailul " + email);
+        }
+    }
+
+    @Override
+    public void schimbaParola(UserEntity user, String newPassword){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String parolaCriptata = passwordEncoder.encode(newPassword);
+
+        user.setParola(parolaCriptata);
+        user.setResetParolaToken(null);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public UserEntity findByToken(String token) {
+        return  userRepository.findByResetParolaToken(token);
     }
 }

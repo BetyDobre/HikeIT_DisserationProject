@@ -78,7 +78,11 @@ public class SecurityConfig{
                                 .permitAll()
                 )
                 .exceptionHandling()
-                .accessDeniedPage("/404");
+                .accessDeniedPage("/404")
+                .and()
+                .rememberMe()
+                .key("hikeitkey")
+                .tokenValiditySeconds(7 * 24 * 60 * 60);
 
         return http.build();
     }

@@ -51,4 +51,6 @@ public class UserEntity {
     private AuthProvider authProvider;
 
     private String pozaGoogle;
+
+    private String resetParolaToken;
 }

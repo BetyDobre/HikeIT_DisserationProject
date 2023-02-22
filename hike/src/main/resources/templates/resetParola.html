@@ -15,7 +15,7 @@
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer-when-downgrade" />
     <!-- Site Title -->
-    <title>Login</title>
+    <title>Schimbare parolă</title>
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
     <!--
@@ -83,9 +83,8 @@
       <div class="row d-flex align-items-center justify-content-center">
         <div class="about-content col-lg-12">
           <h1 class="text-white">
-            Login
+            Resetare parolă
           </h1>
-          <p class="text-white link-nav"><a th:href="@{/}">Acasă</a>  <span class="lnr lnr-arrow-right"></span>  <a th:href="@{/login}"> Login</a></p>
         </div>
       </div>
     </div>
@@ -97,43 +96,23 @@
     <div class="container">
       <div class="row align-items-center justify-content-center">
         <div class="col-md-6">
-          <p th:if="${param.success}" class="alert alert-success">Te-ai înregistrat cu success! Acum poți intra în cont.</p>
-          <p th:if="${param.error}" class="alert alert-danger">Username sau parolă incorecte.</p>
-          <p th:if="${param.logout}" class="alert alert-success">Te-ai delogat cu success.</p>
-          <p th:if="${message!= null}" class="alert alert-success">[[${message}]]</p>
           <div class="form-block">
-            <form th:action="@{/login}" method="post">
-              <div class="form-group first">
-                <label for="username">Username</label>
-                <input type="text" placeholder="email@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'email@gmail.com'"
-                       id="username" name = "username" required class="single-input">
-              </div>
-
+            <form th:action="@{/resetParola}" method="post">
+              <input type="hidden" name = "token" th:value="${token}">
               <div class="form-group last mb-3">
-                <label for="password">Parola</label>
-                <input type="password" placeholder="Parola"
-                       id="password" name="password" required class="single-input">
+                <label for="parola">Parola*</label>
+                <input type="password" id = "parola" name="parola" placeholder="Parola..." required class="single-input" minlength="4">
+                <div class="invalid-feedback"> Parola trebuie să aibă minim 8 caractere.</div>
               </div>
-
-              <div class="d-sm-flex mb-5 align-items-center">
-                <label class="control control--checkbox mb-3 mb-sm-0"><span class="caption">Păstrază-mă autentificat</span>
-                  <input type="checkbox" name="remember-me"/>
-                  <div class="control__indicator"></div>
-                </label>
-                <span class="ml-auto"><a th:href="@{/parolaUitata}" class="forgot-pass">Parolă uitată</a></span>
+              <div class="form-group last mb-3">
+                <label for="conf_parola">Confirmare parolă*</label>
+                <input type="password" id = "conf_parola" placeholder="Confirmare parola..." required class="single-input" minlength="4"
+                  oninput="checkPasswordMatch(this);">
+                <div class="invalid-feedback"> Parola trebuie să aibă minim 8 caractere.</div>
               </div>
-              <button type="submit" value="Login" class="genric-btn primary circle" style="width: 100%">LOGIN</button>
-              </br>
-              <p class="text-center">Nu ai un cont încă? <a th:href="@{/register}">Înregistrează-te acum!</a></p>
-
-              <div class="or-container"><div class="line-separator"></div> <div class="or-label">or</div><div class="line-separator"></div></div>
-
-              <div class="row">
-                <div class="col-md-12">
-                  <a class="btn btn-google btn-block btn-outline-light" th:href="@{/oauth2/authorization/google}" referrerpolicy="no-referrer-when-downgrade"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Conectează-te cu Google</a>
-                </div>
-              </div>
-
+              <p th:if="${error != null}" class="alert alert-danger">[[${error}]]</p>
+              <p th:if="${message != null}" class="alert alert-success">[[${message}]]</p>
+              <button type="submit" value="Resetează parola" class="genric-btn primary circle" style="width: 100%">Resetează parola</button>
             </form>
           </div>
         </div>
@@ -216,6 +195,16 @@
     </div>
   </footer>
   <!-- End footer Area -->
+  <script type="text/javascript">
+    function checkPasswordMatch(fieldConfirmPassword){
+      if (fieldConfirmPassword.value != $("#parola").val()){
+        fieldConfirmPassword.setCustomValidity("Parolele nu corespund!");
+      }
+      else{
+        fieldConfirmPassword.setCustomValidity("");
+      }
+    }
+  </script>
 
   <script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
   <script type="text/javascript" th:src="@{/js/popper.min.js}"></script>

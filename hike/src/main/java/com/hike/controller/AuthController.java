@@ -31,7 +31,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("user")RegistrationDto user,
-                           BindingResult result, Model model, @RequestParam("pozaProfil") MultipartFile file){
+                           BindingResult result, Model model/*, @RequestParam("pozaProfil") MultipartFile file*/){
         if(result.hasErrors()){
             System.out.println(result.getAllErrors());
 
@@ -52,7 +52,7 @@ public class AuthController {
         }
 
         userService.saveUser(user);
-        imageService.saveUserPhoto(user.getId(), file);
+        //imageService.saveUserPhoto(user.getId(), file);
 
         return "redirect:/login?success";
     }
