@@ -43,8 +43,8 @@ public class UserEntity {
     @JoinTable(
             name = "users_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
-    )
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}, uniqueConstraints = @UniqueConstraint(columnNames = {
+            "user_id", "role_id"}))
     private List<Role> roles = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

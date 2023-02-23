@@ -11,11 +11,11 @@
                 <div class="row align-items-center justify-content-center">
                     <div class="col-md-6">
                         <div class="form-block">
-                            <form method="post" th:action="@{/register}" th:object="${user}"> <!--enctype="multipart/form-data"-->
+                            <form method="post" th:action="@{/register}" th:object="${user}" enctype="multipart/form-data">
                                 <div class="form-group" style="text-align: center;">
-                                    <label for = "pozaProfil"><i class="fa fa-user-circle fa-5x"></i></label>
+                                    <img id= "thumbnail" class="rounded-circle" style="width: 100px; height: 90px;" th:src="@{/img/user.png}">
                                     </br>
-                                    <input id="pozaProfil" name="pozaProfil" type="file">
+                                    <input id="pozaProfil" name="pozaProfil" type="file" accept="image/png, image/jpeg">
                                 </div>
                                 <p th:if="${#fields.hasErrors('pozaProfil')}" class="text-danger">Poza de profil nu a putut fi încărcată corect. Încercați din nou cu o nouă fotografie.</p>
 
@@ -100,5 +100,24 @@
     <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function (){
+            $('#pozaProfil').change(function (){
+                showImageThumbnail(this);
+            })
+            $("#thumbnail").on("error", function(){
+                $(this).attr('src', './img/user.png');
+            });
+        });
+        function showImageThumbnail(fileInput){
+            file = fileInput.files[0];
+            reader = new FileReader();
+
+            reader.onload = function (e){
+                $('#thumbnail').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
 </body>
 </html>

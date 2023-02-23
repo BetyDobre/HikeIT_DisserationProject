@@ -1,6 +1,3 @@
-# alter table users_roles
-# add primary key  (user_id, role_id);
-
 insert ignore into roles values(1, 'ADMIN');
 insert ignore into roles values(2, 'USER');
 insert ignore into roles values(3, 'BLOGGER');
