@@ -891,7 +891,7 @@ td, th {
 /*---------- End Elements Page -------------*/
 .sample-text-area {
   background: #f9f9ff;
-  padding: 100px 0 70px 0;
+  padding: 100px 0 50px 0;
 }
 
 .sample-text {
@@ -4519,4 +4519,99 @@ body.mobile-nav-active #mobile-nav-toggle {
   flex-grow: 1;
   margin: 0 15px;
   text-align: center;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  background: #f9fafc;
+  color: #777777;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  position: relative; }
+#sidebar .h6 {
+  color: #777777; }
+#sidebar.active {
+  margin-left: -250px; }
+#sidebar.active .custom-menu {
+  margin-right: -50px; }
+#sidebar h1 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 20px; }
+#sidebar h1 .logo {
+  color: #777777;
+  display: block;
+  padding: 10px 30px;
+  background: #2f89fc; }
+#sidebar ul.components {
+  padding: 0; }
+#sidebar ul li {
+  font-size: 16px; }
+#sidebar ul li > ul {
+  margin-left: 10px; }
+#sidebar ul li > ul li {
+  font-size: 14px; }
+#sidebar ul li a {
+  padding: 15px 30px;
+  display: block;
+  color: #777777;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+#sidebar ul li a:hover {
+  color: #777777;
+  background: #eeeeee;
+  border-bottom: 1px solid #eeeeee; }
+#sidebar ul li.active > a {
+  background: transparent;
+  color: #777777; }
+#sidebar ul li.active > a:hover {
+  background: #eeeeee;
+  border-bottom: 1px solid #eeeeee; }
+@media (max-width: 991.98px) {
+  #sidebar {
+    margin-left: -250px; }
+  #sidebar.active {
+    margin-left: 0; }
+  #sidebar .custom-menu {
+    margin-right: -60px !important;
+    top: 10px !important; } }
+#sidebar .custom-menu {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  right: 0;
+  margin-right: -50px;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s; }
+@media (prefers-reduced-motion: reduce) {
+  #sidebar .custom-menu {
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none; } }
+#sidebar .custom-menu .btn.btn-primary {
+  background: transparent;
+  border-color: transparent; }
+#sidebar .custom-menu .btn.btn-primary i {
+  color: black;
+  font-size: 24px; }
+#sidebar .custom-menu .btn.btn-primary:hover, #sidebar .custom-menu .btn.btn-primary:focus {
+  background: transparent !important;
+  border-color: transparent !important; }
+
+input[type="file"]::file-selector-button {
+  border: 1px solid #5a6268;
+  padding: 0.1em 0.2em;
+  border-radius: 0.2em;
+  background-color: #f9fafc;
+  transition: 1s;
+}
+
+input[type="file"]{
+  font-size: 0px;
+}
+
+input[type="file"]::-webkit-file-upload-button{
+  font-size: 14px;
 }

@@ -1,6 +1,7 @@
 package com.hike.controller;
 
 import com.hike.exception.ObjectNotFoundException;
+import com.hike.models.AuthProvider;
 import com.hike.models.UserEntity;
 import com.hike.models.Utility;
 import com.hike.service.MailService;
@@ -30,6 +31,9 @@ public class UserController {
 
     @GetMapping("/profil")
     public String getProfil(Model model){
+        UserEntity user = userService.findByUsername("betydbr");
+        model.addAttribute("user", user);
+
         return "profil";
     }
 
@@ -44,25 +48,36 @@ public class UserController {
         String email = request.getParameter("email");
         String token = RandomString.make(45);
 
-        try{
-            userService.schimbaParolaToken(token, email);
+        UserEntity user = userService.findByEmail(email);
+        if(user != null){
+            if (user.getAuthProvider().equals(AuthProvider.GOOGLE)){
+                model.addAttribute("error", "Acest email aparține unui cont Google. Parola nu poate fi schimbată.");
+            }
+            else {
+                try{
+                    userService.schimbaParolaToken(token, email);
 
-            String resetParolaLink = Utility.getSiteURL(request) + "/resetParola?token=" + token;
-            String content = "<p>Salut, </p>"
-                    + "<p>Ai cerut resetarea parolei pentru contul tău.</p>"
-                    + "<p>Apasă pe link-ul de mai jos pentru a-ți schimba parola: </p>"
-                    + "<p><b><a href=\"" + resetParolaLink + "\">"+resetParolaLink+"</a><b></p>"
-                    + "<p>Ignoră acest email dacă nu ai solicitat tu schimbarea parolei.</p>";
+                    String resetParolaLink = Utility.getSiteURL(request) + "/resetParola?token=" + token;
+                    String content = "<p>Salut, </p>"
+                            + "<p>Ai cerut resetarea parolei pentru contul tău.</p>"
+                            + "<p>Apasă pe link-ul de mai jos pentru a-ți schimba parola: </p>"
+                            + "<p><b><a href=\"" + resetParolaLink + "\">"+resetParolaLink+"</a><b></p>"
+                            + "<p>Ignoră acest email dacă nu ai solicitat tu schimbarea parolei.</p>";
 
-            mailService.sendEmail("reset",email, content);
-            model.addAttribute("message", "Email-ul a fost trimis!");
+                    mailService.sendEmail("reset",email, content);
+                    model.addAttribute("message", "Email-ul a fost trimis!");
 
+                }
+                catch (ObjectNotFoundException e){
+                    model.addAttribute("error", e.getMessage());
+                }
+                catch (MessagingException |  UnsupportedEncodingException e){
+                    model.addAttribute("error", "Emailul nu a putut fi trimis. Încearcă din nou mai târziu.");
+                }
+            }
         }
-        catch (ObjectNotFoundException e){
-            model.addAttribute("error", e.getMessage());
-        }
-        catch (MessagingException |  UnsupportedEncodingException e){
-            model.addAttribute("error", "Emailul nu a putut fi trimis. Încearcă din nou mai târziu.");
+        else{
+            model.addAttribute("error", "Acest email nu este asociat unui cont.");
         }
 
         return "parolaUitata";

@@ -1,16 +1,104 @@
 <!DOCTYPE html>
-    <html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments :: head_fragment(pageTitle = 'Profilul meu')"/>
-    <body>
+<html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments :: head_fragment(pageTitle = 'Profilul meu')"/>
+<body>
     <!--  header-->
     <header th:replace="fragments :: header_fragment"/>
     <!-- #header -->
     <!-- start banner Area -->
     <section th:replace="fragments :: banner_fragment(title = 'Profilul meu', link = 'profil')"/>
     <!-- End banner Area -->
+    <section class="section-bg">
+        <div class="row">
+        <div class="d-flex align-items-lg-stretch">
+            <nav id="sidebar">
+                <ul class="list-unstyled components mb-5">
+                    <li>
+                        <a href="#"><span class="fa fa-user mr-3"></span> Informații personale</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="fa fa-paper-plane mr-3"></span> Setări</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="fa fa-sticky-note mr-3"></span> Termeni și condiții</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="col-md-8 d-flex justify-content-center pt-10 pb-20">
+            <form method="post" th:action="@{/user/edit}" th:object="${user}" enctype="multipart/form-data">
+                <input type="hidden" th:field="*{id}">
+                <div class="form-group" style="text-align: center;">
+                    <img id= "thumbnail" class="rounded-circle" style="width: 100px; height: 90px;" th:src="@{/img/user.png}">
+                    </br>
+                    <input id="pozaProfil" name="pozaProfil" type="file" accept="image/png, image/jpeg">
+                </div>
+                <p th:if="${#fields.hasErrors('pozaProfil')}" class="text-danger">Poza de profil nu a putut fi încărcată corect. Încercați din nou cu o nouă fotografie.</p>
+
+                <div class="form-group first">
+                    <label for="nume">Nume*</label>
+                    <input th:field="*{nume}" type="text" name="nume" id="nume" placeholder="Popescu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Popescu'" class="single-input">
+                    <p th:if="${#fields.hasErrors('nume')}" th:errors="*{nume}" class="text-danger">Numele introdus nu este valid.</p>
+                </div>
+
+                <div class="form-group first">
+                    <label for="prenume">Prenume*</label>
+                    <input th:field="*{prenume}" type="text" name="prenume" id = "prenume" placeholder="Andrei" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Andrei'" class="single-input">
+                    <p th:if="${#fields.hasErrors('prenume')}" th:errors="*{prenume}" class="text-danger">Prenumele introdus nu este valid.</p>
+                </div>
+
+                <div class="form-group first">
+                    <label for="username">Username*</label>
+                    <input th:field="*{username}" type="text"  placeholder="andrei1234" onfocus="this.placeholder = ''" onblur="this.placeholder = 'andrei1234'" id="username" class="single-input">
+                    <p th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}">Numele de utilizator introdus nu este valid.</p>
+                </div>
+
+                <div class="form-group first">
+                    <label for="email">Email*</label>
+                    <input th:field="*{email}" type="email" name="Email" id = "email" placeholder="andrei@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" class="single-input">
+                    <p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}">Email-ul introdus nu este valid.</p>
+                </div>
+
+                <div class="form-group last mb-3">
+                    <label for="data_nastere">Data nastere</label>
+                    <input th:field="*{dataNastere}" type="date" id = "data_nastere" placeholder="dd/MM/yyyy" class="single-input">
+                    <p th:if="${#fields.hasErrors('dataNastere')}" th:errors="*{dataNastere}"  class="text-danger">Data de naștere introdusă nu este validă.</p>
+                </div>
+
+                <div class="form-group last mb-3">
+                    <label for="sex">Sex*</label>
+                    <div class="default-select">
+                        <select th:field="*{sex}" name="sex" id="sex">
+                            <option value="">--Alegeți--</option>
+                            <option th:value="'F'">F</option>
+                            <option th:value="'M'">M</option>
+                            <option th:value="'N'">Prefer să nu spun</option>
+                        </select>
+                    </div>
+                    <p th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}" class="text-danger"></p>
+                </div>
+                <button th:href="@{/profil}" type = "submit" class="genric-btn primary circle" style="width: 100%">SALVEAZĂ MODIFICĂRILE</button>
+            </form>
+        </div>
+        </div>
+    </section>
+
 
     <!-- start footer Area -->
     <footer th:replace="fragments :: footer_fragment"/>
     <!-- End footer Area -->
+    <script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
+    <script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
     </body>
 </html>

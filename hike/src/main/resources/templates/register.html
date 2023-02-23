@@ -5,6 +5,7 @@
     <header th:replace="fragments :: header_fragment"/>
 
     <section th:replace="fragments :: banner_fragment(title = 'Creare cont', link = 'register')"/>
+
     <section class="sample-text-area">
         <div class="contents order-2 order-md-1">
             <div class="container">
@@ -75,7 +76,6 @@
                                 </div>
 
                                 <button th:href="@{/register}" type = "submit" class="genric-btn primary circle" style="width: 100%">ÎNREGISTRARE</button>
-
                             </form>
                         </div>
                     </div>
