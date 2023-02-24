@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
     public void saveUser(RegistrationDto registrationDto) {
         UserEntity user = new UserEntity();
 
+        user.setNewsletter(false);
         user.setEmail(registrationDto.getEmail());
         user.setNume(registrationDto.getNume());
         user.setPrenume(registrationDto.getPrenume());
@@ -64,6 +65,7 @@ public class UserServiceImpl implements UserService {
 
         if (existUser == null) {
             UserEntity newUser = new UserEntity();
+            newUser.setNewsletter(false);
             newUser.setUsername(username);
             newUser.setEmail(email);
             newUser.setNume(nume);

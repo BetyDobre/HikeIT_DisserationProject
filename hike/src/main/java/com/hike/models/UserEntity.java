@@ -53,4 +53,6 @@ public class UserEntity {
     private String pozaGoogle;
 
     private String resetParolaToken;
+
+    private boolean newsletter;
 }

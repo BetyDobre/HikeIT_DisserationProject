@@ -33,6 +33,16 @@ public class UserController {
     public String getProfil(Model model){
         UserEntity user = userService.findByUsername("betydbr");
         model.addAttribute("user", user);
+        model.addAttribute("informatii", "true");
+
+        return "profil";
+    }
+
+    @GetMapping("/profil/termeni")
+    public String getProfilTermeni(Model model){
+        UserEntity user = userService.findByUsername("betydbr");
+        model.addAttribute("user", user);
+        model.addAttribute("termeni", "true");
 
         return "profil";
     }

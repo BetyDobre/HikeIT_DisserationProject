@@ -2,8 +2,11 @@ package com.hike.controller;
 
 import com.hike.dto.GrupaMuntoasaDto;
 import com.hike.exception.ObjectNotFoundException;
+import com.hike.models.UserEntity;
+import com.hike.repository.UserRepository;
 import com.hike.service.GrupaMuntoasaService;
 import com.hike.service.MailService;
+import com.hike.service.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +22,15 @@ import java.util.List;
 public class MainController {
     private GrupaMuntoasaService grupaMuntoasaService;
     private MailService mailService;
+    private UserService userService;
+    private UserRepository userRepository;
 
     @Autowired
-    public MainController(GrupaMuntoasaService grupaMuntoasaService, MailService mailService) {
+    public MainController(GrupaMuntoasaService grupaMuntoasaService, MailService mailService, UserService userService, UserRepository userRepository) {
         this.grupaMuntoasaService = grupaMuntoasaService;
         this.mailService = mailService;
+        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/")
@@ -59,6 +66,11 @@ public class MainController {
 
         try{
             mailService.sendEmail("newsletter",request.getParameter("email"), content);
+            UserEntity user = userService.findByEmail(request.getParameter("email"));
+            if (user != null){
+                user.setNewsletter(true);
+                userRepository.save(user);
+            }
             model.addAttribute("status", "Abonarea a fost efectuată cu succes!");
         }
         catch (MessagingException | UnsupportedEncodingException e){

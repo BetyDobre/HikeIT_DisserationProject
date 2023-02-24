@@ -137,7 +137,7 @@
                     <div id="mc_embed_signup">
                         <form target="_self" th:action="@{/subscribe}" method="get" class="subscription relative">
                             <div class="input-group d-flex flex-row">
-                                <input name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresa de Email'" required="" type="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                                <input name="email" id="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresa de Email'" required="" type="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
                                 <button class="btn bb-btn" type="submit"><span class="lnr lnr-location"></span></button>
                                 <p th:if="${status!= null}">[[${status}]]</p>
                             </div>

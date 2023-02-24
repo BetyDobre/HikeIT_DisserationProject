@@ -14,20 +14,26 @@
             <nav id="sidebar">
                 <ul class="list-unstyled components mb-5">
                     <li>
-                        <a href="#"><span class="fa fa-user mr-3"></span> Informații personale</a>
+                        <a th:href="@{/profil}"><span class="fa fa-user mr-3"></span> Informații personale</a>
                     </li>
                     <li>
-                        <a href="#"><span class="fa fa-paper-plane mr-3"></span> Setări</a>
+                        <a th:href="@{/profil/securitate}"><span class="fa fa-lock mr-3"></span> Securitate</a>
                     </li>
                     <li>
-                        <a href="#"><span class="fa fa-sticky-note mr-3"></span> Termeni și condiții</a>
+                        <a th:href="@{/profil/statistici}"><span class="fa fa-bar-chart mr-3"></span> Statistici</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/profil/setari}"><span class="fa fa-paper-plane mr-3"></span> Setări</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/profil/termeni}"><span class="fa fa-sticky-note mr-3"></span> Termeni și condiții</a>
                     </li>
                 </ul>
             </nav>
         </div>
 
-        <div class="col-md-8 d-flex justify-content-center pt-10 pb-20">
-            <form method="post" th:action="@{/user/edit}" th:object="${user}" enctype="multipart/form-data">
+        <div th:if="${informatii!= null}" class="col-md-9 d-flex justify-content-center pt-10 pb-20">
+            <form method="post" th:action="@{/user/edit}" th:object="${user}" enctype="multipart/form-data" style="width: 500px;">
                 <input type="hidden" th:field="*{id}">
                 <div class="form-group" style="text-align: center;">
                     <img id= "thumbnail" class="rounded-circle" style="width: 100px; height: 90px;" th:src="@{/img/user.png}">
@@ -80,6 +86,92 @@
                 </div>
                 <button th:href="@{/profil}" type = "submit" class="genric-btn primary circle" style="width: 100%">SALVEAZĂ MODIFICĂRILE</button>
             </form>
+        </div>
+
+        <div th:if="${termeni!= null}" class="col-xl-10 d-flex justify-content-center pt-10 pb-20 pl-4" >
+            <p>Va recomandam sa cititi integral prezentii Termeni inainte de a decide daca ii acceptati si continuati procesul de inregistrare. <br/>
+
+                Daca nu sunteti de acord cu oricare dintre prevederile termenilor in cadrul HikeIT, va rugăm să nu accesati, navigati sau utilizati aplicatia, si nici software-ul, serviciile, informatiile, materialele sau alte asemenea cuprinse in aplicatie. <br/>
+
+                Dacă în orice moment după inregistrarea in aplicatia HikeIT decideți că nu mai sunteti de acord cu prezentii Termeni, va rugam sa dezinstalati aplicatia. <br/> Totodata, daca nu mai sunteti de acord cu utilizarea datelor dumneavoastra cu caracter personal de catre operatorul HikeIT SRL, ca urmare a folosirii aplicatiei, aveti posibilitatea sa stergeti contul si sa va exercitati drepturile prevazute de Regulamentul 679/2016 privind protectia persoanelor fizice in ceea ce priveste prelucrarea datelor cu caracter personal si privind libera circulatie a acestor date. <br/>
+
+
+                Termenii si conditiile de utilizare a aplicaţiei HikeIT, aşa cum sunt prezentaţi în prezentul document, sunt şi vor fi guvernaţi şi interpretaţi în conformitate cu legea română. <br/> Termenii stabilesc modul in care puteti utiliza aplicatia HikeIT. <br/>
+
+                Prin inregistrarea in aplicatie confirmati ca aveti 18 ani impliniti si ca nu v-a fost interzis dreptul de a utiliza un serviciu de genul celui oferit de HikeIT. <br/>
+
+                1. Ce este HikeIT?  <br/>
+
+                HikeIT este o aplicatie informatica securizata, accesibila prin intermediul unui device cu conexiune la Internet, unde utilizatorii pot consulta traseele montane din Romania. <br/>
+
+                2. Inregistrarea si identificarea utilizatorului  <br/>
+
+                Pentru inregistrarea in aplicatia HikeIT este necesar ca utilizatorul sa ofere urmatoarele informatii obligatorii: nume, prenume, numarul de telefon, adresa de e-mail. <br/> Inregistrarea datelor unui card bancar valabil este optionala. <br/>
+
+                3.  Autentificarea utilizatorului pentru accesarea si utilizarea HikeIT <br/>
+
+                Aplicatia retine datele de autentificare aferente contului dumneavoastra. <br/> In acest sens, sunteți de acord și înțelegeți că dumneavoastrasunteți responsabil(ă) pentru păstrarea confidențialității datelor de conectare asociate utilizarii de catre dumneavoastra a HikeIT și pentru luarea tuturor măsurilor rezonabile pentru a păstra confidențialitatea acestor informații. <br/>
+
+                Dacă utilizați aplicatia HikeIT avand un cont de tip Family sau Corporate, dumneavoastra sunteți de acord că toți angajații, membrii de familie și toate celelalte persoane carora le-ati furnizat datele de conectare vor fi autorizate sa acceseze aplicati si sa acceseze serviciile de transport prin intermediul aplicatiei. <br/>
+
+                Va obligati sa notificați HikeIT imediat, fără întârzieri nejustificate, atunci când sesizați utilizarea neautorizată a datelor dumneavoastra de conectare. <br/> De asemenea, sunteți de acord să notificați HikeIT imediat, fără întârzieri nejustificate, în același mod cu privire la orice altă încălcare a securității în legătură cu aplicatia despre care aveți cunoștință. <br/>
+
+                HikeIT poate suspenda utilizarea datelor de conectare sau a Contului dumneavoastra în cazurile în care suspectează compromiterea securității acestora sau existența unei utilizări neautorizate sau frauduloase. <br/> HikeIT vă va informa în prealabil sau, dacă acest lucru nu este posibil, imediat după suspendarea utilizării datelor dumneavoastra de conectare sau a Contului, specificând motivele suspendării, cu excepția cazului în care furnizarea acestor informații ar putea compromite măsurile rezonabile de securitate sau ar contraveni legii. <br/> HikeIT va reactiva Datele de conectare sau Contul dumneavoastraori vă va pune la dispoziție date de conectare noi sau un Cont nou, în cel mai scurt timp posibil după eliminarea motivelor care au determinat suspendarea inițială. <br/>
+
+                4. Declarații și garanții <br/>
+
+                La momentul înregistrării în vederea utilizării HikeIT declarați şi garantați următoarele: <br/>
+
+                 că aveți dreptul, autoritatea şi capacitatea deplină de exercițiu în vederea accesării şi utilizării aplicaţiei; <br/>
+
+                 ca nu comunicati datele de conectare parola unei terte persoane, cu exceptia persoanelor autorizate in Contul Corporate sau Family, intrucat prin divulgarea acesteia va expuneti riscului de utilizare a contului si serviciilor de catre alte persoane. <br/> Sunteti exclusiv responsabil pentru mentinerea confidentialitatii si pastrarea in siguranta a datelor introduse in aplicatia HikeIT. <br/> Mai mult, sunteti responsabil pentru activitatile de orice natura ce au loc in contul dumneavoastra. <br/>
+
+                 va obligati sa ne anuntati imediat de orice utilizare neautorizata a contului dumneavoastra sau de orice incalcare a securitatii contului de care deveniti constient sau pe care in mod rezonabil ar trebui sa o suspectati. <br/> Cu toate acestea, indiferent de aceasta notificare, nu vom raspunde pentru pierderile pe care ati putea sa le suportati ca urmare a utilizarii neautorizate a contului dmneavoastra ( indiferent daca o astfel de utilizare se produce cu sau fara cunostinta dumneavoastra)
+
+                ca nu veti falsifica sau oferi informatii eronate despre identitatea sau intentiile dumneavoastra in legatura cu orice ar avea legatura cu aplicatia
+
+                 ca nu veti transmite, distribui sau oferi orice informatii sau materiale care sunt in tot sau in parte ilegale, false, frauduloase sau inadecvate, ofensatoare sau care incalca ordinea publica si bunele moravuri
+
+                 ca nu veti incalca orice drept prevazut prin lege, drepturi de proprietate, drepturi intangibile, dreptul privind confidentialitatea sau datele cu caracter personal ale altora; <br/>
+
+                 ca nu veti utiliza continutul aplicatiei pentru a revinde, distribui sau folosi serviciile oferite
+
+                 nu veti distribui ofertele din aplicatia HikeIT
+
+                5. Încetarea sau modificarea HikeIT <br/>
+
+                Incetarea utilizarii HikeIT de catre Utilizator poate interveni in urmatoarele situatii: <br/>
+
+                a) la initiativa utilizatorului, prin dezinstalarea aplicatiei de pe dispozitivul dumneavoastra. <br/>
+
+                b)din initiativa HikeIT, daca se constata ca utilizatorul nu respecta regulile unei conduite adecvate sau prevederile Termenilor si Conditiilor, care ar putea aduce prejudicii de orice natura companiei; <br/> <br/>
+
+                6. Proprietatea intelectuala <br/>
+
+                Utilizatorul declara in mod expres ca a luat la cunostinta de faptul ca toata creatia grafica, continutul aplicatiei si materialele accesate sunt proprietatea HikeIT. <br/> Fac exceptie informatiile, elementele grafice apartinand altor entitati, care sunt proprietatea partenerilor. Utilizatorul accepta ca orice software folosit in legatura cu serviciile oferite in aplicatie contine informatii confidentiale si aflate sub drept de proprietate, fiind protejate de legile privind dreptul de proprietate intelectuala, industriala si alte legi aplicabile. <br/>
+
+                Utilizatorul se obliga sa nu reproduca, sa nu copieze,sa nu vanda sau sa exploateze serviciile, informatiile si/sau materialele audio-video la care are acces ca urmare a utilizarii acestei aplicatii, in parte sau complet. <br/> <br/> Utilizatorului ii este interzisa modificarea, copierea, inchirierea, cedarea, imprumutul, vanzarea, distributia sau crearea unor materiale derivate bazate pe serviciile sauprogramele folosite in cadrul aplicatiei. <br/>
+
+                7. Prelucrarea datelor cu caracter personal <br/>
+
+                Prezentele Termeni si Conditii se completeaza cu Politica de Confidentialitate HikeIT aflata pe site-ul www. <br/>leonego. <br/>ro si in cadrul Aplicatiei la sectiunea „Politica de Confidentialitate”. <br/> Recomandăm Utilizatorului a consulta si propria politică de confidențialitate a prestatorilor de servicii de transport. <br/>
+
+                8. Pentru ce nu suntem responsabili <br/>
+
+                Vă daţi acceptul că aplicaţia nu va fi livrată fără erori sau în mod continuu, că unele imperfecţiuni nu vor fi corectate la momentul apariţiei lor. <br/> Utilizatorul aplicaţiei este singurul responsabil pentru utilizarea aplicaţiei. <br/>
+
+                De asemenea, Utilizatorii vor raspunde pentru orice daune, directe sau indirecte, aduse HikeIT cu intentie sau din culpa (neglijenta sau imprudenta) utilizatorului sau persoanelor pentru care acesta raspunde, inclusiv Utilizator titular al Contului, sau ca urmare a folosirii frauduloase a aplicatiei HikeIT. <br/>
+
+                Utilizatorul a fost informat si accepta faptul ca HikeIT nu pot fi facuta raspunzatoare, in niciun caz, pentru daunele, directe sau indirecte, cauzate Utilizatorului de nefunctionarea sau functionarea necorespunzatoare a aplicatiei HikeIT. <br/>
+
+                9. Legea aplicabilă <br/>
+
+                În cazul apariţiei unui conflict/neînţelegeri legată de utilizarea aplicaţiei, vom încerca soluţionarea conflictului respectiv pe cale amiabilă, negocierile în acest sens fiind guvernate de bună credinţă. <br/> Toate disputele vor fi soluţionate în instanţele competente din Bucuresti, cu excepţia cazurilor în care legislaţia în vigoare specifică o altă jurisdicţie exclusiva pentru dumneavoastră. <br/>
+
+                10. Asistenţă <br/>
+
+                Dacă aveţi orice problemălegata de functionarea HikeIT, ne puteţi contacta la adresa de email hikeit@gmail. <br/>com. <br/>
+            </p>
         </div>
         </div>
     </section>
