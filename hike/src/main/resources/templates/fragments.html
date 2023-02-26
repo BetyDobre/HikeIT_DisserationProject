@@ -66,17 +66,17 @@
                         </ul>
                     </li>
                     <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
-                    <li sec:authorize="isAuthenticated()"><a class="fa fa-user" th:href="@{/profil}"></a>
+                    <li sec:authorize="isAuthenticated()"><a class="fa fa-user" th:href="@{/user/profil}"></a>
                         <ul>
                             <li class="text-center" th:switch="${#authentication.getPrincipal().getProvider()}">
                                 <img th:case="'GOOGLE'" th:src="${#authentication.getPrincipal().getPhoto()}" class="rounded-circle">
-                                <img th:case="'LOCAL'" th:src="@{/user/getProfilePhoto/{username}(username=${#authentication.getPrincipal().getUsername()})}" onerror="this.src='img/user.png';" class="rounded-circle" style="width: 90px; height: 80px;">
+                                <img th:case="'LOCAL'" th:src="@{/user/getProfilePhoto/{username}(username=${#authentication.getPrincipal().getUsername()})}" onerror="this.src='/img/user.png';" class="rounded-circle" style="width: 90px; height: 80px;">
                             </li>
                             <div th:switch="${#authentication.getPrincipal().getProvider()}">
                                 <li th:case="'GOOGLE'" class="text-center"><p th:text="${#authentication.getPrincipal().getUsername()}" class="font-weight-bold"></p></li>
                                 <li th:case="'LOCAL'" class="text-center"><p th:text="${#authentication.getPrincipal().getFullName()}" class="font-weight-bold"></p></li>
                             </div>
-                            <li><a th:href="@{/profil}">Profil</a></li>
+                            <li><a th:href="@{/user/profil}">Profil</a></li>
                             <li><a th:href="@{/logout}">Logout</a></li>
                         </ul>
                     </li>

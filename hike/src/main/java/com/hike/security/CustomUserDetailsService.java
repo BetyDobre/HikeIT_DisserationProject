@@ -27,6 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserEntity user = userRepository.findFirstByUsername(username);
         if(user !=  null){
             CustomUserDetails authUser = new CustomUserDetails(
+                    user.getId(),
                     user.getUsername(),
                     user.getParola(),
                     user.getRoles().stream().map((role) -> new SimpleGrantedAuthority(role.getName()))

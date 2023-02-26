@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head th:replace="fragments :: head_fragment(pageTitle = 'Profilul meu')"/>
+<head th:insert="fragments :: head_fragment(pageTitle = 'Profilul meu')">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+</head>
 <body>
     <!--  header-->
     <header th:replace="fragments :: header_fragment"/>
@@ -9,60 +13,113 @@
     <section th:replace="fragments :: banner_fragment(title = 'Profilul meu', link = 'profil')"/>
     <!-- End banner Area -->
     <section class="section-bg">
+        <div class="custom-menu">
+            <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
         <div class="row">
-        <div class="d-flex align-items-lg-stretch">
+        <div class="col-md-2 d-flex align-items-lg-stretch">
             <nav id="sidebar">
                 <ul class="list-unstyled components mb-5">
                     <li>
-                        <a th:href="@{/profil}"><span class="fa fa-user mr-3"></span> Informații personale</a>
+                        <a th:href="@{user/profil}"><span class="fa fa-user mr-3"></span> Informații personale</a>
                     </li>
                     <li>
-                        <a th:href="@{/profil/securitate}"><span class="fa fa-lock mr-3"></span> Securitate</a>
+                        <a th:href="@{/user/securitate}"><span class="fa fa-lock mr-3"></span> Securitate</a>
                     </li>
                     <li>
-                        <a th:href="@{/profil/statistici}"><span class="fa fa-bar-chart mr-3"></span> Statistici</a>
+                        <a th:href="@{/user/statistici}"><span class="fa fa-bar-chart mr-3"></span> Statistici</a>
                     </li>
                     <li>
-                        <a th:href="@{/profil/setari}"><span class="fa fa-paper-plane mr-3"></span> Setări</a>
-                    </li>
-                    <li>
-                        <a th:href="@{/profil/termeni}"><span class="fa fa-sticky-note mr-3"></span> Termeni și condiții</a>
+                        <a th:href="@{/user/termeni}"><span class="fa fa-sticky-note mr-3"></span> Termeni și condiții</a>
                     </li>
                 </ul>
             </nav>
         </div>
 
-        <div th:if="${informatii!= null}" class="col-md-9 d-flex justify-content-center pt-10 pb-20">
-            <form method="post" th:action="@{/user/edit}" th:object="${user}" enctype="multipart/form-data" style="width: 500px;">
+        <div th:if="${securitate!= null}" class="col-md-8 d-flex justify-content-center align-items-center pt-10 pb-20">
+            <div  class="d-flex flex-column align-items-center">
+            <form th:switch="${#authentication.getPrincipal().getProvider()}" th:object="${user}" th:action="@{/user/schimbaParola}" method="post" style="width: 30rem;">
+                <p th:if="${error!= null}" class="alert alert-danger">[[${error}]]</p>
+                <span style="font-size: 1rem; color: #0b0b0b;">Schimbare parolă</span>
+                <div class="line-separator"></div>
+                <br/>
+                <div th:case="'LOCAL'">
+                    <div class="form-group last mb-3">
+                        <label for="parola">Parola actuală*</label>
+                        <input type="password" id = "parola" name="parola" placeholder="Parola veche..." required class="single-input" minlength="4">
+                        <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
+                    </div>
+                    <div class="form-group last mb-3">
+                        <label for="parolaNoua">Parola nouă*</label>
+                        <input type="password" id = "parolaNoua" name="parolaNoua" placeholder="Parola nouă..." required class="single-input" minlength="4">
+                        <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
+                    </div>
+                    <div class="form-group last mb-3">
+                        <label for="confParola">Confirmare parolă*</label>
+                        <input type="password" id = "confParola" name="confParola" placeholder="Confirmare parola..." required class="single-input" minlength="4"
+                               oninput="checkPasswordMatch(this);">
+                        <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
+                    </div>
+                    <button type="submit" value="Schimbă parola" class="genric-btn primary circle" style="width: 100%">Schimbă parola</button>
+                </div>
+                <p th:case="'GOOGLE'">Acest cont aparține unui cont Google. Parola nu poate fi schimbată.</p>
+            </form>
+            <br/>
+            <form th:action="@{/user/sterge}" method="get" style="width: 30rem;">
+                <span style="font-size: 1rem; color: #0b0b0b;">Ștergerea contului</span>
+                <div class="line-separator"></div>
+                <br/>
+                <p>Odată șters contul, acesta nu mai poate fi adus înapoi, iar toate datele aferente acestuia vor fi șterse.</p>
+                <button type="submit" value="Sterge cont" class="genric-btn danger circle" style="width: 100%">Șterge contul</button>
+            </form>
+            </div>
+        </div>
+
+        <div th:if="${informatii!= null}" class="form-group col-md-8 d-flex justify-content-center pt-10 pb-20">
+            <form th:if="${informatii!= null}" method="post" th:action="@{/user/profil}" th:object="${user}" enctype="multipart/form-data" style="width: 30rem;">
                 <input type="hidden" th:field="*{id}">
-                <div class="form-group" style="text-align: center;">
-                    <img id= "thumbnail" class="rounded-circle" style="width: 100px; height: 90px;" th:src="@{/img/user.png}">
+                <input type="hidden" th:field="*{parola}">
+                <input type="hidden" th:field="*{roles}">
+                <input type="hidden" th:field="*{authProvider}">
+                <input type="hidden" th:field="*{newsletter}">
+                <input type="hidden" th:field="*{resetParolaToken}">
+                <input type="hidden" th:field="*{createdOn}">
+                <p th:if="${param.success}" class="alert alert-success">Modificările au fost efectuate cu success!</p>
+                <div th:switch="*{authProvider.name}" class="form-group" style="text-align: center;">
+                    <img id = "thumbnail" th:case="'GOOGLE'" th:src="*{pozaGoogle}" class="rounded-circle">
+                    <img id = "thumbnail" th:case="'LOCAL'" th:src="@{/user/getProfilePhoto/{username}(username=${user.username})}"  onerror="this.src='/img/user.png';" class="rounded-circle" style="width: 90px; height: 80px;">
                     </br>
-                    <input id="pozaProfil" name="pozaProfil" type="file" accept="image/png, image/jpeg">
+                    <input th:if="${user.authProvider.name} == 'LOCAL'" id="pozaProfil" name="pozaProfil" type="file" accept="image/png, image/jpeg">
                 </div>
                 <p th:if="${#fields.hasErrors('pozaProfil')}" class="text-danger">Poza de profil nu a putut fi încărcată corect. Încercați din nou cu o nouă fotografie.</p>
 
-                <div class="form-group first">
+                <div th:switch="*{authProvider.name}" class="form-group first">
                     <label for="nume">Nume*</label>
-                    <input th:field="*{nume}" type="text" name="nume" id="nume" placeholder="Popescu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Popescu'" class="single-input">
+                    <input th:case="'GOOGLE'" readonly  th:field="*{nume}" type="text" name="nume" id="nume" placeholder="Popescu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Popescu'" class="single-input">
+                    <input th:case="'LOCAL'" th:field="*{nume}" type="text" name="nume" id="nume" placeholder="Popescu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Popescu'" class="single-input">
                     <p th:if="${#fields.hasErrors('nume')}" th:errors="*{nume}" class="text-danger">Numele introdus nu este valid.</p>
                 </div>
 
-                <div class="form-group first">
+                <div th:switch="*{authProvider.name}" class="form-group first">
                     <label for="prenume">Prenume*</label>
-                    <input th:field="*{prenume}" type="text" name="prenume" id = "prenume" placeholder="Andrei" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Andrei'" class="single-input">
+                    <input th:case="'GOOGLE'" readonly  th:field="*{prenume}" type="text" name="prenume" id = "prenume" placeholder="Andrei" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Andrei'" class="single-input">
+                    <input th:case="'LOCAL'" th:field="*{prenume}" type="text" name="prenume" id = "prenume" placeholder="Andrei" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Andrei'" class="single-input">
                     <p th:if="${#fields.hasErrors('prenume')}" th:errors="*{prenume}" class="text-danger">Prenumele introdus nu este valid.</p>
                 </div>
 
-                <div class="form-group first">
+                <div th:switch="*{authProvider.name}" class="form-group first">
                     <label for="username">Username*</label>
-                    <input th:field="*{username}" type="text"  placeholder="andrei1234" onfocus="this.placeholder = ''" onblur="this.placeholder = 'andrei1234'" id="username" class="single-input">
+                    <input th:case="'GOOGLE'" readonly th:field="*{username}" type="text"  placeholder="andrei1234" onfocus="this.placeholder = ''" onblur="this.placeholder = 'andrei1234'" id="username" class="single-input">
+                    <input th:case="'LOCAL'" th:field="*{username}" type="text"  placeholder="andrei1234" onfocus="this.placeholder = ''" onblur="this.placeholder = 'andrei1234'" id="username" class="single-input">
                     <p th:if="${#fields.hasErrors('username')}" class="text-danger" th:errors="*{username}">Numele de utilizator introdus nu este valid.</p>
                 </div>
 
-                <div class="form-group first">
+                <div th:switch="*{authProvider.name}" class="form-group first">
                     <label for="email">Email*</label>
-                    <input th:field="*{email}" type="email" name="Email" id = "email" placeholder="andrei@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" class="single-input">
+                    <input th:case="'GOOGLE'" readonly th:field="*{email}" type="email" name="Email" id = "email" placeholder="andrei@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" class="single-input">
+                    <input th:case="'LOCAL'" th:field="*{email}" type="email" name="Email" id = "email" placeholder="andrei@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" class="single-input">
                     <p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}">Email-ul introdus nu este valid.</p>
                 </div>
 
@@ -84,11 +141,15 @@
                     </div>
                     <p th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}" class="text-danger"></p>
                 </div>
-                <button th:href="@{/profil}" type = "submit" class="genric-btn primary circle" style="width: 100%">SALVEAZĂ MODIFICĂRILE</button>
+                <button type="submit" value="Edit" class="genric-btn primary circle" style="width: 100%">SALVEAZĂ MODIFICĂRILE</button>
             </form>
         </div>
 
-        <div th:if="${termeni!= null}" class="col-xl-10 d-flex justify-content-center pt-10 pb-20 pl-4" >
+        <div th:if="${statistici!= null}" class="form-group col-md-8 d-flex justify-content-center pt-10 pb-20">
+
+        </div>
+
+        <div th:if="${termeni!= null}" class="col-md-9 d-flex justify-content-center pt-10 pb-20 pl-4" >
             <p>Va recomandam sa cititi integral prezentii Termeni inainte de a decide daca ii acceptati si continuati procesul de inregistrare. <br/>
 
                 Daca nu sunteti de acord cu oricare dintre prevederile termenilor in cadrul HikeIT, va rugăm să nu accesati, navigati sau utilizati aplicatia, si nici software-ul, serviciile, informatiile, materialele sau alte asemenea cuprinse in aplicatie. <br/>
@@ -192,5 +253,32 @@
     <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function (){
+            $('#pozaProfil').change(function (){
+                showImageThumbnail(this);
+            })
+            $("#thumbnail").on("error", function(){
+                $(this).attr('src', './img/user.png');
+            });
+        });
+        function showImageThumbnail(fileInput){
+            file = fileInput.files[0];
+            reader = new FileReader();
+
+            reader.onload = function (e){
+                $('#thumbnail').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+        function checkPasswordMatch(fieldConfirmPassword){
+            if (fieldConfirmPassword.value != $("#parolaNoua").val()){
+                fieldConfirmPassword.setCustomValidity("Parolele nu corespund!");
+            }
+            else{
+                fieldConfirmPassword.setCustomValidity("");
+            }
+        }
+    </script>
     </body>
 </html>

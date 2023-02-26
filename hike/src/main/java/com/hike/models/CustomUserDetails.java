@@ -14,13 +14,15 @@ import java.util.List;
 @Getter
 public class CustomUserDetails extends User {
     private byte[] pozaProfil;
+    private Long id;
     private String fullName;
     private String nume;
     private String prenume;
     private String provider;
 
-    public CustomUserDetails(String username, String password, Collection<? extends GrantedAuthority> authorities, byte[] pozaProfil, String nume, String prenume, String fullName, String provider) {
+    public CustomUserDetails(Long id,String username, String password, Collection<? extends GrantedAuthority> authorities, byte[] pozaProfil, String nume, String prenume, String fullName, String provider) {
         super(username, password, authorities);
+        this.id = id;
         this.pozaProfil = pozaProfil;
         this.nume = nume;
         this.prenume = prenume;

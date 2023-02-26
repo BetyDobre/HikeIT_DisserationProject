@@ -1,6 +1,7 @@
 package com.hike.service.impl;
 
 import com.hike.dto.RegistrationDto;
+import com.hike.dto.UserDto;
 import com.hike.exception.ObjectNotFoundException;
 import com.hike.models.AuthProvider;
 import com.hike.models.Role;
@@ -14,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+
+import static com.hike.mapper.UserEditMapper.mapToUser;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -118,5 +121,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity findByToken(String token) {
         return  userRepository.findByResetParolaToken(token);
+    }
+
+    @Override
+    public void updateUser(UserDto userDto) {
+        UserEntity user = mapToUser(userDto);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
     }
 }
