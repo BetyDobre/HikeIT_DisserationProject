@@ -2,10 +2,12 @@ package com.hike.models;
 
 import com.hike.security.CustomOAuth2User;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 public class Utility {
     public static String getSiteURL(HttpServletRequest request){
@@ -23,5 +25,12 @@ public class Utility {
             return userDetails.getUsername();
         }
         return null;
+    }
+
+    public static void logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
+        }
     }
 }

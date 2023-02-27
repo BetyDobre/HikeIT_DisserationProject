@@ -23,7 +23,7 @@
             <nav id="sidebar">
                 <ul class="list-unstyled components mb-5">
                     <li>
-                        <a th:href="@{user/profil}"><span class="fa fa-user mr-3"></span> Informații personale</a>
+                        <a th:href="@{/user/profil}"><span class="fa fa-user mr-3"></span> Informații personale</a>
                     </li>
                     <li>
                         <a th:href="@{/user/securitate}"><span class="fa fa-lock mr-3"></span> Securitate</a>
@@ -38,47 +38,10 @@
             </nav>
         </div>
 
-        <div th:if="${securitate!= null}" class="col-md-8 d-flex justify-content-center align-items-center pt-10 pb-20">
-            <div  class="d-flex flex-column align-items-center">
-            <form th:switch="${#authentication.getPrincipal().getProvider()}" th:object="${user}" th:action="@{/user/schimbaParola}" method="post" style="width: 30rem;">
-                <p th:if="${error!= null}" class="alert alert-danger">[[${error}]]</p>
-                <span style="font-size: 1rem; color: #0b0b0b;">Schimbare parolă</span>
-                <div class="line-separator"></div>
-                <br/>
-                <div th:case="'LOCAL'">
-                    <div class="form-group last mb-3">
-                        <label for="parola">Parola actuală*</label>
-                        <input type="password" id = "parola" name="parola" placeholder="Parola veche..." required class="single-input" minlength="4">
-                        <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
-                    </div>
-                    <div class="form-group last mb-3">
-                        <label for="parolaNoua">Parola nouă*</label>
-                        <input type="password" id = "parolaNoua" name="parolaNoua" placeholder="Parola nouă..." required class="single-input" minlength="4">
-                        <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
-                    </div>
-                    <div class="form-group last mb-3">
-                        <label for="confParola">Confirmare parolă*</label>
-                        <input type="password" id = "confParola" name="confParola" placeholder="Confirmare parola..." required class="single-input" minlength="4"
-                               oninput="checkPasswordMatch(this);">
-                        <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
-                    </div>
-                    <button type="submit" value="Schimbă parola" class="genric-btn primary circle" style="width: 100%">Schimbă parola</button>
-                </div>
-                <p th:case="'GOOGLE'">Acest cont aparține unui cont Google. Parola nu poate fi schimbată.</p>
-            </form>
-            <br/>
-            <form th:action="@{/user/sterge}" method="get" style="width: 30rem;">
-                <span style="font-size: 1rem; color: #0b0b0b;">Ștergerea contului</span>
-                <div class="line-separator"></div>
-                <br/>
-                <p>Odată șters contul, acesta nu mai poate fi adus înapoi, iar toate datele aferente acestuia vor fi șterse.</p>
-                <button type="submit" value="Sterge cont" class="genric-btn danger circle" style="width: 100%">Șterge contul</button>
-            </form>
-            </div>
-        </div>
 
         <div th:if="${informatii!= null}" class="form-group col-md-8 d-flex justify-content-center pt-10 pb-20">
             <form th:if="${informatii!= null}" method="post" th:action="@{/user/profil}" th:object="${user}" enctype="multipart/form-data" style="width: 30rem;">
+                <p th:if="${error!= null}" class="alert alert-danger">[[${error}]]</p>
                 <input type="hidden" th:field="*{id}">
                 <input type="hidden" th:field="*{parola}">
                 <input type="hidden" th:field="*{roles}">
@@ -145,9 +108,51 @@
             </form>
         </div>
 
+
+        <div th:if="${securitate!= null}" class="col-md-8 d-flex justify-content-center align-items-center pt-10 pb-20">
+            <div  class="d-flex flex-column align-items-center">
+                <form th:switch="${#authentication.getPrincipal().getProvider()}" th:object="${user}" th:action="@{/user/schimbaParola}" method="post" style="width: 30rem;">
+                    <p th:if="${error!= null}" class="alert alert-danger">[[${error}]]</p>
+                    <span style="font-size: 1rem; color: #0b0b0b;">Schimbare parolă</span>
+                    <div class="line-separator"></div>
+                    <br/>
+                    <div th:case="'LOCAL'">
+                        <div class="form-group last mb-3">
+                            <label for="parola">Parola actuală*</label>
+                            <input type="password" id = "parola" name="parola" placeholder="Parola veche..." required class="single-input" minlength="4">
+                            <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
+                        </div>
+                        <div class="form-group last mb-3">
+                            <label for="parolaNoua">Parola nouă*</label>
+                            <input type="password" id = "parolaNoua" name="parolaNoua" placeholder="Parola nouă..." required class="single-input" minlength="4">
+                            <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
+                        </div>
+                        <div class="form-group last mb-3">
+                            <label for="confParola">Confirmare parolă*</label>
+                            <input type="password" id = "confParola" name="confParola" placeholder="Confirmare parola..." required class="single-input" minlength="4"
+                                   oninput="checkPasswordMatch(this);">
+                            <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
+                        </div>
+                        <button type="submit" value="Schimbă parola" class="genric-btn primary circle" style="width: 100%">Schimbă parola</button>
+                    </div>
+                    <p th:case="'GOOGLE'">Acest cont aparține unui cont Google. Parola nu poate fi schimbată.</p>
+                </form>
+                <br/><br/>
+                <form th:action="@{/user/sterge}" method="get" style="width: 30rem;">
+                    <span style="font-size: 1rem; color: #0b0b0b;">Ștergerea contului</span>
+                    <div class="line-separator"></div>
+                    <br/>
+                    <p>Odată șters contul, acesta nu mai poate fi adus înapoi, iar toate datele aferente acestuia vor fi șterse.</p>
+                    <button type="submit" value="Sterge cont" class="genric-btn danger circle" style="width: 100%">Șterge contul</button>
+                </form>
+            </div>
+        </div>
+
+
         <div th:if="${statistici!= null}" class="form-group col-md-8 d-flex justify-content-center pt-10 pb-20">
 
         </div>
+
 
         <div th:if="${termeni!= null}" class="col-md-9 d-flex justify-content-center pt-10 pb-20 pl-4" >
             <p>Va recomandam sa cititi integral prezentii Termeni inainte de a decide daca ii acceptati si continuati procesul de inregistrare. <br/>

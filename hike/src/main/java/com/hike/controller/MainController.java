@@ -42,12 +42,6 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/contact")
-    public String contactPage(Model model)
-    {
-        return "contact";
-    }
-
     @GetMapping("/blog")
     public String blogPage(Model model)
     {

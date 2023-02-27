@@ -44,4 +44,16 @@ public class MailServiceImpl implements MailService {
 
         javaMailSender.send(message);
     }
+
+    @Override
+    public void sendContactEmail(String email, String nume, String subiect, String mesaj) throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+        helper.setTo(env.getProperty("spring.mail.username"));
+        helper.setFrom(email, nume+"(" + email + ")");
+        helper.setSubject(subiect);
+        helper.setText(mesaj, false);
+
+        javaMailSender.send(message);
+    }
 }

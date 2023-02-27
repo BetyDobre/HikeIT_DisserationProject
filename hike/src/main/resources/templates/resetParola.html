@@ -16,6 +16,7 @@
       <div class="row align-items-center justify-content-center">
         <div class="col-md-6">
           <div class="form-block">
+            <p th:if="${param.error}" class="alert alert-danger">Noua parolă nu poate corespunde cu cea actuală.</p>
             <form th:action="@{/resetParola}" method="post">
               <input type="hidden" name = "token" th:value="${token}">
               <div class="form-group last mb-3">

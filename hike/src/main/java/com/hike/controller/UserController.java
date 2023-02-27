@@ -11,6 +11,7 @@ import com.hike.service.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,10 @@ import static com.hike.mapper.UserEditMapper.mapToUserDto;
 @RequestMapping("/user")
 public class UserController {
     private UserService userService;
-    private MailService mailService;
 
     @Autowired
-    public UserController(UserService userService, MailService mailService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.mailService = mailService;
     }
 
     @InitBinder
@@ -88,6 +87,9 @@ public class UserController {
             userDto.setPozaProfil(byteObjects);
         } catch (IOException e) {
             System.out.println("Couldn't set image for user: " + e.getMessage());
+            model.addAttribute("error", "Imaginea aleasă nu poate fi încărcată. Încercați altă imagine.");
+            model.addAttribute("informatii", "true");
+            return "profil";
         }
         userService.updateUser(userDto);
 
@@ -110,27 +112,34 @@ public class UserController {
     }
 
     @PostMapping("/schimbaParola")
-    public String schimbaParola(Model model, HttpServletRequest request) {
+    public String schimbaParola(Model model, HttpServletRequest request, HttpServletResponse response) {
         String username = Utility.getLoggedUser();
         UserEntity user = userService.findByUsername(username);
-        if(user == null){
+        if (user == null) {
             model.addAttribute("error", "Niciun user logat!");
             return "404";
         }
 
         BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
         boolean passChecker = bc.matches(request.getParameter("parola"), user.getParola());
-        if(passChecker){
+        if (passChecker) {
+            if(request.getParameter("parola").equals(request.getParameter("parolaNoua"))){
+                model.addAttribute("error", "Noua parolă nu poate corespunde cu cea actuală.");
+                model.addAttribute("securitate", "true");
+                return "profil";
+            }
             userService.schimbaParola(user, request.getParameter("parolaNoua"));
         }
-        else{
+        else {
             model.addAttribute("error", "Parola actuală nu este corectă.");
             model.addAttribute("securitate", "true");
             return "profil";
         }
 
-        model.addAttribute("message", "Parola a fost actualizată cu success.");
-        return "redirect:/logout";
+        Utility.logout(request, response);
+        model.addAttribute("message", "Parola a fost actualizată cu succes!");
+
+        return "redirect:/login?changePass";
     }
 
     @GetMapping("/sterge")
@@ -175,80 +184,5 @@ public class UserController {
         model.addAttribute("termeni", "true");
 
         return "profil";
-    }
-
-    @GetMapping("/parolaUitata")
-    public String parolaUitata(Model model){
-
-        return "parolaUitata";
-    }
-
-    @PostMapping("/parolaUitata")
-    public String procesareParolaUitata(HttpServletRequest request, Model model){
-        String email = request.getParameter("email");
-        String token = RandomString.make(45);
-
-        UserEntity user = userService.findByEmail(email);
-        if(user != null){
-            if (user.getAuthProvider().equals(AuthProvider.GOOGLE)){
-                model.addAttribute("error", "Acest email aparține unui cont Google. Parola nu poate fi schimbată.");
-            }
-            else {
-                try{
-                    userService.schimbaParolaToken(token, email);
-
-                    String resetParolaLink = Utility.getSiteURL(request) + "/resetParola?token=" + token;
-                    String content = "<p>Salut, </p>"
-                            + "<p>Ai cerut resetarea parolei pentru contul tău.</p>"
-                            + "<p>Apasă pe link-ul de mai jos pentru a-ți schimba parola: </p>"
-                            + "<p><b><a href=\"" + resetParolaLink + "\">"+resetParolaLink+"</a><b></p>"
-                            + "<p>Ignoră acest email dacă nu ai solicitat tu schimbarea parolei.</p>";
-
-                    mailService.sendEmail("reset",email, content);
-                    model.addAttribute("message", "Email-ul a fost trimis!");
-
-                }
-                catch (ObjectNotFoundException e){
-                    model.addAttribute("error", e.getMessage());
-                }
-                catch (MessagingException |  UnsupportedEncodingException e){
-                    model.addAttribute("error", "Emailul nu a putut fi trimis. Încearcă din nou mai târziu.");
-                }
-            }
-        }
-        else{
-            model.addAttribute("error", "Acest email nu este asociat unui cont.");
-        }
-
-        return "parolaUitata";
-    }
-
-    @GetMapping("/resetParola")
-    public String resetParola(@Param(value = "token") String token, Model model){
-        UserEntity user = userService.findByToken(token);
-        if(user == null){
-            model.addAttribute("error", "Token invalid!");
-            return "404";
-        }
-
-        model.addAttribute("token", token);
-        return "resetParola";
-    }
-
-    @PostMapping("resetParola")
-    public String procesareResetareParola(HttpServletRequest request, Model model){
-        String token = request.getParameter("token");
-        String parola = request.getParameter("parola");
-
-        UserEntity user = userService.findByToken(token);
-        if(user == null){
-            model.addAttribute("error", "Token invalid!");
-            return "404";
-        }else{
-            userService.schimbaParola(user, parola);
-            model.addAttribute("message", "Parola a fost actualizată cu succes!");
-        }
-
-        return "login";
     }
 }

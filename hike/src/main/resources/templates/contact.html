@@ -45,20 +45,20 @@
 						</div>
 					</div>
 					<div class="col-lg-8">
-						<form class="form-area contact-form text-right" id="myForm" action="" method="post">
+						<form class="form-area contact-form text-right" id="contact" th:action="@{/contact}" method="post">
 							<div class="row">
 								<div class="col-lg-6 form-group">
-									<input name="name" placeholder="Nume..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nume'" class="common-input mb-20 form-control" required="" type="text">
+									<input name="nume" placeholder="Nume..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nume'" class="common-input mb-20 form-control" required="" type="text">
 
 									<input name="email" placeholder="Adresa de email..." pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adresa de email'" class="common-input mb-20 form-control" required="" type="email">
 
-									<input name="subject" placeholder="Subiect..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subiect'" class="common-input mb-20 form-control" required="" type="text">
+									<input name="subiect" placeholder="Subiect..." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subiect'" class="common-input mb-20 form-control" required="" type="text">
 								</div>
 								<div class="col-lg-6 form-group">
-									<textarea class="common-textarea form-control" name="message" placeholder="Mesajul tau" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mesajul tau'" required=""></textarea>
+									<textarea class="common-textarea form-control" name="mesaj" placeholder="Mesajul tau" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Mesajul tau'" required=""></textarea>
 								</div>
 								<div class="col-lg-12">
-									<div class="alert-msg" style="text-align: left;"></div>
+									<div class="alert-msg" style="text-align: left;"><span th:if="${status!= null}">[[${status}]]</span></div>
 									<button class="genric-btn primary" style="float: right;">Trimite</button>
 								</div>
 							</div>
