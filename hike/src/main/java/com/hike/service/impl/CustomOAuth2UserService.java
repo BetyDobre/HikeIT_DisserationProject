@@ -1,4 +1,4 @@
-package com.hike.service;
+package com.hike.service.impl;
 
 import com.hike.security.CustomOAuth2User;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

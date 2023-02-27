@@ -1,6 +1,6 @@
 package com.hike.security;
 
-import com.hike.service.CustomOAuth2UserService;
+import com.hike.service.impl.CustomOAuth2UserService;
 import com.hike.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

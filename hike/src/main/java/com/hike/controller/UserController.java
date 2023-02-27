@@ -1,23 +1,16 @@
 package com.hike.controller;
 
 import com.hike.dto.UserDto;
-import com.hike.exception.ObjectNotFoundException;
-import com.hike.models.AuthProvider;
+import com.hike.models.Role;
 import com.hike.models.UserEntity;
 import com.hike.models.Utility;
-import com.hike.repository.UserRepository;
-import com.hike.service.MailService;
 import com.hike.service.UserService;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 import static com.hike.mapper.UserEditMapper.mapToUserDto;
 
@@ -165,6 +157,7 @@ public class UserController {
             return "404";
         }
 
+        model.addAttribute("access", user.getRoles().stream().findAny().get().getName().equals("BLOGGER"));
         model.addAttribute("user", user);
         model.addAttribute("statistici", "true");
 
