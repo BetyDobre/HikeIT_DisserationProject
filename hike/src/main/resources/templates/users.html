@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head_fragment(pageTitle = 'Utilizatori')"></head>
+    <body>
+    <!--  header-->
+    <header th:replace="fragments :: header_fragment"/>
+    <!-- #header -->
+    <!-- start banner Area -->
+    <section th:replace="fragments :: banner_fragment(title = 'Utilizatori', link = 'admin/users')"/>
+
+    <div class="container marginTop centered d-flex justify-content-center pt-4 pb-4">
+        <tr th:if="${users.size() == 0}" style="margin-top:5rem;">
+            <h2 class="m-5 centered"><span class="badge badge-secondary" style="background-color: #04091e;">Niciun utilizator!</span></h2>
+        </tr>
+        <table th:if="${users.size() != 0}" id="items" class="table table-hover marginTop"
+               style="text-align:center;vertical-align: center;">
+            <thead class="thead" style="background-color: #04091e; color: white;">
+            <tr>
+                <th>Id</th>
+                <th>Nume</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Sex</th>
+                <th>Data nastere</th>
+                <th>Provider</th>
+                <th>Dată creare</th>
+                <th>Abonat newsletter</th>
+                <th>Sterge contul</th>
+                <th>Drept de blogger</th>
+                <th>Drept de administrator</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="user, stat : ${users}" th:id="${user.id}" class="table-light">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.nume} + ' ' + ${user.prenume}"></td>
+                <td th:text="${user.username}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.sex}"></td>
+                <td th:text="${#calendars.format(user.dataNastere, 'dd-MMM-yyyy')}"></td>
+                <td th:text="${user.authProvider.name}"></td>
+                <td th:text="${#temporals.format(user.createdOn, 'dd-MMM-yyyy')}"></td>
+                <td th:if="${user.newsletter} == true">Da</td>
+                <td th:if="${user.newsletter} == false">Nu</td>
+                <td>
+                    <a th:href="@{'/admin/user/'+${user.id}+'/sterge'}" class="genric-btn circle" style="background-color: #04091e; color: white;">Șterge</a>
+                </td>
+                <td th:if="${#lists.contains(user.roles, bloggerRole)} == true">
+                    <a th:href="@{'/admin/user/'+${user.id}+'/toggleBlogger'}"  class="genric-btn circle" style="background-color: #04091e; color: white;">Revocă</a>
+                </td>
+                <td th:if="${#lists.contains(user.roles, bloggerRole)} == false">
+                    <a th:href="@{'/admin/user/'+${user.id}+'/toggleBlogger'}" class="genric-btn circle" style="background-color: #04091e; color: white;">Atribuie</a>
+                </td>
+                <td th:if="${#lists.contains(user.roles, adminRole)} == true">
+                    <a th:href="@{'/admin/user/'+${user.id}+'/toggleAdmin'}" class="genric-btn circle" style="background-color: #04091e; color: white;">Revocă</a>
+                </td>
+                <td th:if="${#lists.contains(user.roles, adminRole)} == false">
+                    <a th:href="@{'/admin/user/'+${user.id}+'/toggleAdmin'}" class="genric-btn circle" style="background-color: #04091e; color: white;">Atribuie</a>
+                </td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <footer th:replace="fragments :: footer_fragment"/>
+
+    <script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/main.js}"></script>
+    <script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
+    <script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
+    <script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+    </body>
+</html>

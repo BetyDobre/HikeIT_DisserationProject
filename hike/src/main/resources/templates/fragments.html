@@ -2,7 +2,7 @@
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon-->
-    <link rel="shortcut icon" th:href="@{img/favicon.png}">
+    <link rel="shortcut icon" th:href="@{/img/favicon.png}">
     <!-- Author Meta -->
     <meta name="author" content="colorlib">
     <!-- Meta Description -->
@@ -59,12 +59,7 @@
                     <li><a th:href="@{/trasee}">Trasee</a></li>
                     <li><a th:href="@{/blog}">Blog</a></li>
                     <li><a th:href="@{/contact}">Contact</a></li>
-                    <li class="menu-has-children"><a href="">Blog</a>
-                        <ul>
-                            <li><a th:href="@{/}">Blog Home</a></li>
-                            <li><a th:href="@{/}">Blog Single</a></li>
-                        </ul>
-                    </li>
+                    <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/users}">Utilizatori</a></li>
                     <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
                     <li sec:authorize="isAuthenticated()"><a class="fa fa-user" th:href="@{/user/profil}"></a>
                         <ul>

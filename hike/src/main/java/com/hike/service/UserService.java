@@ -5,6 +5,9 @@ import com.hike.dto.UserDto;
 import com.hike.exception.ObjectNotFoundException;
 import com.hike.models.UserEntity;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface UserService {
 
     void saveUser(RegistrationDto registrationDto);
@@ -12,6 +15,8 @@ public interface UserService {
     UserEntity findByEmail(String email);
 
     UserEntity findByUsername(String username);
+
+    Optional<UserEntity> findById(Long id);
 
     void processOAuthPostLogin(String username, String email, String nume, String prenume, String sex, String poza);
 
@@ -24,4 +29,6 @@ public interface UserService {
     void updateUser(UserDto userDto);
 
     void delete(Long id);
+
+    List<UserEntity> getAllUsers();
 }
