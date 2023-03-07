@@ -7,11 +7,11 @@
     <header th:replace="fragments :: header_fragment"/>
     <!-- #header -->
     <!-- start banner Area -->
-    <section th:replace="fragments :: banner_fragment(title = 'Utilizatori', link = 'admin/users')"/>
+    <section th:replace="fragments :: banner_fragment(title = 'Utilizatori', link = 'admin/users', button = null)"/>
 
     <div class="container marginTop centered d-flex justify-content-center pt-4 pb-4">
         <tr th:if="${users.size() == 0}" style="margin-top:5rem;">
-            <h2 class="m-5 centered"><span class="badge badge-secondary" style="background-color: #04091e;">Niciun utilizator!</span></h2>
+            <h2 class="m-5 centered"><span>Niciun utilizator!</span></h2>
         </tr>
         <table th:if="${users.size() != 0}" id="items" class="table table-hover marginTop"
                style="text-align:center;vertical-align: center;">

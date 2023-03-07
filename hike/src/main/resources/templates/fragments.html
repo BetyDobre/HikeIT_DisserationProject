@@ -57,7 +57,11 @@
                 <ul class="nav-menu">
                     <li><a th:href="@{/}">Acasă</a></li>
                     <li><a th:href="@{/trasee}">Trasee</a></li>
-                    <li><a th:href="@{/blog}">Blog</a></li>
+                    <li class="menu-has-children"><a th:href="@{/blog}">Blog</a>
+                        <ul sec:authorize="hasAuthority('ADMIN')">
+                            <li><a th:href="@{/blog/categorii}">Categorii</a></li>
+                        </ul>
+                    </li>
                     <li><a th:href="@{/contact}">Contact</a></li>
                     <li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/admin/users}">Utilizatori</a></li>
                     <li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
@@ -82,7 +86,7 @@
 </header>
 
 
-<section th:fragment = "banner_fragment(title, link)" class="relative about-banner">
+<section th:fragment = "banner_fragment(title, link, button)" class="relative about-banner">
     <div class="overlay overlay-bg"></div>
     <div class="container">
         <div class="row d-flex align-items-center justify-content-center">
@@ -91,6 +95,8 @@
                     [[${title}]]
                 </h1>
                 <p class="text-white link-nav"><a th:href="@{/}">Acasă</a>  <span class="lnr lnr-arrow-right"></span><a th:href="@{'/'+ ${link}}">[[${title}]]</a></p>
+                <br/>
+                <a th:if="${button!= null}" th:text="${button}" th:href="@{'/' + ${link} + '/adauga'}" class="genric-btn info circle"></a>
             </div>
         </div>
     </div>

@@ -55,12 +55,6 @@ public class AuthController{
     public String register(@Valid @ModelAttribute("user")RegistrationDto user,
                            BindingResult result, Model model,
                            final @RequestParam("pozaProfil") MultipartFile file){
-        if(result.hasErrors()){
-            System.out.println(result.getAllErrors());
-
-            model.addAttribute("user", user);
-            return "register";
-        }
 
         UserEntity existingUserEmail = userService.findByEmail(user.getEmail());
         if(existingUserEmail != null && existingUserEmail.getEmail() != null && !existingUserEmail.getEmail().isEmpty()){
@@ -72,6 +66,13 @@ public class AuthController{
         }
         if(!user.getParola().equals(user.getConfirmareParola())){
             result.rejectValue("confirmareParola", "error.confirmareParola","Parolele nu corespund.");
+        }
+
+        if(result.hasErrors()){
+            System.out.println(result.getAllErrors());
+
+            model.addAttribute("user", user);
+            return "register";
         }
 
         try {

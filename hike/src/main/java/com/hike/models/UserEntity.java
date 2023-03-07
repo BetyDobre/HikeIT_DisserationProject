@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -53,4 +54,7 @@ public class UserEntity {
     private String resetParolaToken;
 
     private boolean newsletter;
+
+    @OneToMany(mappedBy = "user")
+    private Set<BlogPost> postari;
 }

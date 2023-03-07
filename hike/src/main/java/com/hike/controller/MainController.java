@@ -42,12 +42,6 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/blog")
-    public String blogPage(Model model)
-    {
-        return "blog";
-    }
-
     @GetMapping("/404")
     public String errorPage(Model model) { return "404";}
 

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head_fragment(pageTitle = 'Categorii postări blog')"></head>
+<body>
+<!--  header-->
+<header th:replace="fragments :: header_fragment"/>
+<!-- #header -->
+<!-- start banner Area -->
+<section th:replace="fragments :: banner_fragment(title = 'Categorii postări', link = 'blog/categorii', button = 'Adaugă categorie')"/>
+
+<div class="contents order-2 order-md-1 pt-2">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-md-6">
+                <p th:if="${param.success}" class="alert alert-success">Modificare efectuată cu succes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container marginTop centered d-flex justify-content-center">
+    <tr th:if="${categorii.size() == 0}" style="margin-top:5rem;">
+        <h2 class="m-5 centered"><span>Nicio categorie!</span></h2>
+    </tr>
+    <table th:if="${categorii.size() != 0}" id="items" class="table table-hover marginTop"
+           style="text-align:center;vertical-align: center;">
+        <thead class="thead" style="background-color: #04091e; color: white;">
+        <tr>
+            <th>Id</th>
+            <th>Titlu</th>
+            <th>Șterge categorie</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="categorie, stat : ${categorii}" th:id="${categorie.id}" class="table-light">
+            <td th:text="${categorie.id}"></td>
+            <td th:text="${categorie.titlu}"</td>
+            <td>
+                <a th:href="@{'/blog/categorii/'+${categorie.id}+ '/sterge'}" class="genric-btn circle" style="background-color: #04091e; color: white;">Șterge</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<footer th:replace="fragments :: footer_fragment"/>
+
+<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
+<script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
+<script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+</body>
+</html>
