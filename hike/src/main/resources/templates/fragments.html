@@ -176,3 +176,54 @@
         </div>
     </div>
 </footer>
+
+<!--Blog Sidebar-->
+<div th:fragment="blog_sidebar_fragment" class="col-lg-4 sidebar-widgets">
+    <div class="widget-wrap">
+        <div class="single-sidebar-widget search-widget">
+            <form class="search-form" action="#">
+                <input placeholder="Search Posts" name="search" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'" >
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <!--						Categorii-->
+        <div class="single-sidebar-widget post-category-widget">
+            <h4 class="category-title">Categorii</h4>
+            <ul th:each="categorie : ${categorii}" class="cat-list">
+                <li>
+                    <a th:href="@{'/blog/categorie/' + ${categorie[0]}}" class="d-flex justify-content-between">
+                        <p th:text="${categorie[0]}"></p>
+                        <p th:text="${categorie[1]}"></p>
+                    </a>
+                </li>
+            </ul>
+            <ul  class="cat-list">
+                <li>
+                    <a th:href="@{/blog}" class="d-flex justify-content-between">
+                        <p>Toate</p>
+                        <p th:text="${all}"></p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--Ads-->
+        <div class="single-sidebar-widget ads-widget">
+            <img class="img-fluid" th:src="@{/img/blog/ads-banner.jpg}" alt="">
+        </div>
+        <!--						Postari populare-->
+        <div class="single-sidebar-widget popular-post-widget">
+            <h4 class="popular-title">Postari populare</h4>
+            <div class="popular-post-list">
+                <div class="single-post-list d-flex flex-row align-items-center">
+                    <div class="thumb">
+                        <img class="img-fluid" th:src="@{/img/blog/defaultBlog.jpg}" style="height: 50px; width: 65px;" alt="">
+                    </div>
+                    <div class="details">
+                        <a href="blog-single.html"><h6>Space The Final Frontier</h6></a>
+                        <p>02 Hours ago</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
