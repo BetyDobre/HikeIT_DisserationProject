@@ -2,6 +2,8 @@ package com.hike.repository;
 
 import com.hike.models.BlogCategory;
 import com.hike.models.BlogPost;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,4 +19,6 @@ public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
     BlogPost getBlogPostById(Long id);
 
     List<BlogPost> findByCategorie(BlogCategory blogCategory);
+
+    Page<BlogPost> findByTitluContains(String titlu, Pageable pageable);
 }

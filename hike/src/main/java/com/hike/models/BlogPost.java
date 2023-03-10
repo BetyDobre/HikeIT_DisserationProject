@@ -30,7 +30,7 @@ public class BlogPost {
     @CreationTimestamp
     private LocalDateTime createdOn;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "categorie_id", referencedColumnName = "id")
     private BlogCategory categorie;
 

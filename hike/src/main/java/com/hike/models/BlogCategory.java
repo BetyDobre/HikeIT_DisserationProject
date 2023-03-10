@@ -3,6 +3,8 @@ package com.hike.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,6 +17,6 @@ public class BlogCategory {
     private Long id;
     private String titlu;
 
-    @OneToOne(mappedBy = "categorie")
-    private BlogPost postare;
+    @OneToMany(mappedBy = "categorie")
+    private List<BlogPost> postari;
 }

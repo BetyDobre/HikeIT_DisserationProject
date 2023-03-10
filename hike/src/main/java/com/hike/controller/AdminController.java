@@ -6,11 +6,14 @@ import com.hike.repository.RoleRepository;
 import com.hike.repository.UserRepository;
 import com.hike.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +25,7 @@ public class AdminController {
     private UserService userService;
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private final int size = 10;
 
     @Autowired
     public AdminController(UserService userService, RoleRepository roleRepository, UserRepository userRepository) {
@@ -31,9 +35,10 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public String getUseri(Model model){
-        List<UserEntity> users = userService.getAllUsers();
+    public String getUseri(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, size));
         model.addAttribute("users", users);
+        model.addAttribute("currentPage", pageNo);
         Role blogger = roleRepository.findByName("BLOGGER");
         model.addAttribute("bloggerRole", blogger);
         Role admin = roleRepository.findByName("ADMIN");
@@ -43,16 +48,17 @@ public class AdminController {
     }
 
     @GetMapping("/user/{id}/sterge")
-    public String stergeUser(@PathVariable Long id, Model model){
+    public String stergeUser(@PathVariable Long id, Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
         userService.delete(id);
-        List<UserEntity> users = userService.getAllUsers();
+        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, size));
         model.addAttribute("users", users);
+        model.addAttribute("currentPage", pageNo);
 
         return "redirect:/admin/users";
     }
 
     @GetMapping("/user/{id}/toggleBlogger")
-    public String toggleBloggerRole(@PathVariable Long id, Model model){
+    public String toggleBloggerRole(@PathVariable Long id, Model model,@RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
         Optional<UserEntity> userOp = userService.findById(id);
         if(userOp.isPresent()){
             UserEntity user = userOp.get();
@@ -75,13 +81,14 @@ public class AdminController {
             return "404";
         }
 
-        List<UserEntity> users = userService.getAllUsers();
+        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, size));
         model.addAttribute("users", users);
+        model.addAttribute("currentPage", pageNo);
         return "redirect:/admin/users";
     }
 
     @GetMapping("/user/{id}/toggleAdmin")
-    public String toggleAdminRole(@PathVariable Long id, Model model){
+    public String toggleAdminRole(@PathVariable Long id, Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
         Optional<UserEntity> userOp = userService.findById(id);
         if(userOp.isPresent()){
             UserEntity user = userOp.get();
@@ -104,8 +111,9 @@ public class AdminController {
             return "404";
         }
 
-        List<UserEntity> users = userService.getAllUsers();
+        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, size));
         model.addAttribute("users", users);
+        model.addAttribute("currentPage", pageNo);
         return "redirect:/admin/users";
     }
 }

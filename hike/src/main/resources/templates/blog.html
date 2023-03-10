@@ -15,10 +15,13 @@
 		<div class="container pt-5">
 			<div class="row">
 				<div class="col-lg-8 posts-list">
-					<div th:if="${postari.size() == 0}" style="margin-top:5rem;">
-						<h2 class="m-5 centered"><span>Nicio postare!</span></h2>
+					<div th:switch="${paging}"  style="margin-top:5rem;">
+						<h2 th:case="null" th:if="${postari.content.size() == 0}" class="m-5 centered"><span>Nicio postare!</span></h2>
+						<h2 th:case="false" th:if="${postari.size() == 0}" class="m-5 centered"><span>Nicio postare!</span></h2>
 					</div>
-					<div th:if="${postari.size() != 0}" th:each="postare : ${postari}" class="single-post row">
+
+					<div th:if="${paging} != false">
+					<div th:if="${paging} == false ? ${postari.size() != 0} : ${postari.content.size() != 0}" th:each="postare : ${postari.content}" class="single-post row">
 						<div class="col-lg-3  col-md-3 meta-details">
 							<ul class="tags">
 								<li><span th:text="${postare.categorie.titlu}"></span></li>
@@ -38,25 +41,50 @@
 							<a th:href="@{/blog}" class="primary-btn">Citește</a>
 						</div>
 					</div>
+					</div>
+
+					<div th:if="${paging} == false">
+					<div th:if="${paging} == false ? ${postari.size() != 0} : ${postari.content.size() != 0}" th:each="postare : ${postari}" class="single-post row">
+						<div class="col-lg-3  col-md-3 meta-details">
+							<ul class="tags">
+								<li><span th:text="${postare.categorie.titlu}"></span></li>
+							</ul>
+							<div class="user-details row">
+								<p class="user-name col-lg-12 col-md-12 col-6"><span th:text="${postare.user.username}"></span> <span class="lnr lnr-user"></span></p>
+								<p class="date col-lg-12 col-md-12 col-6"><span th:text="${#temporals.format(postare.createdOn, 'dd-MMM-yyyy')}"></span> <span class="lnr lnr-calendar-full"></span></p>
+								<p class="comments col-lg-12 col-md-12 col-6"><span>6 Comments</span> <span class="lnr lnr-bubble"></span></p>
+							</div>
+						</div>
+						<div class="col-lg-9 col-md-9 ">
+							<div class="feature-img">
+								<img id="coperta" class="img-fluid" th:src="@{/blog/getBlogPhoto/{id}(id=${postare.id})}" onerror="this.src='/img/blog/defaultBlog.jpg';" alt="Photo">
+							</div>
+							<a class="posts-title" href="blog-single.html"><h3 th:text="${postare.titlu}"></h3></a>
+							<p class="excert" th:text="${postare.descriere}"></p>
+							<a th:href="@{/blog}" class="primary-btn">Citește</a>
+						</div>
+					</div>
+					</div>
+
+
 <!--					Paginare-->
-					<nav class="blog-pagination justify-content-center d-flex">
+					<nav th:if="${paging} != false" class="blog-pagination justify-content-center d-flex">
 						<ul class="pagination">
-							<li class="page-item">
-								<a href="#" class="page-link" aria-label="Previous">
-									<span aria-hidden="true">
-										<span class="lnr lnr-chevron-left"></span>
-									</span>
+							<li class="page-item" th:if="${currentPage gt 1}" th:class="${currentPage == 1} ? disabled : ''">
+								<a class="page-link" th:href="@{${currentPage > 1} ? '/blog?page=' + ${currentPage - 1} : '/blog?page=1'}" aria-label="Anterioară">
+									 <span aria-hidden="true">
+										 <span class="lnr lnr-chevron-left"></span>
+									 </span>
 								</a>
 							</li>
-							<li class="page-item"><a href="#" class="page-link">01</a></li>
-							<li class="page-item active"><a href="#" class="page-link">02</a></li>
-							<li class="page-item"><a href="#" class="page-link">03</a></li>
-							<li class="page-item"><a href="#" class="page-link">04</a></li>
-							<li class="page-item"><a href="#" class="page-link">09</a></li>
-							<li class="page-item">
-								<a href="#" class="page-link" aria-label="Next">
+							<li class="page-item" th:each="i : ${#numbers.sequence(1, postari.totalPages)}">
+								<a class="page-link" th:href="@{${i} != ${currentPage} ? '/blog?page=' + ${i} : null}" th:text="${i}"
+								   th:classappend="${i == currentPage} ? 'active'"></a>
+							</li>
+							<li class="page-item" th:if="${currentPage lt postari.totalPages}" th:class="${currentPage == postari.totalPages} ? disabled : ''">
+								<a class="page-link"  th:href="@{${currentPage < postari.totalPages} ? '/blog?page=' + ${currentPage + 1} : '/blog?page=' + ${postari.totalPages}}" aria-label="Următoarea">
 									<span aria-hidden="true">
-										<span class="lnr lnr-chevron-right"></span>
+		                                        <span class="lnr lnr-chevron-right"></span>
 									</span>
 								</a>
 							</li>

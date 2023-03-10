@@ -10,10 +10,10 @@
     <section th:replace="fragments :: banner_fragment(title = 'Utilizatori', link = 'admin/users', button = null)"/>
 
     <div class="container marginTop centered d-flex justify-content-center pt-4 pb-4">
-        <tr th:if="${users.size() == 0}" style="margin-top:5rem;">
+        <tr th:if="${users.content.size() == 0}" style="margin-top:5rem;">
             <h2 class="m-5 centered"><span>Niciun utilizator!</span></h2>
         </tr>
-        <table th:if="${users.size() != 0}" id="items" class="table table-hover marginTop"
+        <table th:if="${users.content.size() != 0}" id="items" class="table table-hover marginTop"
                style="text-align:center;vertical-align: center;">
             <thead class="thead" style="background-color: #04091e; color: white;">
             <tr>
@@ -33,7 +33,7 @@
             </thead>
 
             <tbody>
-            <tr th:each="user, stat : ${users}" th:id="${user.id}" class="table-light">
+            <tr th:each="user, stat : ${users.content}" th:id="${user.id}" class="table-light">
                 <td th:text="${user.id}"></td>
                 <td th:text="${user.nume} + ' ' + ${user.prenume}"></td>
                 <td th:text="${user.username}"></td>
@@ -64,6 +64,29 @@
 
         </table>
     </div>
+
+    <nav class="blog-pagination justify-content-center d-flex">
+        <ul class="pagination">
+            <li class="page-item" th:if="${currentPage gt 1}" th:class="${currentPage == 1} ? disabled : ''">
+                <a class="page-link" th:href="@{${currentPage > 1} ? '/admin/users?page=' + ${currentPage - 1} : '/admin/users?page=1'}" aria-label="Anterioară">
+									 <span aria-hidden="true">
+										 <span class="lnr lnr-chevron-left"></span>
+									 </span>
+                </a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(1, users.totalPages)}">
+                <a class="page-link" th:href="@{${i} != ${currentPage} ? '/admin/users?page=' + ${i} : null}" th:text="${i}"
+                   th:classappend="${i == currentPage} ? 'active'"></a>
+            </li>
+            <li class="page-item" th:if="${currentPage lt users.totalPages}" th:class="${currentPage == users.totalPages} ? disabled : ''">
+                <a class="page-link"  th:href="@{${currentPage < users.totalPages} ? '/admin/users?page=' + ${currentPage + 1} : '/admin/users?page=' + ${users.totalPages}}" aria-label="Următoarea">
+									<span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-right"></span>
+									</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <footer th:replace="fragments :: footer_fragment"/>
 
