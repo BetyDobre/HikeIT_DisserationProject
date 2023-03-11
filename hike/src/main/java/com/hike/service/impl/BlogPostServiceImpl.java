@@ -5,6 +5,7 @@ import com.hike.models.*;
 import com.hike.repository.BlogCategoryRepository;
 import com.hike.repository.BlogPostRepository;
 import com.hike.service.BlogPostService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -69,5 +70,16 @@ public class BlogPostServiceImpl implements BlogPostService {
         postare.setCategorie(categorie.get());
 
         blogPostRepository.save(postare);
+    }
+
+    @Override
+    public Page<BlogPost> findByUser(UserEntity user, Pageable pageable) {
+        return blogPostRepository.findByUser(user, pageable);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        blogPostRepository.deleteById(id);
     }
 }

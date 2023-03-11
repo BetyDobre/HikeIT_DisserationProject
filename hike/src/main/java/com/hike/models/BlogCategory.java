@@ -2,6 +2,7 @@ package com.hike.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 
@@ -17,6 +18,6 @@ public class BlogCategory {
     private Long id;
     private String titlu;
 
-    @OneToMany(mappedBy = "categorie")
+    @OneToMany(mappedBy = "categorie", cascade = CascadeType.REMOVE)
     private List<BlogPost> postari;
 }

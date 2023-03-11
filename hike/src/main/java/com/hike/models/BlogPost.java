@@ -30,11 +30,11 @@ public class BlogPost {
     @CreationTimestamp
     private LocalDateTime createdOn;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "categorie_id", referencedColumnName = "id")
     private BlogCategory categorie;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="user_id", referencedColumnName = "id")
     private UserEntity user;
 }

@@ -58,7 +58,17 @@
                     <li><a th:href="@{/}">Acasă</a></li>
                     <li><a th:href="@{/trasee}">Trasee</a></li>
                     <li class="menu-has-children"><a th:href="@{/blog}">Blog</a>
+                        <ul sec:authorize="hasAuthority('BLOGGER')">
+                            <li><a th:href="@{/blog}">Articole</a></li>
+                            <li><a th:href="@{/blog/postarilemele}">Postările mele</a></li>
+                        </ul>
                         <ul sec:authorize="hasAuthority('ADMIN')">
+                            <li><a th:href="@{/blog}">Articole</a></li>
+                            <li><a th:href="@{/blog/categorii}">Categorii</a></li>
+                        </ul>
+                        <ul sec:authorize="hasAuthority('BLOGGER') and hasAuthority('ADMIN')">
+                            <li><a th:href="@{/blog}">Articole</a></li>
+                            <li><a th:href="@{/blog/postarilemele}">Postările mele</a></li>
                             <li><a th:href="@{/blog/categorii}">Categorii</a></li>
                         </ul>
                     </li>
@@ -188,7 +198,7 @@
         </div>
         <!--						Categorii-->
         <div class="single-sidebar-widget post-category-widget">
-            <h4 class="category-title">Categorii</h4>
+            <h4 class="category-title">Categorii articole</h4>
             <ul th:each="categorie : ${categorii}" class="cat-list">
                 <li>
                     <a th:href="@{'/blog/categorie/' + ${categorie[0]}}" class="d-flex justify-content-between">

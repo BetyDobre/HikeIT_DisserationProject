@@ -15,7 +15,8 @@
 		<div class="container pt-5">
 			<div class="row">
 				<div class="col-lg-8 posts-list">
-					<p th:if="${param.success}" class="alert alert-success">Postare adăugată cu success!</p>
+					<p th:if="${param.adaugaSuccess}" class="alert alert-success">Postare adăugată cu success!</p>
+					<p th:if="${param.stergeSuccess}" class="alert alert-success">Postarea a fost ștearsă cu success!</p>
 					<div style="margin-top:5rem;">
 						<h2 th:if="${postari.totalElements == 0}" class="m-5 centered"><span>Nicio postare!</span></h2>
 					</div>
@@ -37,49 +38,27 @@
 							</div>
 							<a class="posts-title" href="blog-single.html"><h3 th:text="${postare.titlu}"></h3></a>
 							<p class="excert" th:text="${postare.descriere}"></p>
-							<a th:href="@{/blog}" class="primary-btn">Citește</a>
+							<a th:href="@{/blog}" class="genric-btn primary-border radius arrow">Citește<span class="lnr lnr-arrow-right"></span></a>
+							<a th:if="${postare.user.id} == ${userId}" th:href="@{'/blog/'+${postare.id}+'/sterge'}" class="genric-btn primary-border radius">Șterge</a>
 						</div>
 					</div>
 
 <!--					Paginare-->
-					<nav th:if="${categorieSearch} != true" class="blog-pagination justify-content-center d-flex">
+					<nav class="blog-pagination justify-content-center d-flex">
 						<ul class="pagination">
 							<li class="page-item" th:if="${currentPage gt 1}" th:class="${currentPage == 1} ? disabled : ''">
-								<a class="page-link" th:href="@{${currentPage > 1} ? '/blog?page=' + ${currentPage - 1} : '/blog?page=1'}" aria-label="Anterioară">
+								<a class="page-link" th:href="@{${currentPage > 1} ? ${link} +'?page=' + ${currentPage - 1} : ${link}+'?page=1'}" aria-label="Anterioară">
 									 <span aria-hidden="true">
 										 <span class="lnr lnr-chevron-left"></span>
 									 </span>
 								</a>
 							</li>
 							<li class="page-item" th:each="i : ${#numbers.sequence(1, postari.totalPages)}">
-								<a class="page-link" th:href="@{${i} != ${currentPage} ? '/blog?page=' + ${i} : null}" th:text="${i}"
+								<a class="page-link" th:href="@{${i} != ${currentPage} ? ${link}+'?page=' + ${i} : null}" th:text="${i}"
 								   th:classappend="${i == currentPage} ? 'active'"></a>
 							</li>
 							<li class="page-item" th:if="${currentPage lt postari.totalPages}" th:class="${currentPage == postari.totalPages} ? disabled : ''">
-								<a class="page-link"  th:href="@{${currentPage < postari.totalPages} ? '/blog?page=' + ${currentPage + 1} : '/blog?page=' + ${postari.totalPages}}" aria-label="Următoarea">
-									<span aria-hidden="true">
-		                                        <span class="lnr lnr-chevron-right"></span>
-									</span>
-								</a>
-							</li>
-						</ul>
-					</nav>
-
-					<nav th:if="${categorieSearch} == true" class="blog-pagination justify-content-center d-flex">
-						<ul class="pagination">
-							<li class="page-item" th:if="${currentPage gt 1}" th:class="${currentPage == 1} ? disabled : ''">
-								<a class="page-link" th:href="@{${currentPage > 1} ? '/blog/categorie/'+${categorieTitlu}+'?page=' + ${currentPage - 1} : '/blog/categorie/'+${categorieTitlu}+'?page=1'}" aria-label="Anterioară">
-									 <span aria-hidden="true">
-										 <span class="lnr lnr-chevron-left"></span>
-									 </span>
-								</a>
-							</li>
-							<li class="page-item" th:each="i : ${#numbers.sequence(1, postari.totalPages)}">
-								<a class="page-link" th:href="@{${i} != ${currentPage} ? '/blog/categorie/'+${categorieTitlu}+'?page=' + ${i} : null}" th:text="${i}"
-								   th:classappend="${i == currentPage} ? 'active'"></a>
-							</li>
-							<li class="page-item" th:if="${currentPage lt postari.totalPages}" th:class="${currentPage == postari.totalPages} ? disabled : ''">
-								<a class="page-link"  th:href="@{${currentPage < postari.totalPages} ? '/blog/categorie/'+${categorieTitlu}+'?page=' + ${currentPage + 1} : '/blog/categorie/'+${categorieTitlu}+'?page=' + ${postari.totalPages}}" aria-label="Următoarea">
+								<a class="page-link"  th:href="@{${currentPage < postari.totalPages} ? ${link}+'?page=' + ${currentPage + 1} : ${link}+'?page=' + ${postari.totalPages}}" aria-label="Următoarea">
 									<span aria-hidden="true">
 		                                        <span class="lnr lnr-chevron-right"></span>
 									</span>

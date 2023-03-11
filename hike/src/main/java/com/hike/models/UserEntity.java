@@ -55,6 +55,6 @@ public class UserEntity {
 
     private boolean newsletter;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<BlogPost> postari;
 }

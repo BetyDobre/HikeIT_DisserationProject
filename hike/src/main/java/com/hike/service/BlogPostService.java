@@ -3,6 +3,7 @@ package com.hike.service;
 import com.hike.dto.BlogPostDto;
 import com.hike.models.BlogCategory;
 import com.hike.models.BlogPost;
+import com.hike.models.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,4 +18,6 @@ public interface BlogPostService {
     Page<BlogPost> findByContainingTitlu(String titlu, Pageable pageable);
     Page<BlogPost> findByCategorieAndTitluContains(BlogCategory category, String titlu, Pageable pageable);
     void save(BlogPostDto blogPostDto);
+    Page<BlogPost> findByUser(UserEntity user, Pageable pageable);
+    void delete(Long id);
 }

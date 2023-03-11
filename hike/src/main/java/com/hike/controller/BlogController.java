@@ -52,6 +52,7 @@ public class BlogController {
         String username = Utility.getLoggedUser();
         UserEntity user = userService.findByUsername(username);
         if(user != null){
+            model.addAttribute("userId", user.getId());
             boolean isBlogger = user.getRoles().stream().anyMatch(role -> role.getName().equals("BLOGGER"));
             if(isBlogger){
                 model.addAttribute("access", "Adaugă postare");
@@ -61,6 +62,7 @@ public class BlogController {
             }
         }
         else{
+            model.addAttribute("userId", null);
             model.addAttribute("access", null);
         }
 
@@ -80,6 +82,7 @@ public class BlogController {
             model.addAttribute("postari", blogPostService.findByContainingTitlu(search, PageRequest.of(pageNo-1, pageSize)));
         }
 
+        model.addAttribute("link", "/blog");
         addCommonAttributes(model, pageNo);
 
         return "blog";
@@ -97,9 +100,7 @@ public class BlogController {
             model.addAttribute("postari", blogPostService.findByCategorieAndTitluContains(categorie, search, PageRequest.of(pageNo - 1, pageSize)));
         }
 
-        model.addAttribute("categorieSearch", true);
-        model.addAttribute("categorieTitlu", categorieTitlu);
-
+        model.addAttribute("link", "/blog/categorie/" + categorieTitlu);
         addCommonAttributes(model, pageNo);
 
         return "blog";
@@ -114,7 +115,7 @@ public class BlogController {
     }
 
     @PostMapping("/adauga")
-    public String register(@Valid @ModelAttribute("postare") BlogPostDto postare,
+    public String adaugaPostare(@Valid @ModelAttribute("postare") BlogPostDto postare,
                            BindingResult result, Model model,
                            final @RequestParam("pozaCoperta") MultipartFile file){
         if(result.hasErrors()){
@@ -139,6 +140,25 @@ public class BlogController {
         blogPostService.save(postare);
         addCommonAttributes(model, 1);
 
-        return "redirect:/blog?success";
+        return "redirect:/blog?adaugaSuccess";
+    }
+
+    @GetMapping("/postarilemele")
+    public String getPostariUserConectat(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        String username = Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(username);
+
+        model.addAttribute("postari", blogPostService.findByUser(user, PageRequest.of(pageNo - 1, pageSize)));
+        addCommonAttributes(model, pageNo);
+        model.addAttribute("link", "/blog/postarilemele");
+
+        return "blog";
+    }
+
+    @GetMapping("/{id}/sterge")
+    public String stergePostare(Model model, @PathVariable("id") Long id){
+        blogPostService.delete(id);
+
+        return "redirect:/blog?stergeSuccess";
     }
 }
