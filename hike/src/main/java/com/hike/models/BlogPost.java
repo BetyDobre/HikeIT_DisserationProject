@@ -25,7 +25,7 @@ public class BlogPost {
 
     @Lob
     @Column(columnDefinition = "LONGBLOB")
-    private byte[] pozaCopertă;
+    private byte[] pozaCoperta;
 
     @CreationTimestamp
     private LocalDateTime createdOn;

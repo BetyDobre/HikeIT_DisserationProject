@@ -157,7 +157,7 @@ public class UserController {
             return "404";
         }
 
-        model.addAttribute("access", user.getRoles().stream().findAny().get().getName().equals("BLOGGER"));
+        model.addAttribute("access", user.getRoles().stream().anyMatch(role -> role.getName().equals("BLOGGER")));
         model.addAttribute("user", user);
         model.addAttribute("statistici", "true");
 

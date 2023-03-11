@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Map;
+
 
 public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
     List<BlogPost> findAll();
@@ -18,7 +18,9 @@ public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
 
     BlogPost getBlogPostById(Long id);
 
-    List<BlogPost> findByCategorie(BlogCategory blogCategory);
+    Page<BlogPost> findByCategorie(BlogCategory blogCategory, Pageable pageable);
 
     Page<BlogPost> findByTitluContains(String titlu, Pageable pageable);
+
+    Page<BlogPost> findByCategorieAndTitluContains(BlogCategory category, String titlu, Pageable pageable);
 }

@@ -9,7 +9,7 @@
     <!-- start banner Area -->
     <section th:replace="fragments :: banner_fragment(title = 'Utilizatori', link = 'admin/users', button = null)"/>
 
-    <div class="container marginTop centered d-flex justify-content-center pt-4 pb-4">
+    <div class="container marginTop centered d-flex justify-content-center pt-4">
         <tr th:if="${users.content.size() == 0}" style="margin-top:5rem;">
             <h2 class="m-5 centered"><span>Niciun utilizator!</span></h2>
         </tr>

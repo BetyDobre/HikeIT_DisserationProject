@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class BlogCategoryServiceImpl implements BlogCategoryService {
@@ -41,5 +42,10 @@ public class BlogCategoryServiceImpl implements BlogCategoryService {
     @Override
     public void delete(Long id) {
         blogCategoryRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<BlogCategory> findById(Long id) {
+        return blogCategoryRepository.findById(id);
     }
 }

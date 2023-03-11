@@ -5,6 +5,7 @@ import com.hike.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +17,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.util.WebUtils;
 
 import java.io.IOException;
 
@@ -56,6 +59,16 @@ public class SecurityConfig{
                         .defaultSuccessUrl("/")
                         .loginProcessingUrl("/login")
                         .failureUrl("/login?error=true")
+                .successHandler((request, response, authentication) -> {
+                    HttpSession session = request.getSession(false);
+                    if (session != null) {
+                        session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+                        session.removeAttribute(WebAttributes.ACCESS_DENIED_403);
+                        session.removeAttribute("LAST_EXCEPTION");
+                        session.removeAttribute("USERNAME");
+                    }
+                    response.sendRedirect("/");
+                })
                         .permitAll()
                 .and()
                 .oauth2Login()

@@ -15,7 +15,7 @@
                             <form method="post" th:action="@{/register}" th:object="${user}" enctype="multipart/form-data">
                                 <div class="form-group" style="text-align: center;">
                                     <img id= "thumbnail" class="rounded-circle" style="width: 100px; height: 90px;" th:src="@{/img/user.png}">
-                                    </br>
+                                    <br/>
                                     <input id="pozaProfil" name="pozaProfil" type="file" accept="image/png, image/jpeg">
                                 </div>
                                 <p th:if="${#fields.hasErrors('pozaProfil')}" class="text-danger">Poza de profil nu a putut fi încărcată corect. Încercați din nou cu o nouă fotografie.</p>
@@ -65,7 +65,7 @@
                                 <div class="form-group last mb-3">
                                     <label for="sex">Sex*</label>
                                     <div class="default-select">
-                                        <select th:field="*{sex}" name="sex" id="sex">
+                                        <select th:field="*{sex}" name="sex" id="sex" class="nice-select open">
                                             <option value="">--Alegeți--</option>
                                             <option th:value="'F'">F</option>
                                             <option th:value="'M'">M</option>

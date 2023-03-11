@@ -25,7 +25,7 @@ public class AdminController {
     private UserService userService;
     private UserRepository userRepository;
     private RoleRepository roleRepository;
-    private final int size = 10;
+    private final int pageSize = 10;
 
     @Autowired
     public AdminController(UserService userService, RoleRepository roleRepository, UserRepository userRepository) {
@@ -36,7 +36,7 @@ public class AdminController {
 
     @GetMapping("/users")
     public String getUseri(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
-        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, size));
+        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, pageSize));
         model.addAttribute("users", users);
         model.addAttribute("currentPage", pageNo);
         Role blogger = roleRepository.findByName("BLOGGER");
@@ -50,7 +50,7 @@ public class AdminController {
     @GetMapping("/user/{id}/sterge")
     public String stergeUser(@PathVariable Long id, Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
         userService.delete(id);
-        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, size));
+        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, pageSize));
         model.addAttribute("users", users);
         model.addAttribute("currentPage", pageNo);
 
@@ -81,7 +81,7 @@ public class AdminController {
             return "404";
         }
 
-        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, size));
+        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, pageSize));
         model.addAttribute("users", users);
         model.addAttribute("currentPage", pageNo);
         return "redirect:/admin/users";
@@ -111,7 +111,7 @@ public class AdminController {
             return "404";
         }
 
-        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, size));
+        Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, pageSize));
         model.addAttribute("users", users);
         model.addAttribute("currentPage", pageNo);
         return "redirect:/admin/users";

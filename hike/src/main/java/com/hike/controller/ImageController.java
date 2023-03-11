@@ -69,9 +69,9 @@ public class ImageController {
     public void downloadBlogImage(@PathVariable Long id, HttpServletResponse response) throws IOException {
         BlogPost blogPost = blogPostService.getById(id);
 
-        if (blogPost.getPozaCopertă() != null) {
+        if (blogPost.getPozaCoperta() != null) {
             response.setContentType("image/jpeg");
-            InputStream is = new ByteArrayInputStream(blogPost.getPozaCopertă());
+            InputStream is = new ByteArrayInputStream(blogPost.getPozaCoperta());
             try {
                 IOUtils.copy(is, response.getOutputStream());
             } catch (IOException e) {

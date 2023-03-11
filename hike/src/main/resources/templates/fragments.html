@@ -181,9 +181,9 @@
 <div th:fragment="blog_sidebar_fragment" class="col-lg-4 sidebar-widgets">
     <div class="widget-wrap">
         <div class="single-sidebar-widget search-widget">
-            <form class="search-form" action="#">
+            <form class="search-form" th:href="@{/blog}" method="get">
                 <input placeholder="Căutare postări" name="search" type="text" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Posts'" >
-                <button th:href="@{/blog}" type="submit"><i class="fa fa-search"></i></button>
+                <button type="submit"><i class="fa fa-search"></i></button>
             </form>
         </div>
         <!--						Categorii-->

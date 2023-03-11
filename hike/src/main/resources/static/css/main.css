@@ -3484,8 +3484,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .blog-pagination {
-  padding-top: 60px;
-  padding-bottom: 120px;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .blog-pagination .page-link {

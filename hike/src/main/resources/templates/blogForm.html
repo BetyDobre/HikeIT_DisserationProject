@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments :: head_fragment(pageTitle = 'Postare nouă')"/>
+<body>
+<header th:replace="fragments :: header_fragment"/>
+
+<section th:replace="fragments :: banner_fragment(title = 'Postare nouă', link = 'blog/adauga', button = null)"/>
+
+<section class="sample-text-area">
+    <div class="contents order-2 order-md-1">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-8">
+                    <div class="form-block">
+                        <form method="post" th:action="@{/blog/adauga}" th:object="${postare}" enctype="multipart/form-data">
+                            <div class="form-group" style="text-align: center;">
+                                <img id= "thumbnail" class="img-fluid" style="width: 500px; height: 300px;" th:src="@{/img/blog/defaultCover.jpg}">
+                                <br/>
+                                <input id="pozaCoperta" name="pozaCoperta" type="file" accept="image/png, image/jpeg">
+                            </div>
+                            <p th:if="${#fields.hasErrors('pozaCoperta')}" class="text-danger">Poza de copertă nu a putut fi încărcată corect. Încercați din nou cu o nouă fotografie.</p>
+
+                            <div class="form-group last mb-3">
+                                <label for="categorie">Categoria postării*</label>
+                                <div class="default-select">
+                                    <select class="nice-select open" id="categorie" name="categorie" th:field="*{categorieId}">
+                                        <option value="">Selectează o categorie</option>
+                                        <option th:each="categorie : ${categorii}"
+                                                th:value="${categorie.id}"
+                                                th:text="${categorie.titlu}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <p th:if="${#fields.hasErrors('categorieId')}" th:errors="*{categorieId}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group first">
+                                <label for="titlu">Titlu*</label>
+                                <input th:field="*{titlu}" type="text" name="titlu" id="titlu" placeholder="Adaugă titlul postării.." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adaugă titlul postării..'" class="single-input">
+                                <p th:if="${#fields.hasErrors('titlu')}" th:errors="*{titlu}" class="text-danger">Titlul introdus nu este valid.</p>
+                            </div>
+
+                            <div class="form-group first">
+                                <label for="descriere">Descriere*</label>
+                                <input th:field="*{descriere}" type="text" name="descriere" id = "descriere" placeholder="Adaugă rezumatul postării.." onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adaugă rezumatul postării..'" class="single-input">
+                                <p th:if="${#fields.hasErrors('descriere')}" th:errors="*{descriere}" class="text-danger">Rezumatul introdus nu este valid.</p>
+                            </div>
+
+                            <div class="form-group first">
+                                <label for="text">Text*</label>
+                                <textarea th:field="*{text}" type="text" placeholder="Povestea ta.." id="text" class="single-textarea"></textarea>
+                                <p th:if="${#fields.hasErrors('text')}" class="text-danger" th:errors="*{text}"></p>
+                            </div>
+
+                            <button type = "submit" class="genric-btn primary circle" style="width: 100%">ADAUGĂ</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- start footer Area -->
+<footer th:replace="fragments :: footer_fragment"/>
+<!-- End footer Area -->
+
+<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
+<script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
+<script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+<script type="text/javascript">
+    $(document).ready(function (){
+        $('#pozaCoperta').change(function (){
+            showImageThumbnail(this);
+        })
+    });
+    function showImageThumbnail(fileInput){
+        file = fileInput.files[0];
+        reader = new FileReader();
+
+        reader.onload = function (e){
+            $('#thumbnail').attr('src', e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+</script>
+</body>
+</html>

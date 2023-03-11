@@ -4,10 +4,17 @@ import com.hike.models.BlogCategory;
 import com.hike.models.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BlogPostDto {
     private Long id;
 
@@ -21,12 +28,12 @@ public class BlogPostDto {
     private String text;
 
     @Lob
-    private byte[] pozaCopertă;
+    private byte[] pozaCoperta;
 
     private LocalDateTime createdOn;
 
-    @NotEmpty(message = "Categoria este obligatorie.")
-    private BlogCategory categorie;
+    @NotNull(message = "Categoria este obligatorie!")
+    private Long categorieId;
 
     private UserEntity user;
 }
