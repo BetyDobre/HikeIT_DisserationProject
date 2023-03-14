@@ -223,14 +223,14 @@
         <!--						Postari populare-->
         <div class="single-sidebar-widget popular-post-widget">
             <h4 class="popular-title">Postari populare</h4>
-            <div class="popular-post-list">
+            <div class="popular-post-list" th:each="post: ${postariPopulare}">
                 <div class="single-post-list d-flex flex-row align-items-center">
                     <div class="thumb">
-                        <img class="img-fluid" th:src="@{/img/blog/defaultBlog.jpg}" style="height: 50px; width: 65px;" alt="">
+                        <img class="img-fluid" th:src="@{/blog/getBlogPhoto/{id}(id=${post.id})}" onerror="this.src='/img/blog/defaultBlog.jpg';" style="height: 50px; width: 65px;" alt="">
                     </div>
                     <div class="details">
-                        <a href="blog-single.html"><h6>Space The Final Frontier</h6></a>
-                        <p>02 Hours ago</p>
+                        <a th:href="@{'/blog/' + ${post.id}}" th:text="${post.titlu}"><h6></h6></a>
+                        <p th:text="${#temporals.format(post.createdOn, 'dd-MMM-yyyy HH:mm')}"></p>
                     </div>
                 </div>
             </div>

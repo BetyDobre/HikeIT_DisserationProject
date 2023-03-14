@@ -2,6 +2,7 @@ package com.hike.service;
 
 import com.hike.dto.BlogPostDto;
 import com.hike.models.BlogCategory;
+import com.hike.models.BlogComment;
 import com.hike.models.BlogPost;
 import com.hike.models.UserEntity;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface BlogPostService {
+    List<BlogPost> findAll();
     Page<BlogPost> findAllPosts(Pageable pageable);
     List<Object[]> countPostsByCategory();
     BlogPost getById(Long id);
@@ -20,4 +22,5 @@ public interface BlogPostService {
     void save(BlogPostDto blogPostDto);
     Page<BlogPost> findByUser(UserEntity user, Pageable pageable);
     void delete(Long id);
+    List<BlogPost> findAllOrderByNumarComentariiDesc();
 }

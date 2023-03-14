@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/blog/categorii")
-public class CategoriiBlogController {
+public class CategoriesBlogController {
     private BlogCategoryService blogCategoryService;
 
     @Autowired
-    public CategoriiBlogController(BlogCategoryService blogCategoryService) {
+    public CategoriesBlogController(BlogCategoryService blogCategoryService) {
         this.blogCategoryService = blogCategoryService;
     }
 

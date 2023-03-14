@@ -26,4 +26,7 @@ public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
     Page<BlogPost> findByCategorieAndTitluContains(BlogCategory category, String titlu, Pageable pageable);
 
     Page<BlogPost> findByUser(UserEntity user, Pageable pageable);
+
+    @Query("SELECT p FROM postari_blog p LEFT JOIN FETCH p.comentarii c GROUP BY p.id ORDER BY COUNT(c) DESC")
+    List<BlogPost> findAllOrderByNumarComentariiDesc();
 }

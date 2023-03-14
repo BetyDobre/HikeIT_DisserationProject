@@ -57,4 +57,7 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<BlogPost> postari;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Set<BlogComment> comentariiBlog;
 }

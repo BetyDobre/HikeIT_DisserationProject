@@ -8,37 +8,27 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "postari_blog")
-public class BlogPost {
+@Entity(name = "comentarii_blog")
+public class BlogComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String titlu;
-    private String descriere;
     private String text;
-
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] pozaCoperta;
 
     @CreationTimestamp
     private LocalDateTime createdOn;
 
     @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "categorie_id", referencedColumnName = "id")
-    private BlogCategory categorie;
+    @JoinColumn(name = "postare_id", referencedColumnName = "id")
+    private BlogPost postare;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="user_id", referencedColumnName = "id")
     private UserEntity user;
-
-    @OneToMany(mappedBy = "postare", cascade = CascadeType.REMOVE)
-    private Set<BlogComment> comentarii;
 }

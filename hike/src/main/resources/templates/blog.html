@@ -29,16 +29,16 @@
 							<div class="user-details row">
 								<p class="user-name col-lg-12 col-md-12 col-6"><span th:text="${postare.user.username}"></span> <span class="lnr lnr-user"></span></p>
 								<p class="date col-lg-12 col-md-12 col-6"><span th:text="${#temporals.format(postare.createdOn, 'dd-MMM-yyyy')}"></span> <span class="lnr lnr-calendar-full"></span></p>
-								<p class="comments col-lg-12 col-md-12 col-6"><span>6 Comments</span> <span class="lnr lnr-bubble"></span></p>
+								<p class="comments col-lg-12 col-md-12 col-6"><span th:text="${nrComentarii[postare.id]}+' Comentarii'"></span> <span class="lnr lnr-bubble"></span></p>
 							</div>
 						</div>
 						<div class="col-lg-9 col-md-9 ">
 							<div class="feature-img">
 								<img id="coperta" class="img-fluid" th:src="@{/blog/getBlogPhoto/{id}(id=${postare.id})}" onerror="this.src='/img/blog/defaultBlog.jpg';" alt="Photo">
 							</div>
-							<a class="posts-title" href="blog-single.html"><h3 th:text="${postare.titlu}"></h3></a>
+							<p class="posts-title"><h3 th:text="${postare.titlu}"></h3></p>
 							<p class="excert" th:text="${postare.descriere}"></p>
-							<a th:href="@{/blog}" class="genric-btn primary-border radius arrow">Citește<span class="lnr lnr-arrow-right"></span></a>
+							<a th:href="@{'/blog/' + ${postare.id}}" class="genric-btn primary-border radius arrow">Citește<span class="lnr lnr-arrow-right"></span></a>
 							<a th:if="${postare.user.id} == ${userId}" th:href="@{'/blog/'+${postare.id}+'/sterge'}" class="genric-btn primary-border radius">Șterge</a>
 						</div>
 					</div>
@@ -53,7 +53,7 @@
 									 </span>
 								</a>
 							</li>
-							<li class="page-item" th:each="i : ${#numbers.sequence(1, postari.totalPages)}">
+							<li th:if="${postari.totalPages > 0}" class="page-item" th:each="i : ${#numbers.sequence(1, postari.totalPages)}">
 								<a class="page-link" th:href="@{${i} != ${currentPage} ? ${link}+'?page=' + ${i} : null}" th:text="${i}"
 								   th:classappend="${i == currentPage} ? 'active'"></a>
 							</li>

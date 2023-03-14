@@ -1,0 +1,128 @@
+	<!DOCTYPE html>
+	<html lang="zxx" class="no-js" xmlns:sec="http://www.w3.org/1999/xhtml">
+	<head th:replace="fragments :: head_fragment(pageTitle = 'Articol blog')"/>
+	<body>
+	<!--	header-->
+	<header th:replace="fragments :: header_fragment"/>
+	<!--	end header-->
+
+	<!-- start banner Area -->
+	<section th:replace="fragments :: banner_fragment(title = ${postare.titlu}, link = '', button = null)"/>
+	<!-- End banner Area -->
+
+	<!-- Start post-content Area -->
+	<section class="post-content-area single-post-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 posts-list">
+					<div class="single-post row">
+						<div class="col-lg-12">
+							<div class="feature-img">
+								<img class="img-fluid" th:src="@{'/blog/getBlogPhoto/' + ${postare.id}}" onerror="this.src='/img/blog/defaultBlog.jpg';" alt="Photo">
+							</div>
+						</div>
+						<div class="col-lg-3  col-md-3 meta-details">
+							<ul class="tags">
+								<li th:text="${postare.categorie.titlu}"></li>
+							</ul>
+							<div class="user-details row">
+								<p class="user-name col-lg-12 col-md-12 col-6" th:text="${postare.user.username}"><span class="lnr lnr-user"></span></p>
+								<p class="date col-lg-12 col-md-12 col-6" th:text="${#temporals.format(postare.createdOn, 'dd-MMM-yyyy')}"><span class="lnr lnr-calendar-full"></span></p>
+								<p class="comments col-lg-12 col-md-12 col-6" th:text="${nrComentarii}+' Comentarii'"><span class="lnr lnr-bubble"></span></p>
+							</div>
+						</div>
+						<div class="col-lg-9 col-md-9">
+							<h3 class="mt-20 mb-20" th:text="${postare.titlu}"></h3>
+							<p class="excert" th:text="${postare.descriere}"></p>
+						</div>
+						<div class="col-lg-12">
+							<div class="quotes" th:text="${postare.text}"></div>
+						</div>
+					</div>
+
+					<div class="comments-area">
+						<h4>Comentarii</h4>
+						<div style="margin-top:3rem;" th:if="${comentarii.totalElements == 0}">
+							<h2 class="m-5 centered"><span>Niciun comentariu!</span></h2>
+						</div>
+						<p th:if="${param.adaugaSucces}" class="alert alert-success">Comentariu adăugat!</p>
+						<p th:if="${param.stergeSucces}" class="alert alert-success">Comentariu sters!</p>
+						<div th:if="${comentarii.totalElements != 0}" th:each="comentariu : ${comentarii.content}" class="comment-list">
+							<div class="single-comment justify-content-between d-flex">
+								<div class="user justify-content-between d-flex">
+									<div th:switch="*{comentariu.user.authProvider.name}" class="thumb">
+										<img th:case="'GOOGLE'" th:src="${comentariu.user.pozaGoogle}"onerror="this.src='/img/user.png';" style="width: 5rem; height: 5rem;" alt="">
+										<img th:case="'LOCAL'" th:src="@{/user/getProfilePhoto/{username}(username=${comentariu.user.username})}" onerror="this.src='/img/user.png';" style="width: 5rem; height: 5rem;" alt="">
+									</div>
+									<div class="desc">
+										<h5 th:text="${comentariu.user.username}"></h5>
+										<p class="date" th:text="${#temporals.format(postare.createdOn, 'dd-MMM-yyyy HH:mm')}" ></p>
+										<p class="comment" th:text="${comentariu.text}"></p>
+									</div>
+								</div>
+								<div th:if="${comentariu.user.id} == ${userId}" class="d-flex align-items-center">
+									<a th:href="@{'/blog/'+${postare.id}+'/'+${comentariu.id}+'/sterge'}" class="genric-btn primary-border radius">Șterge</a>
+								</div>
+							</div>
+						</div>
+						<nav class="blog-pagination justify-content-center d-flex">
+							<ul class="pagination">
+								<li class="page-item" th:if="${currentPage gt 1}" th:class="${currentPage == 1} ? disabled : ''">
+									<a class="page-link" th:href="@{${currentPage > 1} ? ${link} +'?page=' + ${currentPage - 1} : ${link}+'?page=1'}" aria-label="Anterioară">
+									 <span aria-hidden="true">
+										 <span class="lnr lnr-chevron-left"></span>
+									 </span>
+									</a>
+								</li>
+								<li th:if="${comentarii.totalPages > 0}" class="page-item" th:each="i : ${#numbers.sequence(1, comentarii.totalPages)}">
+									<a class="page-link" th:href="@{${i} != ${currentPage} ? ${link}+'?page=' + ${i} : null}" th:text="${i}"
+									   th:classappend="${i == currentPage} ? 'active'"></a>
+								</li>
+								<li class="page-item" th:if="${currentPage lt comentarii.totalPages}" th:class="${currentPage == comentarii.totalPages} ? disabled : ''">
+									<a class="page-link"  th:href="@{${currentPage < comentarii.totalPages} ? ${link}+'?page=' + ${currentPage + 1} : ${link}+'?page=' + ${comentarii.totalPages}}" aria-label="Următoarea">
+									<span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-right"></span>
+									</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+
+					<div class="comment-form">
+						<h4>Lasă un comentariu</h4>
+						<form sec:authorize="isAuthenticated()" method="post" th:action="@{'/blog/' + ${postare.id}}" th:object="${comentariuNou}">
+							<div class="form-group">
+								<textarea th:field="*{text}" class="form-control mb-10" rows="5" name="text" id="text" placeholder="Comentariu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Comentariu'"></textarea>
+							</div>
+							<p th:if="${#fields.hasErrors('text')}" class="text-danger" th:errors="*{text}"></p>
+							<button class="primary-btn text-uppercase" type="submit">Adaugă comentariu</button>
+						</form>
+						<p sec:authorize="isAnonymous()">Pentru a lăsa un comentariu trebuie să te <a th:href="@{/login}">autentifici</a>.</p>
+					</div>
+				</div>
+
+				<footer th:replace="fragments :: blog_sidebar_fragment"/>
+			</div>
+		</div>
+	</section>
+	<!-- End post-content Area -->
+
+	<!-- start footer Area -->
+	<footer th:replace="fragments :: footer_fragment"/>
+	<!-- End footer Area -->
+
+	<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/main.js}"></script>
+	<script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
+	<script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
+	<script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+	<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+	</body>
+</html>

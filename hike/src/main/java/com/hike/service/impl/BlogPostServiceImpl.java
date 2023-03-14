@@ -28,6 +28,11 @@ public class BlogPostServiceImpl implements BlogPostService {
     }
 
     @Override
+    public List<BlogPost> findAll() {
+        return blogPostRepository.findAll();
+    }
+
+    @Override
     public Page<BlogPost> findAllPosts(Pageable pageable) {
         return blogPostRepository.findAll(pageable);
     }
@@ -81,5 +86,10 @@ public class BlogPostServiceImpl implements BlogPostService {
     @Transactional
     public void delete(Long id) {
         blogPostRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BlogPost> findAllOrderByNumarComentariiDesc() {
+        return blogPostRepository.findAllOrderByNumarComentariiDesc();
     }
 }

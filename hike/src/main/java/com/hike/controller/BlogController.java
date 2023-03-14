@@ -1,11 +1,10 @@
 package com.hike.controller;
 
+import com.hike.dto.BlogCommentDto;
 import com.hike.dto.BlogPostDto;
-import com.hike.models.BlogCategory;
-import com.hike.models.BlogPost;
-import com.hike.models.UserEntity;
-import com.hike.models.Utility;
+import com.hike.models.*;
 import com.hike.service.BlogCategoryService;
+import com.hike.service.BlogCommentService;
 import com.hike.service.BlogPostService;
 import com.hike.service.UserService;
 import jakarta.servlet.ServletException;
@@ -23,7 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import java.io.IOException;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/blog")
@@ -31,13 +32,15 @@ public class BlogController {
     private BlogPostService blogPostService;
     private BlogCategoryService blogCategoryService;
     private UserService userService;
-    private final int pageSize = 2;
+    private BlogCommentService blogCommentService;
+    private final int pageSize = 5;
 
     @Autowired
-    public BlogController(BlogPostService blogPostService, BlogCategoryService blogCategoryService, UserService userService) {
+    public BlogController(BlogPostService blogPostService, BlogCategoryService blogCategoryService, UserService userService, BlogCommentService blogCommentService) {
         this.blogPostService = blogPostService;
         this.blogCategoryService = blogCategoryService;
         this.userService = userService;
+        this.blogCommentService = blogCommentService;
     }
 
     @InitBinder
@@ -66,6 +69,23 @@ public class BlogController {
             model.addAttribute("access", null);
         }
 
+        List<BlogPost> postari = blogPostService.findAll();
+        Map<Long, Integer> nrComentarii = new HashMap<>();
+        for (BlogPost postare : postari) {
+            Long postId = postare.getId();
+            int totalComentarii = blogCommentService.noOfCommentsByPost(postId);
+            nrComentarii.put(postId, totalComentarii);
+        }
+
+        List<BlogPost> postariPopulare = blogPostService.findAllOrderByNumarComentariiDesc();
+        if (postariPopulare.size() < 5){
+            model.addAttribute("postariPopulare", postariPopulare);
+        }
+        else {
+            model.addAttribute("postariPopulare", postariPopulare.subList(0, 5));
+        }
+
+        model.addAttribute("nrComentarii", nrComentarii);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("categorii", blogPostService.countPostsByCategory());
         model.addAttribute("all", blogPostService.findAllPosts(PageRequest.of(pageNo - 1, pageSize)).getTotalElements());
@@ -161,4 +181,75 @@ public class BlogController {
 
         return "redirect:/blog?stergeSuccess";
     }
+
+//    comentarii si single post
+    void addCommonAttributesBlogPost(Model model, int pageNo, Long postId){
+        String username = Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(username);
+        if(user != null){
+            model.addAttribute("userId", user.getId());
+        }
+        else {
+            model.addAttribute("userId", null);
+        }
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("categorii", blogPostService.countPostsByCategory());
+        model.addAttribute("all", blogPostService.findAllPosts(PageRequest.of(pageNo - 1, pageSize)).getTotalElements());
+
+        BlogPost blogPost= blogPostService.getById(postId);
+        model.addAttribute("postare", blogPost);
+        model.addAttribute("comentarii", blogCommentService.getAllCommentsByPost(blogPost, PageRequest.of(pageNo - 1, pageSize)));
+        model.addAttribute("link", "/blog/" + postId);
+        model.addAttribute("nrComentarii", blogCommentService.noOfCommentsByPost(postId));
+
+        List<BlogPost> postariPopulare = blogPostService.findAllOrderByNumarComentariiDesc();
+        if (postariPopulare.size() < 5){
+            model.addAttribute("postariPopulare", postariPopulare);
+        }
+        else {
+            model.addAttribute("postariPopulare", postariPopulare.subList(0, 5));
+        }
+
+    }
+
+    @GetMapping("/{id}")
+    public String getSinglePost(Model model, @PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        model.addAttribute("comentariuNou", new BlogCommentDto());
+        addCommonAttributesBlogPost(model, pageNo, id);
+
+        return "blogPost";
+    }
+
+    @PostMapping("/{id}")
+    public String adaugaComentariu(Model model, @PathVariable("id") Long id,
+                                   @ModelAttribute("comentariuNou") BlogCommentDto blogCommentDto,
+                                   BindingResult result,
+                                   @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        if(result.hasErrors()){
+            System.out.println(result.getAllErrors());
+
+            model.addAttribute("comentariuNou", blogCommentDto);
+            addCommonAttributesBlogPost(model, pageNo, id);
+            return "blogForm";
+        }
+        String username = Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(username);
+        blogCommentDto.setPostare(blogPostService.getById(id));
+        blogCommentDto.setUser(user);
+
+        addCommonAttributesBlogPost(model, pageNo, id);
+        blogCommentService.save(blogCommentDto);
+
+        return "redirect:/blog/" + id +"?adaugaSucces";
+    }
+
+    @GetMapping("/{postId}/{commId}/sterge")
+    public String stergeComentariu(Model model, @PathVariable("postId") Long postId, @PathVariable("commId") Long commId,
+                                   @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        blogCommentService.delete(commId);
+        addCommonAttributesBlogPost(model, pageNo, postId);
+
+        return "redirect:/blog/" + postId +"?stergeSucces";
+    }
+
 }
