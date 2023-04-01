@@ -3,6 +3,8 @@ package com.hike.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,4 +19,7 @@ public class GrupaMuntoasa {
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private byte[] pozaHarta;
+
+    @OneToMany(mappedBy = "grupaMuntoasa", cascade = CascadeType.REMOVE)
+    private Set<Traseu> trasee;
 }

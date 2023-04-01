@@ -29,4 +29,6 @@ public interface BlogPostRepository extends JpaRepository<BlogPost, Long> {
 
     @Query("SELECT p FROM postari_blog p LEFT JOIN FETCH p.comentarii c GROUP BY p.id ORDER BY COUNT(c) DESC")
     List<BlogPost> findAllOrderByNumarComentariiDesc();
+
+    int countAllByUser(UserEntity user);
 }

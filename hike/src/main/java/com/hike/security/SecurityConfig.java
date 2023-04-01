@@ -20,6 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.web.util.WebUtils;
 
 import java.io.IOException;
@@ -48,10 +49,16 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/","/404","/login", "/register","/logout","/subscribe","/parolaUitata/**","/resetParola/**","/trasee","/contact","/blog/**", "/grupaMuntoasa/**")
+                .requestMatchers("/","/404","/login", "/register","/logout","/subscribe","/parolaUitata/**","/resetParola/**","/trasee/**","/contact","/blog/**", "/blog/categorie/**","/blog/getBlogPhoto/**","/grupaMuntoasa/**")
                 .permitAll()
-                .requestMatchers("/user/**").authenticated()
-                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+               // requestMatchers(request -> {
+                //    String path = request.getServletPath();
+                //    String query = request.getQueryString();
+                //    return path.matches("/blog/\\d+")
+                //            && (query == null || Pattern.compile("[\\w\\-]+=[\\w\\-]+(&[\\w\\-]+=[\\w\\-]+)*").matcher(query).matches());
+                //})
+                .requestMatchers("/user/**", "/blog/postarilemele", "/blog/adauga", "/blog/*/sterge", "/blog/*/*/sterge").authenticated()
+                .requestMatchers("/admin/**", "/blog/categorii/**").hasAuthority("ADMIN")
 //                .requestMatchers("/admin/**").permitAll()
                 .and()
                 .formLogin()

@@ -4,6 +4,8 @@ import com.hike.dto.UserDto;
 import com.hike.models.Role;
 import com.hike.models.UserEntity;
 import com.hike.models.Utility;
+import com.hike.service.BlogCommentService;
+import com.hike.service.BlogPostService;
 import com.hike.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,10 +29,14 @@ import static com.hike.mapper.UserEditMapper.mapToUserDto;
 @RequestMapping("/user")
 public class UserController {
     private UserService userService;
+    private BlogPostService blogPostService;
+    private BlogCommentService blogCommentService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, BlogPostService blogPostService, BlogCommentService blogCommentService) {
         this.userService = userService;
+        this.blogPostService = blogPostService;
+        this.blogCommentService = blogCommentService;
     }
 
     @InitBinder
@@ -160,6 +166,8 @@ public class UserController {
         model.addAttribute("access", user.getRoles().stream().anyMatch(role -> role.getName().equals("BLOGGER")));
         model.addAttribute("user", user);
         model.addAttribute("statistici", "true");
+        model.addAttribute("postCount", blogPostService.countAllByUser(user));
+        model.addAttribute("commentCount", blogCommentService.countAllByUser(user));
 
         return "profil";
     }

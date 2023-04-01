@@ -23,4 +23,5 @@ public interface BlogPostService {
     Page<BlogPost> findByUser(UserEntity user, Pageable pageable);
     void delete(Long id);
     List<BlogPost> findAllOrderByNumarComentariiDesc();
+    int countAllByUser(UserEntity user);
 }

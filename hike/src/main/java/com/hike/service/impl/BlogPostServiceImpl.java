@@ -1,12 +1,16 @@
 package com.hike.service.impl;
 
 import com.hike.dto.BlogPostDto;
+import com.hike.exception.ObjectNotFoundException;
 import com.hike.models.*;
 import com.hike.repository.BlogCategoryRepository;
+import com.hike.repository.BlogCommentRepository;
 import com.hike.repository.BlogPostRepository;
+import com.hike.service.BlogCommentService;
 import com.hike.service.BlogPostService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,17 +18,21 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class BlogPostServiceImpl implements BlogPostService {
 
     private BlogPostRepository blogPostRepository;
     private BlogCategoryRepository blogCategoryRepository;
+    private BlogCommentService blogCommentService;
 
+    @Lazy
     @Autowired
-    public BlogPostServiceImpl(BlogPostRepository blogPostRepository, BlogCategoryRepository blogCategoryRepository) {
+    public BlogPostServiceImpl(BlogPostRepository blogPostRepository, BlogCategoryRepository blogCategoryRepository, BlogCommentService blogCommentService) {
         this.blogPostRepository = blogPostRepository;
         this.blogCategoryRepository = blogCategoryRepository;
+        this.blogCommentService = blogCommentService;
     }
 
     @Override
@@ -85,11 +93,28 @@ public class BlogPostServiceImpl implements BlogPostService {
     @Override
     @Transactional
     public void delete(Long id) {
+        try {
+            BlogPost postare = blogPostRepository.findById(id)
+                    .orElseThrow(() -> new ObjectNotFoundException("Nu s-a gasit postarea cu ID-ul " + id));
+
+            List<BlogComment> comentarii = blogCommentService.getAllCommentsByPost(postare);
+            for (BlogComment comentariu : comentarii) {
+                blogCommentService.delete(comentariu.getId());
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException("Nu s-a putut sterge postarea cu ID-ul " + id, ex);
+        }
+
         blogPostRepository.deleteById(id);
     }
 
     @Override
     public List<BlogPost> findAllOrderByNumarComentariiDesc() {
         return blogPostRepository.findAllOrderByNumarComentariiDesc();
+    }
+
+    @Override
+    public int countAllByUser(UserEntity user) {
+        return blogPostRepository.countAllByUser(user);
     }
 }

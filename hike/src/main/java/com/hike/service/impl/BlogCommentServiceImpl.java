@@ -3,6 +3,7 @@ package com.hike.service.impl;
 import com.hike.dto.BlogCommentDto;
 import com.hike.models.BlogComment;
 import com.hike.models.BlogPost;
+import com.hike.models.UserEntity;
 import com.hike.repository.BlogCommentRepository;
 import com.hike.service.BlogCommentService;
 import com.hike.service.BlogPostService;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class BlogCommentServiceImpl implements BlogCommentService {
@@ -40,6 +43,11 @@ public class BlogCommentServiceImpl implements BlogCommentService {
     }
 
     @Override
+    public void save(BlogComment blogComment) {
+        blogCommentRepository.save(blogComment);
+    }
+
+    @Override
     public int noOfCommentsByPost(Long id) {
         return blogCommentRepository.noOfCommentsByPost(id);
     }
@@ -47,5 +55,15 @@ public class BlogCommentServiceImpl implements BlogCommentService {
     @Override
     public void delete(Long id) {
         blogCommentRepository.deleteById(id);
+    }
+
+    @Override
+    public int countAllByUser(UserEntity user) {
+        return blogCommentRepository.countAllByUser(user);
+    }
+
+    @Override
+    public List<BlogComment> getAllCommentsByPost(BlogPost blogPost) {
+        return blogCommentRepository.getBlogCommentsByPostare(blogPost);
     }
 }

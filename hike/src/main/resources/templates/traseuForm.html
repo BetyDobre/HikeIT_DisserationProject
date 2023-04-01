@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments :: head_fragment(pageTitle = 'Adăugare traseu')"/>
+<body>
+<header th:replace="fragments :: header_fragment"/>
+
+<section th:replace="fragments :: banner_fragment(title = 'Adăugare traseu', link = 'trasee/adauga', button = null)"/>
+
+<section class="sample-text-area">
+    <div class="contents order-2 order-md-1">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-md-8">
+                    <div class="form-block">
+                        <form method="post" th:action="@{/trasee/adauga}" th:object="${traseu}" enctype="multipart/form-data">
+                            <div class="form-group" style="text-align: center;">
+                                <img id= "thumbnail" class="img-fluid" style="width: 500px; height: 300px;" th:src="@{/img/blog/defaultCover.jpg}">
+                                <br/>
+                                <input id="pozeTraseu" name="pozeTraseu" type="file" multiple="multiple" accept="image/png, image/jpeg">
+                            </div>
+                            <p th:if="${#fields.hasErrors('pozeTraseu')}" class="text-danger">Pozele nu au putut fi încărcate corect. Încercați din nou.</p>
+
+                            <div class="form-group first">
+                                <label for="plecare">Punct plecare*</label>
+                                <input th:field="*{punctPlecare}" type="text" name="plecare" id="plecare" placeholder="Adaugă un punct de reper pentru plecarea pe traseu..." class="single-input">
+                                <p th:if="${#fields.hasErrors('punctPlecare')}" th:errors="*{punctPlecare}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group first">
+                                <label for="sosire">Punct sosire*</label>
+                                <input th:field="*{punctSosire}" type="text" name="sosire" id="sosire" placeholder="Adaugă un punct de reper pentru incheierea traseului..." class="single-input">
+                                <p th:if="${#fields.hasErrors('punctSosire')}" th:errors="*{punctSosire}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group first">
+                                <label for="durata">Durata traseului(o durată minimă și una maximă în funcție de ritmul de mers. Ex: 2:30h-3:00h)*</label>
+                                <input th:field="*{durata}" type="text" name="durata" id="durata" placeholder="Adaugă durata traseului..." class="single-input">
+                                <p th:if="${#fields.hasErrors('durata')}" th:errors="*{durata}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group first">
+                                <label for="distanta">Distanța de parcurs a traseului în km.*</label>
+                                <input th:field="*{distanta}" type="text" name="distanta" id="distanta" placeholder="Adaugă distanta traseului..." class="single-input">
+                                <p th:if="${#fields.hasErrors('distanta')}" th:errors="*{distanta}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group first">
+                                <label for="urcare">Diferența de nivel în urcare(în metri)*</label>
+                                <input th:field="*{urcare}" type="number" name="urcare" id="urcare" placeholder="Adaugă urcarea..." class="single-input">
+                                <p th:if="${#fields.hasErrors('urcare')}" th:errors="*{urcare}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group first">
+                                <label for="coborare">Diferența de nivel în coborâre(în metri)*</label>
+                                <input th:field="*{coborare}" type="number" name="urcare" id="coborare" placeholder="Adaugă coborarea..." class="single-input">
+                                <p th:if="${#fields.hasErrors('coborare')}" th:errors="*{coborare}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group first">
+                                <label for="descriere">Descriere, cu cât mai multe detalii importante despre traseu*</label>
+                                <input th:field="*{descriere}" type="text" name="descriere" id = "descriere" placeholder="Adaugă descrierea traseului.." class="single-textarea">
+                                <p th:if="${#fields.hasErrors('descriere')}" th:errors="*{descriere}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group first">
+                                <label for="marcaj">Marcajul indicator al traseului*</label>
+                                <input th:field="*{marcaj}" type="text" name="marcaj" id = "marcaj" placeholder="Simbolul marcajului al traseului..." class="single-input">
+                                <p th:if="${#fields.hasErrors('marcaj')}" th:errors="*{marcaj}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group last mb-3">
+                                <label for="grupaMuntoasa">Grupa din care fac parte munții în care se desfășoară traseul*</label>
+                                <div class="default-select">
+                                    <select class="nice-select open" id="grupaMuntoasa" name="grupaMuntoasa" th:field="*{grupaMuntoasaId}">
+                                        <option value="">Selectează o grupă</option>
+                                        <option th:each="grupa : ${grupeMuntoase}"
+                                                th:value="${grupa.id}"
+                                                th:text="${grupa.titlu}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <p th:if="${#fields.hasErrors('grupaMuntoasaId')}" th:errors="*{grupaMuntoasaId}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group last mb-3">
+                                <label for="dificultate">Dificultate: </label>
+                                <div class="default-select">
+                                    <select class="nice-select open" id="dificultate" name="dificultate" th:field="*{dificultate}">
+                                        <option
+                                                th:each="dificultateOpt:${T(com.hike.models.Dificultate).values()}"
+                                                th:value="${dificultateOpt}" th:text="${dificultateOpt.name()}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <p th:if="${#fields.hasErrors('dificultate')}" th:errors="*{dificultate}" class="text-danger"></p>
+                            </div>
+
+                            <div class="form-group last mb-3">
+                                <label for="sezon">Sezon: </label>
+                                <div class="default-select">
+                                    <select class="nice-select open" id="sezon" name="category" th:field="*{sezon}">
+                                        <option
+                                                th:each="sezonOpt:${T(com.hike.models.Sezon).values()}"
+                                                th:value="${sezonOpt}" th:text="${sezonOpt.name()}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <p th:if="${#fields.hasErrors('sezon')}" th:errors="*{sezon}" class="text-danger"></p>
+                            </div>
+
+                            <button type = "submit" class="genric-btn primary circle" style="width: 100%">ADAUGĂ</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- start footer Area -->
+<footer th:replace="fragments :: footer_fragment"/>
+<!-- End footer Area -->
+
+<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
+<script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
+<script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+
+</body>
+</html>
