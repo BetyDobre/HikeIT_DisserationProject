@@ -1,7 +1,13 @@
 package com.hike.models;
 
 public enum Sezon {
-    PRIMAVARA, VARA, TOAMNA, IARNA, TOATE_SEZOANELE, PRIMAVARA_VARA, TOAMNA_IARNA;
+    PRIMAVARA("Primăvară"),
+    VARA("Vară"),
+    TOAMNA("Toamnă"),
+    IARNA("Iarnă"),
+    TOATE_SEZOANELE("Toate sezoanele"),
+    PRIMAVARA_VARA("Primăvară-Vară"),
+    TOAMNA_IARNA("Toamnă-Iarnă");
 
     public static boolean contains(String test) {
         for (Sezon s : Sezon.values()) {
@@ -11,4 +17,15 @@ public enum Sezon {
         }
         return false;
     }
+
+    private String displayName;
+
+    Sezon(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String displayName() { return displayName; }
+
+    // Optionally and/or additionally, toString.
+    @Override public String toString() { return displayName; }
 }

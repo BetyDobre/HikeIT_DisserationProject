@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments :: head_fragment(pageTitle = 'Trasee')"/>
+<body>
+<header th:replace="fragments :: header_fragment"/>
+
+<section th:replace="fragments :: banner_fragment(title = 'Trasee', link = 'trasee', button = 'Adaugă traseu')"/>
+
+<section>
+    <p th:if="${param.adaugaSuccess}" class="alert alert-success">Traseu adăugat cu success!</p>
+</section>
+
+<!-- start footer Area -->
+<footer th:replace="fragments :: footer_fragment"/>
+<!-- End footer Area -->
+
+<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
+<script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
+<script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+
+</body>
+</html>

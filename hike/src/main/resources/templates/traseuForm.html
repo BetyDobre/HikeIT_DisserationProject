@@ -40,26 +40,26 @@
 
                             <div class="form-group first">
                                 <label for="distanta">Distanța de parcurs a traseului în km.*</label>
-                                <input th:field="*{distanta}" type="text" name="distanta" id="distanta" placeholder="Adaugă distanta traseului..." class="single-input">
+                                <input th:field="*{distanta}" type="number" min="0" max="100" name="distanta" id="distanta" placeholder="Adaugă distanta traseului..." class="single-input">
                                 <p th:if="${#fields.hasErrors('distanta')}" th:errors="*{distanta}" class="text-danger"></p>
                             </div>
 
                             <div class="form-group first">
                                 <label for="urcare">Diferența de nivel în urcare(în metri)*</label>
-                                <input th:field="*{urcare}" type="number" name="urcare" id="urcare" placeholder="Adaugă urcarea..." class="single-input">
+                                <input th:field="*{urcare}" type="number" min="0" name="urcare" id="urcare" placeholder="Adaugă urcarea..." class="single-input">
                                 <p th:if="${#fields.hasErrors('urcare')}" th:errors="*{urcare}" class="text-danger"></p>
                             </div>
 
                             <div class="form-group first">
                                 <label for="coborare">Diferența de nivel în coborâre(în metri)*</label>
-                                <input th:field="*{coborare}" type="number" name="urcare" id="coborare" placeholder="Adaugă coborarea..." class="single-input">
+                                <input th:field="*{coborare}" type="number" min="0" name="urcare" id="coborare" placeholder="Adaugă coborarea..." class="single-input">
                                 <p th:if="${#fields.hasErrors('coborare')}" th:errors="*{coborare}" class="text-danger"></p>
                             </div>
 
                             <div class="form-group first">
                                 <label for="descriere">Descriere, cu cât mai multe detalii importante despre traseu*</label>
-                                <input th:field="*{descriere}" type="text" name="descriere" id = "descriere" placeholder="Adaugă descrierea traseului.." class="single-textarea">
-                                <p th:if="${#fields.hasErrors('descriere')}" th:errors="*{descriere}" class="text-danger"></p>
+                                <textarea th:field="*{descriere}" type="text" name="descriere" id = "descriere" placeholder="Adaugă descrierea traseului.." class="common-textarea form-control"></textarea>
+                                <p th:if="${#fields.hasErrors('descriere')}" th:errors="*{descriere}" class="text-danger"/>
                             </div>
 
                             <div class="form-group first">
@@ -88,7 +88,7 @@
                                     <select class="nice-select open" id="dificultate" name="dificultate" th:field="*{dificultate}">
                                         <option
                                                 th:each="dificultateOpt:${T(com.hike.models.Dificultate).values()}"
-                                                th:value="${dificultateOpt}" th:text="${dificultateOpt.name()}">
+                                                th:value="${dificultateOpt.name()}" th:text="${dificultateOpt.displayName()}">
                                         </option>
                                     </select>
                                 </div>
@@ -101,7 +101,7 @@
                                     <select class="nice-select open" id="sezon" name="category" th:field="*{sezon}">
                                         <option
                                                 th:each="sezonOpt:${T(com.hike.models.Sezon).values()}"
-                                                th:value="${sezonOpt}" th:text="${sezonOpt.name()}">
+                                                th:value="${sezonOpt.name()}" th:text="${sezonOpt.displayName()}">
                                         </option>
                                     </select>
                                 </div>

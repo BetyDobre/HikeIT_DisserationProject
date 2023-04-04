@@ -1,5 +1,7 @@
 package com.hike.service;
 
-public interface TraseuService {
+import com.hike.dto.TraseuDto;
 
+public interface TraseuService {
+    void save(TraseuDto traseuDto);
 }

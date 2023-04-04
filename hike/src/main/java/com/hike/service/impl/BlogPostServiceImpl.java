@@ -80,7 +80,9 @@ public class BlogPostServiceImpl implements BlogPostService {
         postare.setUser(blogPostDto.getUser());
         postare.setPozaCoperta(blogPostDto.getPozaCoperta());
         Optional<BlogCategory> categorie = blogCategoryRepository.findById(blogPostDto.getCategorieId());
-        postare.setCategorie(categorie.get());
+        if(categorie.isPresent()){
+            postare.setCategorie(categorie.get());
+        }
 
         blogPostRepository.save(postare);
     }

@@ -48,7 +48,7 @@
 
                             <div class="form-group first">
                                 <label for="text">Text*</label>
-                                <textarea th:field="*{text}" type="text" placeholder="Povestea ta.." id="text" class="single-textarea"></textarea>
+                                <textarea th:field="*{text}" type="text" placeholder="Povestea ta.." id="text" class="common-textarea form-control"></textarea>
                                 <p th:if="${#fields.hasErrors('text')}" class="text-danger" th:errors="*{text}"></p>
                             </div>
 
