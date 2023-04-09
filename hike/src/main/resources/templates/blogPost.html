@@ -7,7 +7,7 @@
 	<!--	end header-->
 
 	<!-- start banner Area -->
-	<section th:replace="fragments :: banner_fragment(title = ${postare.titlu}, link = '', button = null)"/>
+	<section th:replace="fragments :: banner_fragment(title = ${postare.titlu}, link = 'blog/' + ${postare.id}, button = null)"/>
 	<!-- End banner Area -->
 
 	<!-- Start post-content Area -->

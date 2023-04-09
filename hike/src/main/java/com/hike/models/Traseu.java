@@ -18,14 +18,15 @@ public class Traseu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String titlu;
     private String punctPlecare;
     private String punctSosire;
-    private String durata;
+    private String durataMinima;
+    private String durataMaxima;
     private Long distanta;
     private Long urcare;
     private Long coborare;
     private String descriere;
-    private String marcaj;
 
     @Enumerated(EnumType.STRING)
     private Dificultate dificultate;
@@ -40,6 +41,10 @@ public class Traseu {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="grupaMuntoasa_id", referencedColumnName = "id")
     private GrupaMuntoasa grupaMuntoasa;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name="marcaj_id", referencedColumnName = "id")
+    private Marcaj marcaj;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="user_id", referencedColumnName = "id")

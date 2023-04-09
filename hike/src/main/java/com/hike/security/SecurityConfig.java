@@ -49,7 +49,7 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/","/404","/login", "/register","/logout","/subscribe","/parolaUitata/**","/resetParola/**","/trasee/**","/contact","/blog/**", "/blog/categorie/**","/blog/getBlogPhoto/**","/grupaMuntoasa/**")
+                .requestMatchers("/","/404","/login", "/register","/logout","/subscribe","/parolaUitata/**","/resetParola/**","/trasee/**","/contact","/blog/**", "/blog/categorie/**","/blog/getBlogPhoto/**","/grupaMuntoasa/**", "/marcaje/getMarcajPhoto/**'")
                 .permitAll()
                // requestMatchers(request -> {
                 //    String path = request.getServletPath();
@@ -58,7 +58,7 @@ public class SecurityConfig{
                 //            && (query == null || Pattern.compile("[\\w\\-]+=[\\w\\-]+(&[\\w\\-]+=[\\w\\-]+)*").matcher(query).matches());
                 //})
                 .requestMatchers("/user/**", "/blog/postarilemele", "/blog/adauga", "/blog/*/sterge", "/blog/*/*/sterge").authenticated()
-                .requestMatchers("/admin/**", "/blog/categorii/**").hasAuthority("ADMIN")
+                .requestMatchers("/admin/**", "/blog/categorii/**", "/marcaje/**").hasAuthority("ADMIN")
 //                .requestMatchers("/admin/**").permitAll()
                 .and()
                 .formLogin()

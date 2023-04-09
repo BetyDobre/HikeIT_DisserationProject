@@ -1,14 +1,89 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments :: head_fragment(pageTitle = 'Trasee')"/>
 <body>
 <header th:replace="fragments :: header_fragment"/>
 
-<section th:replace="fragments :: banner_fragment(title = 'Trasee', link = 'trasee', button = 'Adaugă traseu')"/>
+<section sec:authorize="isAuthenticated()" th:replace="fragments :: banner_fragment(title = 'Trasee', link = 'trasee', button = 'Adaugă traseu')"/>
+<section sec:authorize="isAnonymous()" th:replace="fragments :: banner_fragment(title = 'Trasee', link = 'trasee', button = null)"/>
 
-<section>
-    <p th:if="${param.adaugaSuccess}" class="alert alert-success">Traseu adăugat cu success!</p>
+<!-- Start Trasee Area -->
+<section class="destinations-area section-gap">
+    <div class="container">
+        <p th:if="${param.adaugaSuccess}" class="alert alert-success">Traseu adăugat cu success!</p>
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-40 col-lg-8">
+                <div class="title text-center">
+                    <h1 class="mb-10">Caută ce ți se potrivește</h1>
+<!--                    LISTA CU FILTRE-->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div style="margin-top:5rem;">
+                <h2 th:if="${trasee.totalElements == 0}" class="m-5 centered"><span>Niciun traseu!</span></h2>
+            </div>
+            <div class="col-lg-4" th:if="${trasee.totalElements != 0}" th:each="traseu : ${trasee.content}">
+                <div class="single-destinations">
+                    <div class="thumb">
+                        <img th:src="@{img/trasee/addFormCover.jpg}" alt="">
+                    </div>
+                    <div class="details">
+                        <h4 class="d-flex justify-content-between">
+                            <span th:text="${traseu.titlu}"></span>
+                            <div>
+                                <img class="img-fluid" th:src="@{'/marcaje/getMarcajPhoto/' + ${traseu.marcaj.id}}" style="height: 30px; width: 30px;" th:alt="${traseu.marcaj.titlu}">
+                            </div>
+                        </h4>
+                        <p>Nr Comentarii</p>
+                        <ul class="package-list">
+                            <li class="d-flex justify-content-between align-items-center">
+                                <span>Dificultate</span>
+                                <span th:text="${traseu.dificultate.displayName()}"></span>
+                            </li>
+                            <li class="d-flex justify-content-between align-items-center">
+                                <span>Durată</span>
+                                <span th:text="${traseu.durataMinima} + '-' + ${traseu.durataMaxima}"></span>
+                            </li>
+                            <li class="d-flex justify-content-between align-items-center">
+                                <span>Distanță</span>
+                                <span th:text="${traseu.distanta} + 'km'"></span>
+                            </li>
+                            <li class="d-flex justify-content-between align-items-center">
+                                <span></span>
+                                <a th:href="@{'/trasee/'+ ${traseu.id}}" class="price-btn">Vezi mai multe</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--					Paginare-->
+        <nav class="blog-pagination justify-content-center d-flex">
+            <ul class="pagination">
+                <li class="page-item" th:if="${currentPage gt 1}" th:class="${currentPage == 1} ? disabled : ''">
+                    <a class="page-link" th:href="@{${currentPage > 1} ? ${link} +'?page=' + ${currentPage - 1} : ${link}+'?page=1'}" aria-label="Anterioară">
+									 <span aria-hidden="true">
+										 <span class="lnr lnr-chevron-left"></span>
+									 </span>
+                    </a>
+                </li>
+                <li th:if="${trasee.totalPages > 0}" class="page-item" th:each="i : ${#numbers.sequence(1, trasee.totalPages)}">
+                    <a class="page-link" th:href="@{${i} != ${currentPage} ? ${link}+'?page=' + ${i} : null}" th:text="${i}"
+                       th:classappend="${i == currentPage} ? 'active'"></a>
+                </li>
+                <li class="page-item" th:if="${currentPage lt trasee.totalPages}" th:class="${currentPage == trasee.totalPages} ? disabled : ''">
+                    <a class="page-link"  th:href="@{${currentPage < trasee.totalPages} ? ${link}+'?page=' + ${currentPage + 1} : ${link}+'?page=' + ${trasee.totalPages}}" aria-label="Următoarea">
+									<span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-right"></span>
+									</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </section>
+<!-- End destinations Area -->
 
 <!-- start footer Area -->
 <footer th:replace="fragments :: footer_fragment"/>

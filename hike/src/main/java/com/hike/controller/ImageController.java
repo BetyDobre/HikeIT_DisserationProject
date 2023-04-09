@@ -2,9 +2,11 @@ package com.hike.controller;
 
 import com.hike.models.BlogPost;
 import com.hike.models.GrupaMuntoasa;
+import com.hike.models.Marcaj;
 import com.hike.models.UserEntity;
 import com.hike.service.BlogPostService;
 import com.hike.service.GrupaMuntoasaService;
+import com.hike.service.MarcajService;
 import com.hike.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
@@ -24,12 +26,14 @@ public class ImageController {
     private final GrupaMuntoasaService grupaMuntoasaService;
     private final UserService userService;
     private final BlogPostService blogPostService;
+    private final MarcajService marcajService;
 
     @Autowired
-    public ImageController(GrupaMuntoasaService grupaMuntoasaService, UserService userService, BlogPostService blogPostService) {
+    public ImageController(GrupaMuntoasaService grupaMuntoasaService, UserService userService, BlogPostService blogPostService, MarcajService marcajService) {
         this.grupaMuntoasaService = grupaMuntoasaService;
         this.userService = userService;
         this.blogPostService = blogPostService;
+        this.marcajService = marcajService;
     }
 
     @GetMapping("/grupaMuntoasa/getImage/{id}")
@@ -72,6 +76,21 @@ public class ImageController {
         if (blogPost.getPozaCoperta() != null) {
             response.setContentType("image/jpeg");
             InputStream is = new ByteArrayInputStream(blogPost.getPozaCoperta());
+            try {
+                IOUtils.copy(is, response.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @GetMapping("/marcaje/getMarcajPhoto/{id}")
+    public void downloadMarcajImage(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        Optional<Marcaj> marcaj = marcajService.findById(id);
+
+        if (marcaj.get().getMarcaj() != null) {
+            response.setContentType("image/jpeg");
+            InputStream is = new ByteArrayInputStream(marcaj.get().getMarcaj());
             try {
                 IOUtils.copy(is, response.getOutputStream());
             } catch (IOException e) {

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="fragments :: head_fragment(pageTitle = ${traseu.titlu})"/>
+<body>
+<header th:replace="fragments :: header_fragment"/>
+
+<section sec:authorize="isAuthenticated()" th:replace="fragments :: banner_fragment(title = ${traseu.titlu}, link = 'trasee/' + ${traseu.id}, button = 'Adaugă traseu')"/>
+<section sec:authorize="isAnonymous()" th:replace="fragments :: banner_fragment(title = ${traseu.titlu}, link = 'trasee/' + ${traseu.id}, button = null)"/>
+
+<section class="post-content-area single-post-area">
+    <div th:each="image : ${traseu.pozeTraseu}">
+        <img th:src="@{'data:image/jpeg;base64,' + #strings.encodeBase64(image)}" />
+    </div>
+</section>
+
+<!-- start footer Area -->
+<footer th:replace="fragments :: footer_fragment"/>
+<!-- End footer Area -->
+
+<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
+<script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
+<script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+</body>
+</html>

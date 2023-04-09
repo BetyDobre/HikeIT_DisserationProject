@@ -1,9 +1,6 @@
 package com.hike.dto;
 
-import com.hike.models.Dificultate;
-import com.hike.models.GrupaMuntoasa;
-import com.hike.models.Sezon;
-import com.hike.models.UserEntity;
+import com.hike.models.*;
 import com.hike.validator.OnlyDigits;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,13 +24,20 @@ public class TraseuDto {
     private Long id;
 
     @NotEmpty(message = "Acest câmp este obligatoriu.")
+    @Length(max = 100, message = "Titlul trebuie să aibă maxim 100 de caractere.")
+    private String titlu;
+
+    @NotEmpty(message = "Acest câmp este obligatoriu.")
     private String punctPlecare;
 
     @NotEmpty(message = "Acest câmp este obligatoriu.")
     private String punctSosire;
 
-    @Length(min = 3, max = 13, message = "Menționați durata minimă și cea maximă a traselui.")
-    private String durata;
+    @Length(min = 3, max = 13, message = "Menționați durata minimă a traselui.")
+    private String durataMinima;
+
+    @Length(min = 3, max = 13, message = "Menționați durata maximă a traselui.")
+    private String durataMaxima;
 
     @NotNull(message = "Acest câmp este obligatoriu.")
     @Digits(integer = 3, fraction = 0, message = "Doar cifre permise")
@@ -51,7 +55,7 @@ public class TraseuDto {
     @Length(min = 10, max = 4000, message = "Descrierea trebuie să aibă între 10 și 4000 de caractere.")
     private String descriere;
 
-    private String marcaj;
+    private Marcaj marcaj;
 
     @Enumerated(EnumType.STRING)
     private Dificultate dificultate;
@@ -70,4 +74,7 @@ public class TraseuDto {
 
     @NotNull(message = "Grupa este obligatorie!")
     private Long grupaMuntoasaId;
+
+    @NotNull(message = "Marcajul este obligatoriu!")
+    private Long marcajId;
 }

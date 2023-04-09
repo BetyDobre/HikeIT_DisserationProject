@@ -56,7 +56,11 @@
             <nav id="nav-menu-container">
                 <ul class="nav-menu">
                     <li><a th:href="@{/}">Acasă</a></li>
-                    <li><a th:href="@{/trasee}">Trasee</a></li>
+                    <li class="menu-has-children"><a th:href="@{/trasee}">Trasee</a>
+                        <ul sec:authorize="hasAuthority('ADMIN')">
+                            <li><a th:href="@{/marcaje}">Marcaje</a></li>
+                        </ul>
+                    </li>
                     <li class="menu-has-children"><a th:href="@{/blog}">Blog</a>
                         <ul sec:authorize="hasAuthority('BLOGGER')">
                             <li><a th:href="@{/blog}">Articole</a></li>
