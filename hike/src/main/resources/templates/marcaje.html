@@ -39,7 +39,7 @@
             <td th:text="${marcaj.id}"></td>
             <td th:text="${marcaj.titlu}"</td>
             <td>
-                <img class="img-fluid" th:src="@{'/marcaje/getMarcajPhoto/' + ${marcaj.id}}" onerror="this.src='/img/blog/defaultBlog.jpg';" style="height: 50px; width: 50px;" alt="Photo">
+                <img class="img-fluid" th:src="@{'/marcaje/getMarcajPhoto/' + ${marcaj.id}}" onerror="this.src='/img/blog/defaultCover.jpg';" style="height: 50px; width: 50px;" alt="Photo">
             </td>
             <td>
                 <a th:href="@{'/marcaje/'+${marcaj.id}+ '/sterge'}" class="genric-btn circle" style="background-color: #04091e; color: white;">Șterge</a>

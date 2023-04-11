@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head th:replace="fragments :: head_fragment(pageTitle = 'Adăugare traseu')"/>
+<head th:insert="fragments :: head_fragment(pageTitle = 'Adăugare traseu')">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+</head>
 <body>
 <header th:replace="fragments :: header_fragment"/>
 
@@ -79,15 +81,15 @@
                             <div class="form-group last mb-3">
                                 <label for="marcaj">Marcajul care semnalizează traseul*</label>
                                 <div class="default-select">
-                                    <select class="nice-select open" id="marcaj" name="marcaj" th:field="*{marcajId}">
+                                    <select class="select2" id="marcaj" name="marcaj" th:field="*{marcajId}">
                                         <option value="">Selectează un marcaj</option>
                                         <option th:each="marcaj : ${marcaje}"
                                                 th:value="${marcaj.id}"
-                                                th:text="${marcaj.titlu}">
-<!--                                            <img class="img-fluid" th:src="@{'/marcaje/getMarcajPhoto/' + ${marcaj.id}}" style="height: 30px; width: 30px;" th:alt="${marcaj.titlu}">-->
-                                        </option>
+                                                th:text="${marcaj.titlu}"
+                                                th:data-icon="@{'/marcaje/getMarcajPhoto/' + ${marcaj.id}}">
                                     </select>
                                 </div>
+
                                 <p th:if="${#fields.hasErrors('marcajId')}" th:errors="*{marcajId}" class="text-danger"></p>
                             </div>
 
@@ -157,6 +159,22 @@
 <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            templateResult: formatState
+        });
+        $('.select2-arrow').append('<i class="fa fa-angle-down"></i>');
+    });
 
+    function formatState (state) {
+        if (!state.id) { return state.text; }
+        var $state = $(
+            '<span><img src="' + $(state.element).data('icon') + '" class="img-fluid" style="height: 30px; width: 30px; margin-right: 10px;" /> ' + state.text + '</span>'
+        );
+        return $state;
+    };
+</script>
 </body>
 </html>

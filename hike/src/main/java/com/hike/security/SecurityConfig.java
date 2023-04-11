@@ -49,7 +49,7 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/","/404","/login", "/register","/logout","/subscribe","/parolaUitata/**","/resetParola/**","/trasee/**","/contact","/blog/**", "/blog/categorie/**","/blog/getBlogPhoto/**","/grupaMuntoasa/**", "/marcaje/getMarcajPhoto/**'")
+                .requestMatchers("/","/404","/login", "/register","/logout","/subscribe","/parolaUitata/**","/resetParola/**","/trasee/**","/contact","/blog/**", "/blog/categorie/**","/blog/getBlogPhoto/**","/grupaMuntoasa/**", "/marcaje/getMarcajPhoto/**")
                 .permitAll()
                // requestMatchers(request -> {
                 //    String path = request.getServletPath();
