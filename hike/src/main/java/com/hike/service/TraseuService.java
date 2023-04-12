@@ -17,4 +17,5 @@ public interface TraseuService {
     Optional<Traseu> getTraseuById(Long id);
     List<Traseu> findAll();
     Page<Traseu> getAllByUser(UserEntity user, Pageable pageable);
+    int countTraseeAprobateByUser(UserEntity user);
 }

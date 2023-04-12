@@ -76,4 +76,9 @@ public class TraseuServiceImpl implements TraseuService {
     public Page<Traseu> getAllByUser(UserEntity user, Pageable pageable) {
         return traseuRepository.getAllByUser(user, pageable);
     }
+
+    @Override
+    public int countTraseeAprobateByUser(UserEntity user) {
+        return traseuRepository.countAllByUserAndAprobat(user, true);
+    }
 }

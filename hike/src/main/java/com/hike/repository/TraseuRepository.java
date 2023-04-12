@@ -13,4 +13,5 @@ public interface TraseuRepository extends JpaRepository<Traseu, Long> {
     Traseu getTraseuByTitlu(String titlu);
     Optional<Traseu> findById(Long id);
     Page<Traseu> getAllByUser(UserEntity user, Pageable pageable);
+    int countAllByUserAndAprobat(UserEntity user, boolean aprobat);
 }

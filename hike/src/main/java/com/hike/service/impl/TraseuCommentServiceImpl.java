@@ -3,6 +3,7 @@ package com.hike.service.impl;
 import com.hike.dto.TraseuCommentDto;
 import com.hike.models.Traseu;
 import com.hike.models.TraseuComment;
+import com.hike.models.UserEntity;
 import com.hike.repository.TraseuCommentRepository;
 import com.hike.service.TraseuCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,10 @@ public class TraseuCommentServiceImpl implements TraseuCommentService {
     @Override
     public void delete(Long commId) {
         traseuCommentRepository.deleteById(commId);
+    }
+
+    @Override
+    public int countAllByUser(UserEntity user) {
+        return traseuCommentRepository.countAllByUser(user);
     }
 }

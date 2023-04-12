@@ -4,9 +4,7 @@ import com.hike.dto.UserDto;
 import com.hike.models.Role;
 import com.hike.models.UserEntity;
 import com.hike.models.Utility;
-import com.hike.service.BlogCommentService;
-import com.hike.service.BlogPostService;
-import com.hike.service.UserService;
+import com.hike.service.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,12 +29,16 @@ public class UserController {
     private UserService userService;
     private BlogPostService blogPostService;
     private BlogCommentService blogCommentService;
+    private TraseuCommentService traseuCommentService;
+    private TraseuService traseuService;
 
     @Autowired
-    public UserController(UserService userService, BlogPostService blogPostService, BlogCommentService blogCommentService) {
+    public UserController(UserService userService, BlogPostService blogPostService, BlogCommentService blogCommentService, TraseuCommentService traseuCommentService, TraseuService traseuService) {
         this.userService = userService;
         this.blogPostService = blogPostService;
         this.blogCommentService = blogCommentService;
+        this.traseuCommentService = traseuCommentService;
+        this.traseuService = traseuService;
     }
 
     @InitBinder
@@ -167,7 +169,8 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("statistici", "true");
         model.addAttribute("postCount", blogPostService.countAllByUser(user));
-        model.addAttribute("commentCount", blogCommentService.countAllByUser(user));
+        model.addAttribute("commentCount", blogCommentService.countAllByUser(user) + traseuCommentService.countAllByUser(user));
+        model.addAttribute("traseeAdaugateCount", traseuService.countTraseeAprobateByUser(user));
 
         return "profil";
     }

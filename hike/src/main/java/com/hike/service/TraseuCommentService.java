@@ -3,6 +3,7 @@ package com.hike.service;
 import com.hike.dto.TraseuCommentDto;
 import com.hike.models.Traseu;
 import com.hike.models.TraseuComment;
+import com.hike.models.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,4 +16,6 @@ public interface TraseuCommentService {
     void save(TraseuCommentDto traseuCommentDto);
 
     void delete(Long commId);
+
+    int countAllByUser(UserEntity user);
 }
