@@ -5,6 +5,7 @@ import com.hike.mapper.TraseuMapper;
 import com.hike.models.GrupaMuntoasa;
 import com.hike.models.Marcaj;
 import com.hike.models.Traseu;
+import com.hike.models.UserEntity;
 import com.hike.repository.TraseuRepository;
 import com.hike.service.GrupaMuntoasaService;
 import com.hike.service.MarcajService;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -51,6 +53,11 @@ public class TraseuServiceImpl implements TraseuService {
     }
 
     @Override
+    public Page<Traseu> getAllTraseeNeaprobate(Pageable pageable) {
+        return traseuRepository.getAllByAprobat(false, pageable);
+    }
+
+    @Override
     public Traseu getTraseuByTitlu(String titlu) {
         return traseuRepository.getTraseuByTitlu(titlu);
     }
@@ -58,5 +65,15 @@ public class TraseuServiceImpl implements TraseuService {
     @Override
     public Optional<Traseu> getTraseuById(Long id) {
         return traseuRepository.findById(id);
+    }
+
+    @Override
+    public List<Traseu> findAll() {
+        return traseuRepository.findAll();
+    }
+
+    @Override
+    public Page<Traseu> getAllByUser(UserEntity user, Pageable pageable) {
+        return traseuRepository.getAllByUser(user, pageable);
     }
 }

@@ -8,8 +8,95 @@
 <section sec:authorize="isAnonymous()" th:replace="fragments :: banner_fragment(title = ${traseu.titlu}, link = 'trasee/' + ${traseu.id}, button = null)"/>
 
 <section class="post-content-area single-post-area">
-    <div th:each="image : ${traseu.pozeTraseu}">
-        <img th:src="@{'data:image/jpeg;base64,' + #strings.encodeBase64(image)}" />
+    <div class="contents order-2 order-md-1">
+        <div class="container">
+            <div class="row align-items-center justify-content-center">
+                    <div class="col-md-8">
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img class="d-block w-100" th:src="@{'/trasee/getTraseuPhotos/' + ${traseu.id} +'/0'}" alt="First slide">
+                                </div>
+                                <div th:each="poza, iter: ${traseu.pozeTraseu}" th:if="${iter.index} > 0" class="carousel-item">
+                                    <img class="d-block w-100" th:src="@{'/trasee/getTraseuPhotos/' + ${traseu.id} +'/' + ${iter.index}}" alt="Slide">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+<!--                comments area-->
+                <div class="comments-area">
+                    <h4>Comentarii</h4>
+                    <div style="margin-top:3rem;" th:if="${comentarii.totalElements == 0}">
+                        <h2 class="m-5 centered"><span>Niciun comentariu!</span></h2>
+                    </div>
+                    <p th:if="${param.adaugaSucces}" class="alert alert-success">Comentariu adăugat!</p>
+                    <p th:if="${param.stergeSucces}" class="alert alert-success">Comentariu sters!</p>
+                    <div th:if="${comentarii.totalElements != 0}" th:each="comentariu : ${comentarii.content}" class="comment-list">
+                        <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div th:switch="*{comentariu.user.authProvider.name}" class="thumb">
+                                    <img th:case="'GOOGLE'" th:src="${comentariu.user.pozaGoogle}"onerror="this.src='/img/user.png';" style="width: 5rem; height: 5rem;" alt="">
+                                    <img th:case="'LOCAL'" th:src="@{/user/getProfilePhoto/{username}(username=${comentariu.user.username})}" onerror="this.src='/img/user.png';" style="width: 5rem; height: 5rem;" alt="">
+                                </div>
+                                <div class="desc">
+                                    <h5 th:text="${comentariu.user.username}"></h5>
+                                    <p class="date" th:text="${#temporals.format(comentariu.createdOn, 'dd-MMM-yyyy HH:mm')}" ></p>
+                                    <p class="comment" th:text="${comentariu.text}"></p>
+                                </div>
+                            </div>
+                            <div th:if="${comentariu.user.id} == ${userId}" class="d-flex align-items-center">
+                                <a th:href="@{'/trasee/'+${traseu.id}+'/'+${comentariu.id}+'/sterge'}" class="genric-btn primary-border radius">Șterge</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav class="blog-pagination justify-content-center d-flex">
+                        <ul class="pagination">
+                            <li class="page-item" th:if="${currentPage gt 1}" th:class="${currentPage == 1} ? disabled : ''">
+                                <a class="page-link" th:href="@{${currentPage > 1} ? ${link} +'?page=' + ${currentPage - 1} : ${link}+'?page=1'}" aria-label="Anterioară">
+									 <span aria-hidden="true">
+										 <span class="lnr lnr-chevron-left"></span>
+									 </span>
+                                </a>
+                            </li>
+                            <li th:if="${comentarii.totalPages > 0}" class="page-item" th:each="i : ${#numbers.sequence(1, comentarii.totalPages)}">
+                                <a class="page-link" th:href="@{${i} != ${currentPage} ? ${link}+'?page=' + ${i} : null}" th:text="${i}"
+                                   th:classappend="${i == currentPage} ? 'active'"></a>
+                            </li>
+                            <li class="page-item" th:if="${currentPage lt comentarii.totalPages}" th:class="${currentPage == comentarii.totalPages} ? disabled : ''">
+                                <a class="page-link"  th:href="@{${currentPage < comentarii.totalPages} ? ${link}+'?page=' + ${currentPage + 1} : ${link}+'?page=' + ${comentarii.totalPages}}" aria-label="Următoarea">
+									<span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-right"></span>
+									</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="comment-form">
+                    <h4>Lasă un comentariu</h4>
+                    <form sec:authorize="isAuthenticated()" method="post" th:action="@{'/trasee/' + ${traseu.id}}" th:object="${comentariuNou}">
+                        <div class="form-group">
+                            <textarea th:field="*{text}" class="form-control mb-10" rows="5" name="text" id="text" placeholder="Comentariu" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Comentariu'"></textarea>
+                        </div>
+                        <p th:if="${#fields.hasErrors('text')}" class="text-danger" th:errors="*{text}"></p>
+                        <button class="primary-btn text-uppercase" type="submit">Adaugă comentariu</button>
+                    </form>
+                    <p sec:authorize="isAnonymous()">Pentru a lăsa un comentariu trebuie să te <a th:href="@{/login}">autentifici</a>.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

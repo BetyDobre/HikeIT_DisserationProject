@@ -1,13 +1,7 @@
 package com.hike.controller;
 
-import com.hike.models.BlogPost;
-import com.hike.models.GrupaMuntoasa;
-import com.hike.models.Marcaj;
-import com.hike.models.UserEntity;
-import com.hike.service.BlogPostService;
-import com.hike.service.GrupaMuntoasaService;
-import com.hike.service.MarcajService;
-import com.hike.service.UserService;
+import com.hike.models.*;
+import com.hike.service.*;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +16,19 @@ import java.util.Optional;
 
 @Controller
 public class ImageController {
-
     private final GrupaMuntoasaService grupaMuntoasaService;
     private final UserService userService;
     private final BlogPostService blogPostService;
     private final MarcajService marcajService;
+    private final TraseuService traseuService;
 
     @Autowired
-    public ImageController(GrupaMuntoasaService grupaMuntoasaService, UserService userService, BlogPostService blogPostService, MarcajService marcajService) {
+    public ImageController(GrupaMuntoasaService grupaMuntoasaService, UserService userService, BlogPostService blogPostService, MarcajService marcajService, TraseuService traseuService) {
         this.grupaMuntoasaService = grupaMuntoasaService;
         this.userService = userService;
         this.blogPostService = blogPostService;
         this.marcajService = marcajService;
+        this.traseuService = traseuService;
     }
 
     @GetMapping("/grupaMuntoasa/getImage/{id}")
@@ -91,6 +86,21 @@ public class ImageController {
         if (marcaj.get().getMarcaj() != null) {
             response.setContentType("image/jpeg");
             InputStream is = new ByteArrayInputStream(marcaj.get().getMarcaj());
+            try {
+                IOUtils.copy(is, response.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @GetMapping("/trasee/getTraseuPhotos/{id}/{index}")
+    public void downloadPozaTraseu(@PathVariable Long id, @PathVariable int index, HttpServletResponse response) throws IOException {
+        Optional<Traseu> traseu = traseuService.getTraseuById(id);
+
+        if (traseu.get().getPozeTraseu() != null) {
+            response.setContentType("image/jpeg");
+            InputStream is = new ByteArrayInputStream(traseu.get().getPozeTraseu().get(index));
             try {
                 IOUtils.copy(is, response.getOutputStream());
             } catch (IOException e) {

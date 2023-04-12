@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -49,6 +50,9 @@ public class Traseu {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name="user_id", referencedColumnName = "id")
     private UserEntity user;
+
+    @OneToMany(mappedBy = "traseu", cascade = CascadeType.REMOVE)
+    private Set<TraseuComment> comentarii;
 
     private boolean aprobat;
 }

@@ -26,7 +26,7 @@
             <div class="col-lg-4" th:if="${trasee.totalElements != 0}" th:each="traseu : ${trasee.content}">
                 <div class="single-destinations">
                     <div class="thumb">
-                        <img th:src="@{img/trasee/addFormCover.jpg}" alt="">
+                        <img th:src="@{'/trasee/getTraseuPhotos/' + ${traseu.id} +'/0'}" alt="">
                     </div>
                     <div class="details">
                         <h4 class="d-flex justify-content-between">
@@ -35,7 +35,7 @@
                                 <img class="img-fluid" th:src="@{'/marcaje/getMarcajPhoto/' + ${traseu.marcaj.id}}" style="height: 30px; width: 30px;" th:alt="${traseu.marcaj.titlu}">
                             </div>
                         </h4>
-                        <p>Nr Comentarii</p>
+                        <p th:text="${nrComentarii[traseu.id]}+' Comentarii'"></p>
                         <ul class="package-list">
                             <li class="d-flex justify-content-between align-items-center">
                                 <span>Dificultate</span>
@@ -50,7 +50,8 @@
                                 <span th:text="${traseu.distanta} + 'km'"></span>
                             </li>
                             <li class="d-flex justify-content-between align-items-center">
-                                <span></span>
+                                <span class="text-info font-weight-bold" th:if="${aprobare}" th:text="${traseu.aprobat} ? 'APROBAT' : 'ÎN AȘTEPTARE'" ></span>
+                                <span th:if="${aprobare} != true"></span>
                                 <a th:href="@{'/trasee/'+ ${traseu.id}}" class="price-btn">Vezi mai multe</a>
                             </li>
                         </ul>

@@ -49,7 +49,7 @@
                             </div>
 
                             <div class="form-group first">
-                                <label for="durata">Durata maximă de parcurs a traseului, pentru o condiție fizică mai puțin bună sau din cauza unor condiții de vreme nefavorabile, în ore. (ex: 4:15h)*</label>
+                                <label for="durataMaxima">Durata maximă de parcurs a traseului, pentru o condiție fizică mai puțin bună sau din cauza unor condiții de vreme nefavorabile, în ore. (ex: 4:15h)*</label>
                                 <input th:field="*{durataMaxima}" type="text" name="durataMaxima" id="durataMaxima" placeholder="Adaugă durata maxima a traseului..." class="single-input">
                                 <p th:if="${#fields.hasErrors('durataMaxima')}" th:errors="*{durataMaxima}" class="text-danger"></p>
                             </div>

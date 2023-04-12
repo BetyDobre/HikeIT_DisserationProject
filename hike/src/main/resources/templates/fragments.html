@@ -59,6 +59,17 @@
                     <li class="menu-has-children"><a th:href="@{/trasee}">Trasee</a>
                         <ul sec:authorize="hasAuthority('ADMIN')">
                             <li><a th:href="@{/marcaje}">Marcaje</a></li>
+                            <li><a th:href="@{/trasee/propuneri}">Propuneri trasee</a></li>
+                        </ul>
+                        <ul sec:authorize="isAuthenticated()">
+                            <li><a th:href="@{/trasee/traseeParcurse}">Trasee parcurse</a></li>
+                            <li><a th:href="@{/trasee/traseeAdaugate}">Trasee adăugate</a></li>
+                        </ul>
+                        <ul sec:authorize="isAuthenticated() and hasAuthority('ADMIN')">
+                            <li><a th:href="@{/marcaje}">Marcaje</a></li>
+                            <li><a th:href="@{/trasee/propuneri}">Propuneri trasee</a></li>
+                            <li><a th:href="@{/trasee/traseeParcurse}">Trasee parcurse</a></li>
+                            <li><a th:href="@{/trasee/traseeAdaugate}">Trasee adăugate</a></li>
                         </ul>
                     </li>
                     <li class="menu-has-children"><a th:href="@{/blog}">Blog</a>

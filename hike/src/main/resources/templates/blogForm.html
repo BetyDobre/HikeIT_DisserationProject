@@ -14,7 +14,7 @@
                     <div class="form-block">
                         <form method="post" th:action="@{/blog/adauga}" th:object="${postare}" enctype="multipart/form-data">
                             <div class="form-group" style="text-align: center;">
-                                <img id= "thumbnail" class="img-fluid" style="width: 500px; height: 300px;" th:src="@{/img/blog/defaultCover.jpg}">
+                                <img id= "thumbnail" class="img-fluid" style="width: 500px; height: 250px;" th:src="@{/img/blog/defaultCover.png}">
                                 <br/>
                                 <input id="pozaCoperta" name="pozaCoperta" type="file" accept="image/png, image/jpeg">
                             </div>
