@@ -18,4 +18,10 @@ public interface TraseuService {
     List<Traseu> findAll();
     Page<Traseu> getAllByUser(UserEntity user, Pageable pageable);
     int countTraseeAprobateByUser(UserEntity user);
+
+    void save(Traseu traseu);
+
+    void respinge(Traseu traseu);
+
+    void delete(Long id);
 }

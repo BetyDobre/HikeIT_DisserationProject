@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TraseuCommentServiceImpl implements TraseuCommentService {
     private TraseuCommentRepository traseuCommentRepository;
@@ -23,6 +25,11 @@ public class TraseuCommentServiceImpl implements TraseuCommentService {
     @Override
     public Page<TraseuComment> getAllCommentsByTraseu(Traseu traseu, Pageable pageable) {
         return traseuCommentRepository.findAllByTraseu(traseu, pageable);
+    }
+
+    @Override
+    public List<TraseuComment> getAllCommentsByTraseu(Traseu traseu) {
+        return  traseuCommentRepository.findAllByTraseu(traseu);
     }
 
     @Override

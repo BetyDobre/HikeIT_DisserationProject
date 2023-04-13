@@ -1,15 +1,15 @@
 package com.hike.service.impl;
 
 import com.hike.dto.TraseuDto;
+import com.hike.exception.ObjectNotFoundException;
 import com.hike.mapper.TraseuMapper;
-import com.hike.models.GrupaMuntoasa;
-import com.hike.models.Marcaj;
-import com.hike.models.Traseu;
-import com.hike.models.UserEntity;
+import com.hike.models.*;
 import com.hike.repository.TraseuRepository;
 import com.hike.service.GrupaMuntoasaService;
 import com.hike.service.MarcajService;
+import com.hike.service.TraseuCommentService;
 import com.hike.service.TraseuService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,12 +23,14 @@ public class TraseuServiceImpl implements TraseuService {
     private TraseuRepository traseuRepository;
     private GrupaMuntoasaService grupaMuntoasaService;
     private MarcajService marcajService;
+    private TraseuCommentService traseuCommentService;
 
     @Autowired
-    public TraseuServiceImpl(TraseuRepository traseuRepository, GrupaMuntoasaService grupaMuntoasaService, MarcajService marcajService) {
+    public TraseuServiceImpl(TraseuRepository traseuRepository, GrupaMuntoasaService grupaMuntoasaService, MarcajService marcajService, TraseuCommentService traseuCommentService) {
         this.traseuRepository = traseuRepository;
         this.grupaMuntoasaService = grupaMuntoasaService;
         this.marcajService = marcajService;
+        this.traseuCommentService = traseuCommentService;
     }
 
     @Override
@@ -80,5 +82,33 @@ public class TraseuServiceImpl implements TraseuService {
     @Override
     public int countTraseeAprobateByUser(UserEntity user) {
         return traseuRepository.countAllByUserAndAprobat(user, true);
+    }
+
+    @Override
+    public void save(Traseu traseu) {
+        traseuRepository.save(traseu);
+    }
+
+    @Override
+    public void respinge(Traseu traseu) {
+        traseuRepository.delete(traseu);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Long id) {
+        try {
+            Traseu traseu = traseuRepository.findById(id)
+                    .orElseThrow(() -> new ObjectNotFoundException("Nu s-a gasit traseul cu ID-ul " + id));
+
+            List<TraseuComment> comentarii = traseuCommentService.getAllCommentsByTraseu(traseu);
+            for (TraseuComment comentariu : comentarii) {
+                traseuCommentService.delete(comentariu.getId());
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException("Nu s-a putut sterge postarea cu ID-ul " + id, ex);
+        }
+
+        traseuRepository.deleteById(id);
     }
 }

@@ -2,8 +2,10 @@ package com.hike.controller;
 
 import com.hike.dto.TraseuCommentDto;
 import com.hike.dto.TraseuDto;
+import com.hike.exception.ObjectNotFoundException;
 import com.hike.models.*;
 import com.hike.service.*;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 @Controller
@@ -29,15 +32,17 @@ public class TraseuController {
     private UserService userService;
     private TraseuCommentService traseuCommentService;
     private MarcajService marcajService;
+    private MailService mailService;
     private final int pageSize = 6;
 
     @Autowired
-    public TraseuController(TraseuService traseuService, GrupaMuntoasaService grupaMuntoasaService, UserService userService, MarcajService marcajService, TraseuCommentService traseuCommentService) {
+    public TraseuController(TraseuService traseuService, GrupaMuntoasaService grupaMuntoasaService, UserService userService, MarcajService marcajService, TraseuCommentService traseuCommentService, MailService mailService) {
         this.traseuService = traseuService;
         this.grupaMuntoasaService = grupaMuntoasaService;
         this.userService = userService;
         this.marcajService = marcajService;
         this.traseuCommentService = traseuCommentService;
+        this.mailService = mailService;
     }
 
     @InitBinder
@@ -148,22 +153,6 @@ public class TraseuController {
         return "redirect:/trasee?adaugaSuccess";
     }
 
-    public void addCommonAttributesComments(Model model, int pageNo, Long id){
-        Traseu traseu = traseuService.getTraseuById(id).get();
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
-        if(user != null){
-            model.addAttribute("userId", user.getId());
-        }
-        else{
-            model.addAttribute("userId", null);
-        }
-
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("comentarii", traseuCommentService.getAllCommentsByTraseu(traseu, PageRequest.of(pageNo - 1, pageSize)));
-        model.addAttribute("link", "/trasee/" + id);
-    }
-
     @GetMapping("/{id}")
     public String getTraseuSingle(Model model, @PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
         Optional<Traseu> traseu = traseuService.getTraseuById(id);
@@ -179,6 +168,75 @@ public class TraseuController {
         addCommonAttributesComments(model, pageNo, id);
 
         return "traseuDetails";
+    }
+
+    @GetMapping("/{id}/sterge")
+    public String stergeTraseuAdmin(Model model, @PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        traseuService.delete(id);
+        addCommonAttributesTrasee(model, pageNo);
+
+        return "redirect:/trasee?stergeSuccess";
+    }
+
+    @GetMapping("/{id}/aproba")
+    public String aprobaTraseuAdmin(Model model, @PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        Optional<Traseu> traseuOpt = traseuService.getTraseuById(id);
+        if(traseuOpt.isPresent()){
+            traseuOpt.get().setAprobat(true);
+            traseuService.save(traseuOpt.get());
+        }
+        else {
+            model.addAttribute("error", "Traseul nu a fost gasit");
+            return "404";
+        }
+
+        addCommonAttributesTrasee(model, pageNo);
+
+        return "redirect:/trasee?adaugaSuccess";
+    }
+
+    @GetMapping("/{id}/respinge")
+    public String respingeTraseuAdmin(Model model, @PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        Optional<Traseu> traseuOpt = traseuService.getTraseuById(id);
+        if(traseuOpt.isPresent()){
+            String email = traseuOpt.get().getUser().getEmail();
+            String content = "<p>Salut, </p>"
+                    + "<p>Te anunțăm că propunerea ta pentru traseul cu titlul "+ traseuOpt.get().getTitlu() +" a fost respinsă, iar cererea a fost ștearsă.</p>"
+                    +"<br/>"
+                    + "<p>Informațiile oferite nu sunt corecte sau sunt incomplete. Te rugăm să documentezi mai bine traseul propus și să furnizezi corect informațiile cerute în formular.</p>"
+                    + "<p>Mulțumim!</p>";
+            try {
+                mailService.sendEmail("respingereTraseu", email, content);
+            } catch (MessagingException | UnsupportedEncodingException e){
+                    model.addAttribute("error", "Emailul nu a putut fi trimis. Încearcă din nou mai târziu.");
+            }
+
+            traseuService.respinge(traseuOpt.get());
+        }
+        else {
+            model.addAttribute("error", "Traseul nu a fost gasit");
+            return "404";
+        }
+
+        addCommonAttributesTrasee(model, pageNo);
+
+        return "redirect:/trasee?stergeSuccess";
+    }
+
+    public void addCommonAttributesComments(Model model, int pageNo, Long id){
+        Traseu traseu = traseuService.getTraseuById(id).get();
+        String username = Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(username);
+        if(user != null){
+            model.addAttribute("userId", user.getId());
+        }
+        else{
+            model.addAttribute("userId", null);
+        }
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("comentarii", traseuCommentService.getAllCommentsByTraseu(traseu, PageRequest.of(pageNo - 1, pageSize)));
+        model.addAttribute("link", "/trasee/" + id);
     }
 
     @PostMapping("/{id}")
@@ -214,5 +272,4 @@ public class TraseuController {
 
         return "redirect:/trasee/" + traseuId +"?stergeSucces";
     }
-
 }

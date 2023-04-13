@@ -33,8 +33,21 @@
                     </div>
                 </div>
 
+                <div sec:authorize="hasAuthority('ADMIN')" th:if="${traseu.aprobat} == false" class="row text-center mt-5">
+                    <div class="col-md-6">
+                        <a th:href="@{'/trasee/' + ${traseu.id} + '/aproba'}" class="btn btn-success">Aprobă</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a th:href="@{'/trasee/' + ${traseu.id} + '/respinge'}" class="btn btn-danger">Respinge</a>
+                    </div>
+                </div>
+
+                <div sec:authorize="hasAuthority('ADMIN')" th:if="${traseu.aprobat}" class="d-flex justify-content-center align-items-center mt-5">
+                    <a th:href="@{'/trasee/' + ${traseu.id} + '/sterge'}" class="btn btn-danger">Șterge</a>
+                </div>
+
 <!--                comments area-->
-                <div class="comments-area">
+                <div th:if="${traseu.aprobat}" class="comments-area">
                     <h4>Comentarii</h4>
                     <div style="margin-top:3rem;" th:if="${comentarii.totalElements == 0}">
                         <h2 class="m-5 centered"><span>Niciun comentariu!</span></h2>
@@ -84,7 +97,7 @@
                     </nav>
                 </div>
 
-                <div class="comment-form">
+                <div th:if="${traseu.aprobat}" class="comment-form">
                     <h4>Lasă un comentariu</h4>
                     <form sec:authorize="isAuthenticated()" method="post" th:action="@{'/trasee/' + ${traseu.id}}" th:object="${comentariuNou}">
                         <div class="form-group">

@@ -10,7 +10,8 @@
 <!-- Start Trasee Area -->
 <section class="destinations-area section-gap">
     <div class="container">
-        <p th:if="${param.adaugaSuccess}" class="alert alert-success">Traseu adăugat cu success!</p>
+        <p th:if="${param.adaugaSuccess}" class="alert alert-success">Traseu adăugat cu succes!</p>
+        <p th:if="${param.stergeSuccess}" class="alert alert-success">Traseu șters cu succes!</p>
         <div class="row d-flex justify-content-center">
             <div class="menu-content pb-40 col-lg-8">
                 <div class="title text-center">
@@ -26,7 +27,7 @@
             <div class="col-lg-4" th:if="${trasee.totalElements != 0}" th:each="traseu : ${trasee.content}">
                 <div class="single-destinations">
                     <div class="thumb">
-                        <img th:src="@{'/trasee/getTraseuPhotos/' + ${traseu.id} +'/0'}" alt="">
+                        <img th:src="@{'/trasee/getTraseuPhotos/' + ${traseu.id} +'/0'}" onerror="this.src='/img/trasee/addFormCover.jpg';" style="height: 15em;" alt="">
                     </div>
                     <div class="details">
                         <h4 class="d-flex justify-content-between">
