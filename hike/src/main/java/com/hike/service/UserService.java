@@ -3,6 +3,7 @@ package com.hike.service;
 import com.hike.dto.RegistrationDto;
 import com.hike.dto.UserDto;
 import com.hike.exception.ObjectNotFoundException;
+import com.hike.models.Traseu;
 import com.hike.models.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,8 @@ import java.util.Optional;
 public interface UserService {
 
     void saveUser(RegistrationDto registrationDto);
+
+    void save(UserEntity user);
 
     UserEntity findByEmail(String email);
 
@@ -33,4 +36,8 @@ public interface UserService {
     void delete(Long id);
 
     Page<UserEntity> getAllUsers(Pageable pageable);
+
+    Page<Traseu> getTraseeParcurseByUser(UserEntity user, Pageable pageable);
+
+    int countTraseeParcurseByUser(UserEntity user);
 }

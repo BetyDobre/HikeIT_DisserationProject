@@ -171,6 +171,7 @@ public class UserController {
         model.addAttribute("postCount", blogPostService.countAllByUser(user));
         model.addAttribute("commentCount", blogCommentService.countAllByUser(user) + traseuCommentService.countAllByUser(user));
         model.addAttribute("traseeAdaugateCount", traseuService.countTraseeAprobateByUser(user));
+        model.addAttribute("traseeParcurseCount", userService.countTraseeParcurseByUser(user));
 
         return "profil";
     }

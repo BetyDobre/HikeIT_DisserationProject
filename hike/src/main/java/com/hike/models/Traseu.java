@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +37,8 @@ public class Traseu {
     @Enumerated(EnumType.STRING)
     private Sezon sezon;
 
+    private boolean aprobat;
+
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private List<byte[]> pozeTraseu;
@@ -54,5 +58,9 @@ public class Traseu {
     @OneToMany(mappedBy = "traseu", cascade = CascadeType.REMOVE)
     private Set<TraseuComment> comentarii;
 
-    private boolean aprobat;
+    @ManyToMany(mappedBy = "traseeParcurse")
+    private List<UserEntity> usersParcurs;
+
+    @CreationTimestamp
+    private LocalDateTime createdOn;
 }

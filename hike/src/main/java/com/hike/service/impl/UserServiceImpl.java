@@ -5,6 +5,7 @@ import com.hike.dto.UserDto;
 import com.hike.exception.ObjectNotFoundException;
 import com.hike.models.AuthProvider;
 import com.hike.models.Role;
+import com.hike.models.Traseu;
 import com.hike.models.UserEntity;
 import com.hike.repository.RoleRepository;
 import com.hike.repository.UserRepository;
@@ -53,6 +54,11 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByName("USER");
         user.setRoles(Arrays.asList(role));
 
+        userRepository.save(user);
+    }
+
+    @Override
+    public void save(UserEntity user) {
         userRepository.save(user);
     }
 
@@ -146,5 +152,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<UserEntity> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Traseu> getTraseeParcurseByUser(UserEntity user, Pageable pageable) {
+        return userRepository.findTraseeParcurseByUser(user, pageable);
+    }
+
+    @Override
+    public int countTraseeParcurseByUser(UserEntity user) {
+        return userRepository.countAllByTraseeParcurse(user);
     }
 }

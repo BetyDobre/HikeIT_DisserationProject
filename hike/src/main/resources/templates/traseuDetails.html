@@ -4,12 +4,12 @@
 <body>
 <header th:replace="fragments :: header_fragment"/>
 
-<section sec:authorize="isAuthenticated()" th:replace="fragments :: banner_fragment(title = ${traseu.titlu}, link = 'trasee/' + ${traseu.id}, button = 'Adaugă traseu')"/>
-<section sec:authorize="isAnonymous()" th:replace="fragments :: banner_fragment(title = ${traseu.titlu}, link = 'trasee/' + ${traseu.id}, button = null)"/>
+<section th:replace="fragments :: banner_fragment(title = ${traseu.titlu}, link = 'trasee/' + ${traseu.id}, button = null)"/>
 
 <section class="post-content-area single-post-area">
     <div class="contents order-2 order-md-1">
         <div class="container">
+            <p th:if="${param.marcatSuccess}" class="alert alert-success">Statusul traseului a fost modificat cu succes!</p>
             <div class="row align-items-center justify-content-center">
                     <div class="col-md-8">
                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -44,6 +44,12 @@
 
                 <div sec:authorize="hasAuthority('ADMIN')" th:if="${traseu.aprobat}" class="d-flex justify-content-center align-items-center mt-5">
                     <a th:href="@{'/trasee/' + ${traseu.id} + '/sterge'}" class="btn btn-danger">Șterge</a>
+                </div>
+
+
+                <div sec:authorize="isAuthenticated()" th:if="${traseu.aprobat}" class="d-flex justify-content-center align-items-center mt-3">
+                    <a th:if="${traseuParcurs} != true" th:href="@{'/trasee/' + ${traseu.id} + '/parcurs'}" class="genric-btn primary-border circle">Marchează ca parcurs</a>
+                    <a th:if="${traseuParcurs}" th:href="@{'/trasee/' + ${traseu.id} + '/parcurs'}" class="genric-btn danger-border circle">Marchează ca neparcurs</a>
                 </div>
 
 <!--                comments area-->

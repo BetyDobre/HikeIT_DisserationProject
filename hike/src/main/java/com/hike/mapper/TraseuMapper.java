@@ -23,6 +23,7 @@ public class TraseuMapper {
                 .punctPlecare(traseuDto.getPunctPlecare())
                 .punctSosire(traseuDto.getPunctSosire())
                 .marcaj(traseuDto.getMarcaj())
+                .createdOn(traseuDto.getCreatedOn())
                 .build();
         return traseu;
     }
@@ -46,6 +47,7 @@ public class TraseuMapper {
                 .punctPlecare(traseu.getPunctPlecare())
                 .punctSosire(traseu.getPunctSosire())
                 .marcaj(traseu.getMarcaj())
+                .createdOn(traseu.getCreatedOn())
                 .build();
         return traseuDto;
     }

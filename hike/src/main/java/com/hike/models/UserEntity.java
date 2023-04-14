@@ -63,4 +63,12 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Traseu> trasee;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "users_trasee",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "traseu_id", referencedColumnName = "id")}, uniqueConstraints = @UniqueConstraint(columnNames = {
+            "user_id", "traseu_id"}))
+    private List<Traseu> traseeParcurse = new ArrayList<>();
 }

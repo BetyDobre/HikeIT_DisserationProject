@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -68,7 +69,7 @@ public class TraseuController {
     }
     @GetMapping("")
     public String getTrasee(@RequestParam(value = "page", defaultValue = "1", required = false) int pageNo, Model model){
-        Page<Traseu> trasee = traseuService.getAllTraseeAprobate(PageRequest.of(pageNo-1, pageSize));
+        Page<Traseu> trasee = traseuService.getAllTraseeAprobate(PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
         model.addAttribute("trasee", trasee);
         addCommonAttributesTrasee(model, pageNo);
 
@@ -77,7 +78,7 @@ public class TraseuController {
 
     @GetMapping("/propuneri")
     public String propuneriTrasee(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
-        Page<Traseu> trasee = traseuService.getAllTraseeNeaprobate(PageRequest.of(pageNo-1, pageSize));
+        Page<Traseu> trasee = traseuService.getAllTraseeNeaprobate(PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
         model.addAttribute("trasee", trasee);
         addCommonAttributesTrasee(model, pageNo);
 
@@ -89,11 +90,24 @@ public class TraseuController {
         String username = Utility.getLoggedUser();
         UserEntity user = userService.findByUsername(username);
 
-        Page<Traseu> trasee = traseuService.getAllByUser(user, PageRequest.of(pageNo-1, pageSize));
+        Page<Traseu> trasee = traseuService.getAllByUser(user, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
         model.addAttribute("trasee", trasee);
 
         addCommonAttributesTrasee(model, pageNo);
         model.addAttribute("aprobare", true);
+
+        return "trasee";
+    }
+
+    @GetMapping("/traseeParcurse")
+    public String traseeParcurse(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        String username = Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(username);
+
+        Page<Traseu> trasee = userService.getTraseeParcurseByUser(user, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
+        model.addAttribute("trasee", trasee);
+
+        addCommonAttributesTrasee(model, pageNo);
 
         return "trasee";
     }
@@ -164,6 +178,11 @@ public class TraseuController {
             return "404";
         }
 
+        String username = Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(username);
+        boolean traseuParcurs = user.getTraseeParcurse().stream().anyMatch(t -> Objects.equals(t.getId(), id));
+        model.addAttribute("traseuParcurs", traseuParcurs);
+
         model.addAttribute("comentariuNou", new TraseuCommentDto());
         addCommonAttributesComments(model, pageNo, id);
 
@@ -221,6 +240,33 @@ public class TraseuController {
         addCommonAttributesTrasee(model, pageNo);
 
         return "redirect:/trasee?stergeSuccess";
+    }
+
+    @GetMapping("/{id}/parcurs")
+    public String marcheazaCaRealizat(Model model, @PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        Optional<Traseu> traseuOpt = traseuService.getTraseuById(id);
+        String username = Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(username);
+        if(traseuOpt.isPresent()){
+            List<Traseu> traseeParcurse = user.getTraseeParcurse();
+            boolean traseuParcursBool = traseeParcurse.stream().anyMatch(t -> Objects.equals(t.getId(), id));
+            if(traseuParcursBool){
+                traseeParcurse.remove(traseuOpt.get());
+            }
+            else{
+                traseeParcurse.add(traseuOpt.get());
+            }
+            user.setTraseeParcurse(traseeParcurse);
+            userService.save(user);
+        }
+        else {
+            model.addAttribute("error", "Traseul nu a fost gasit");
+            return "404";
+        }
+
+        addCommonAttributesTrasee(model, pageNo);
+
+        return "redirect:/trasee/" + id+ "?marcatSuccess";
     }
 
     public void addCommonAttributesComments(Model model, int pageNo, Long id){
