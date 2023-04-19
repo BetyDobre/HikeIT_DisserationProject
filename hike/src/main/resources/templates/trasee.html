@@ -13,10 +13,71 @@
         <p th:if="${param.adaugaSuccess}" class="alert alert-success">Traseu adăugat cu succes!</p>
         <p th:if="${param.stergeSuccess}" class="alert alert-success">Traseu șters cu succes!</p>
         <div class="row d-flex justify-content-center">
-            <div class="menu-content pb-40 col-lg-8">
+            <div class="menu-content pb-40 col-lg-12">
                 <div class="title text-center">
-                    <h1 class="mb-10">Caută ce ți se potrivește</h1>
+                    <h2 class="mb-10">Caută ce ți se potrivește</h2>
+                    <form>
 <!--                    LISTA CU FILTRE-->
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-md-12">
+                            <div class="row align-items-center">
+                                <div class="col-md-3 input-group mb-3">
+                                    <input type="text" class="form-control" placeholder="Caută...">
+                                    <button class="btn btn-outline-secondary" type="button" style=""><i class="fa fa-search"></i></button>
+                                </div>
+                                <div class="col-md-3 mb-3 default-select">
+                                    <select class="nice-select" name="grupaMuntoasa">
+                                        <option value="" selected>Grupa Muntoasă</option>
+                                        <option th:each="grupa : ${grupeMuntoase}" th:value="${grupa.getTitlu()}" th:text="${grupa.getTitlu()}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="distanta" class="form-label">Distanță maximă(km):</label>
+                                    <input type="range" id="distanta" name="distanta" class="form-range" min="1" max="50" step="1" value="0" oninput="updateDistantaLabel(this)">
+                                    <span id="distanta-label">1km</span>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="durata" class="form-label">Durată maximă(ore):</label>
+                                    <input type="range" class="form-range" id="durata" name="durata" min="0" max="15" step="1" value="0" oninput="updateDurataLabel(this)">
+                                    <span id="durata-label">1 oră</span>
+                                </div>
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col-sm-3 mb-3">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownAnotimp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Sezoane
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownAnotimp">
+                                            <div class="form-check" th:each="anotimp : ${T(com.hike.models.Sezon).values()}">
+                                                <input class="form-check-input" type="checkbox" name="anotimp" th:id="${anotimp.displayName()}" th:value="${anotimp.displayName()}" />
+                                                <label class="form-check-label" th:for="${anotimp}" th:text="${anotimp.displayName()}"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 mb-3">
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownDificultate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Dificultate
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownDificultate" style="background: #f8b600;">
+                                            <div class="form-check" th:each="dificultate : ${T(com.hike.models.Dificultate).values()}">
+                                                <input class="form-check-input" type="checkbox" name="dificultate" th:id="${dificultate.displayName()}" th:value="${dificultate}" />
+                                                <label class="form-check-label" th:for="${dificultate}" th:text="${dificultate.displayName()}"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="genric-btn primary circle arrow m-3">Filtrează <span class="lnr lnr-arrow-right"></span></button>
+                                <button type="submit" class="genric-btn primary-border circle arrow">Sterge filtre <span class="lnr lnr-arrow-right"></span></button>
+                            </div>
+
+                        </div>
+                    </div>
+                    </form>
+<!--                    -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
                 </div>
             </div>
         </div>
@@ -105,4 +166,11 @@
 <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
 
 </body>
-</html>
+</html><script>
+    function updateDurataLabel(input) {
+        document.getElementById("durata-label").innerHTML = input.value + " ore";
+    }
+    function updateDistantaLabel(input) {
+        document.getElementById("distanta-label").innerHTML = input.value + "km";
+    }
+</script>

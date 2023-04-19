@@ -4781,3 +4781,19 @@ input[type="file"]::-webkit-file-upload-button{
 .select2-container .select2-results__option {
   width: 20rem;
 }
+
+.btn-secondary{
+  background-color: #fff;
+  border-color: #fff;
+  color: black !important;
+}
+
+div.dropdown-menu.show {
+  background-color: #fff !important;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle{
+  background-color: #f8b600;
+  border-color: #fff;
+  color: #fff !important;
+}

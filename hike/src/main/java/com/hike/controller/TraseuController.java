@@ -71,6 +71,8 @@ public class TraseuController {
     public String getTrasee(@RequestParam(value = "page", defaultValue = "1", required = false) int pageNo, Model model){
         Page<Traseu> trasee = traseuService.getAllTraseeAprobate(PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
         model.addAttribute("trasee", trasee);
+        model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
+
         addCommonAttributesTrasee(model, pageNo);
 
         return "trasee";
@@ -180,8 +182,10 @@ public class TraseuController {
 
         String username = Utility.getLoggedUser();
         UserEntity user = userService.findByUsername(username);
-        boolean traseuParcurs = user.getTraseeParcurse().stream().anyMatch(t -> Objects.equals(t.getId(), id));
-        model.addAttribute("traseuParcurs", traseuParcurs);
+        if(user != null){
+            boolean traseuParcurs = user.getTraseeParcurse().stream().anyMatch(t -> Objects.equals(t.getId(), id));
+            model.addAttribute("traseuParcurs", traseuParcurs);
+        }
 
         model.addAttribute("comentariuNou", new TraseuCommentDto());
         addCommonAttributesComments(model, pageNo, id);
