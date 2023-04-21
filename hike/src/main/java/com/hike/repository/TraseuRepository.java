@@ -4,6 +4,7 @@ import com.hike.models.Traseu;
 import com.hike.models.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -14,4 +15,6 @@ public interface TraseuRepository extends JpaRepository<Traseu, Long> {
     Optional<Traseu> findById(Long id);
     Page<Traseu> getAllByUser(UserEntity user, Pageable pageable);
     int countAllByUserAndAprobat(UserEntity user, boolean aprobat);
+
+    Page<Traseu> findAll(Specification<Traseu> spec, Pageable pageable);
 }

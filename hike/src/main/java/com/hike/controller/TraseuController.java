@@ -8,11 +8,13 @@ import com.hike.service.*;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -67,9 +69,55 @@ public class TraseuController {
         }
         model.addAttribute("nrComentarii", nrComentarii);
     }
+
     @GetMapping("")
-    public String getTrasee(@RequestParam(value = "page", defaultValue = "1", required = false) int pageNo, Model model){
-        Page<Traseu> trasee = traseuService.getAllTraseeAprobate(PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
+    public String getTrasee(@RequestParam(value = "page", defaultValue = "1", required = false) int pageNo, Model model,
+                            @RequestParam(name = "sezon", required = false) List<Sezon> sezoane,
+                            @RequestParam(name = "dificultate", required = false) List<Dificultate> dificultati,
+                            @RequestParam(name = "grupaMuntoasa", required = false) Long grupaMuntoasaId,
+                            @RequestParam(name = "distanta", required = false, defaultValue = "0") Long distanta,
+                            @RequestParam(name = "titlu", required = false, defaultValue = "Caută după titlu...") String titlu,
+                            @RequestParam(name = "durata", required = false, defaultValue = "0") String durata){
+
+        model.addAttribute("paginaPrincipala", true);
+
+        model.addAttribute("grupaMuntoasaId", grupaMuntoasaId);
+        model.addAttribute("sezonList", sezoane);
+        model.addAttribute("dificultateList", dificultati);
+        model.addAttribute("distanta", distanta);
+        model.addAttribute("titlu", titlu);
+        model.addAttribute("durata", durata);
+
+        Specification<Traseu> spec = Specification.where(null);
+
+        if (sezoane != null && !sezoane.isEmpty()) {
+            spec = spec.and((root, query, criteriaBuilder) -> root.get("sezon").in(sezoane));
+        }
+
+        if (dificultati != null && !dificultati.isEmpty()) {
+            spec = spec.and((root, query, criteriaBuilder) -> root.get("dificultate").in(dificultati));
+        }
+
+        if (grupaMuntoasaId != null) {
+            Optional<GrupaMuntoasa> grupaMuntoasa = grupaMuntoasaService.findGrupaMuntoasa(grupaMuntoasaId);
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("grupaMuntoasa"), grupaMuntoasa.get()));
+        }
+
+        if (distanta != null && distanta != 0) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("distanta"), distanta));
+        }
+
+        if (titlu != null && !titlu.isBlank() && !titlu.equals("Caută după titlu...")) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("titlu"), "%" + titlu + "%"));
+        }
+
+        if (durata != null && !durata.isBlank() && !durata.equals("0")) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("durataMaxima"), durata + ":%h"));
+        }
+
+        spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("aprobat"), true));
+        Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
+
         model.addAttribute("trasee", trasee);
         model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
 
