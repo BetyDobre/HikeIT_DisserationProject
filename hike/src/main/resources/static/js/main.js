@@ -254,7 +254,7 @@ $(document).ready(function() {
 
     //------- Google Map  js --------//  
 
-    if (document.getElementById("map")) {
+    if (document.getElementById("contact-map")) {
         google.maps.event.addDomListener(window, 'load', init);
 
         function init() {
@@ -378,7 +378,7 @@ $(document).ready(function() {
                     }]
                 }]
             };
-            var mapElement = document.getElementById('map');
+            var mapElement = document.getElementById('contact-map');
             var map = new google.maps.Map(mapElement, mapOptions);
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(44.4355155, 26.099553),

@@ -29,10 +29,10 @@ public class TraseuDto {
     @Length(max = 100, message = "Titlul trebuie să aibă maxim 100 de caractere.")
     private String titlu;
 
-    @NotEmpty(message = "Acest câmp este obligatoriu.")
+    @NotEmpty(message = "Punctul de plecare este obligatoriu.")
     private String punctPlecare;
 
-    @NotEmpty(message = "Acest câmp este obligatoriu.")
+    @NotEmpty(message = "Punctul de sosire este obligatoriu.")
     private String punctSosire;
 
     @Length(min = 3, max = 13, message = "Menționați durata minimă a traselui.")

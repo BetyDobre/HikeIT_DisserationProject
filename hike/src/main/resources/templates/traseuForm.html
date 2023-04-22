@@ -3,7 +3,7 @@
 <head th:insert="fragments :: head_fragment(pageTitle = 'Adăugare traseu')">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 </head>
-<body>
+<body onload="initMap()">
 <header th:replace="fragments :: header_fragment"/>
 
 <section th:replace="fragments :: banner_fragment(title = 'Adăugare traseu', link = 'trasee/adauga', button = null)"/>
@@ -31,14 +31,11 @@
                             </div>
 
                             <div class="form-group first">
-                                <label for="plecare">Punct plecare*</label>
-                                <input th:field="*{punctPlecare}" type="text" name="plecare" id="plecare" placeholder="Adaugă un punct de reper pentru plecarea pe traseu..." class="single-input">
+                                <p class="mt-2">Alegeți pe hartă punctul de plecare(P) și punctul de sosire(S) al traseului. Pin-urile pot fi mutate odată adăugate.</p>
+                                <div id="map" style="height: 400px;"></div>
+                                <input type="hidden" th:field="*{punctPlecare}" id="punctPlecare" name="punctPlecare" />
                                 <p th:if="${#fields.hasErrors('punctPlecare')}" th:errors="*{punctPlecare}" class="text-danger"></p>
-                            </div>
-
-                            <div class="form-group first">
-                                <label for="sosire">Punct sosire*</label>
-                                <input th:field="*{punctSosire}" type="text" name="sosire" id="sosire" placeholder="Adaugă un punct de reper pentru incheierea traseului..." class="single-input">
+                                <input type="hidden" th:field="*{punctSosire}" id="punctSosire" name="punctSosire" />
                                 <p th:if="${#fields.hasErrors('punctSosire')}" th:errors="*{punctSosire}" class="text-danger"></p>
                             </div>
 
@@ -175,6 +172,46 @@
         );
         return $state;
     };
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_VW5BhR0sVQkxA_QDNLGJPwnAA6pMqXQ&callback=Function.prototype"></script>
+<script>
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 6.5,
+            center: {lat: 45.708419, lng: 24.967810}
+        });
+
+        var markerPlecare = null;
+        var markerSosire = null;
+
+        google.maps.event.addListener(map, 'click', function(event) {
+            if (!markerPlecare) {
+                markerPlecare = new google.maps.Marker({
+                    position: event.latLng,
+                    map: map,
+                    label: 'P',
+                    draggable: true
+                });
+                document.getElementById('punctPlecare').value = markerPlecare.getPosition().lat() + ',' + markerPlecare.getPosition().lng();
+
+                google.maps.event.addListener(markerPlecare, 'dragend', function () {
+                    document.getElementById('punctPlecare').value = markerPlecare.getPosition().lat() + ',' + markerPlecare.getPosition().lng();
+                });
+            } else if (!markerSosire) {
+                markerSosire = new google.maps.Marker({
+                    position: event.latLng,
+                    map: map,
+                    label: 'S',
+                    draggable: true
+                });
+                document.getElementById('punctSosire').value = markerSosire.getPosition().lat() + ',' + markerSosire.getPosition().lng();
+
+                google.maps.event.addListener(markerSosire, 'dragend', function () {
+                    document.getElementById('punctSosire').value = markerSosire.getPosition().lat() + ',' + markerSosire.getPosition().lng();
+                });
+            }
+        });
+    }
 </script>
 </body>
 </html>
