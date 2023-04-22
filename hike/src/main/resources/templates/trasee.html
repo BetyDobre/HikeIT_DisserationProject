@@ -14,29 +14,29 @@
         <p th:if="${param.stergeSuccess}" class="alert alert-success">Traseu șters cu succes!</p>
         <div class="row d-flex justify-content-center">
             <div class="menu-content pb-40 col-lg-12">
-                <div class="title text-center">
-                    <h2 class="mb-10">Caută ce ți se potrivește</h2>
-                    <form method="get" th:action="@{/trasee}" th:object="${trasee}" enctype="multipart/form-data">
+                <div class="typography text-center">
+                    <h2 th:if="${paginaPrincipala}">Caută ce ți se potrivește</h2>
+                    <form method="get" th:action="@{/trasee}" th:object="${trasee}" enctype="multipart/form-data" th:if="${paginaPrincipala}">
 <!--                    LISTA CU FILTRE-->
-                    <div class="row justify-content-center mt-4" th:if="${paginaPrincipala}">
+                    <div class="row justify-content-center mt-1">
                         <div class="col-md-12">
                             <div class="row align-items-center">
-                                <div class="col-md-3 input-group mb-3">
-                                    <input name="titlu" id="titlu" type="text" class="form-control" th:placeholder="${titlu}" placeholder="Caută după nume...">
-                                    <button class="btn btn-outline-secondary" type="button" ><i class="fa fa-search"></i></button>
+                                <div class="col-md-3 input-group mb-1">
+                                    <input name="titlu" id="titlu" type="text" class="form-control" th:value="${titlu}" placeholder="Caută după titlu...">
+                                    <button class="genric-btn primary pl-3 pr-3" type="submit"><i class="fa fa-search"></i></button>
                                 </div>
-                                <div class="col-md-3 mb-3 default-select">
+                                <div class="col-md-3 mb-1 default-select">
                                     <select class="nice-select" name="grupaMuntoasa">
                                         <option value="" selected>Grupa Muntoasă</option>
                                         <option th:each="grupa : ${grupeMuntoase}" th:value="${grupa.getId()}" th:text="${grupa.getTitlu()}" th:selected="${grupa.getId() == grupaMuntoasaId}"></option>
                                     </select>
                                 </div>
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-3 mb-1">
                                     <label for="distanta" class="form-label">Distanță maximă(km):</label>
                                     <input type="range" id="distanta" name="distanta" class="form-range" min="0" max="50" step="1" th:value="${distanta}" value="0" oninput="updateDistantaLabel(this)">
                                     <span id="distanta-label" th:text="${distanta} + 'km'"></span>
                                 </div>
-                                <div class="col-md-3 mb-3">
+                                <div class="col-md-2 mb-1">
                                     <label for="durata" class="form-label">Durată maximă(ore):</label>
                                     <input type="range" class="form-range" id="durata" name="durata" min="0" max="15" step="1" value="0" th:value="${durata}" oninput="updateDurataLabel(this)">
                                     <span id="durata-label" th:text="${durata} + 'ore'">0 ore</span>
@@ -77,7 +77,16 @@
                         </div>
                     </div>
                     </form>
-<!--                    -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+                    <form th:href="@{/trasee}" method="get" th:object="${trasee}" th:if="${paginaPrincipala != true}">
+                        <div class="row justify-content-center mt-2">
+                            <div class="col-md-3 input-group">
+                                <input name="search" id="search" type="text" class="form-control" th:value="${titlu}" placeholder="Caută după titlu...">
+                                <button class="genric-btn primary pl-3 pr-3" type="submit"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>

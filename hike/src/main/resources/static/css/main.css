@@ -2363,7 +2363,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 /*  Homepage Styles
 /* =================================== */
 .section-gap {
-  padding: 50px 0;
+  padding: 30px 0;
 }
 
 .alert-msg {
@@ -4796,4 +4796,10 @@ div.dropdown-menu.show {
   background-color: #f8b600;
   border-color: #fff;
   color: #fff !important;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1250px !important;
+  }
 }

@@ -2,18 +2,15 @@ package com.hike.controller;
 
 import com.hike.dto.TraseuCommentDto;
 import com.hike.dto.TraseuDto;
-import com.hike.exception.ObjectNotFoundException;
 import com.hike.models.*;
 import com.hike.service.*;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.criteria.Join;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +23,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/trasee")
@@ -76,7 +74,7 @@ public class TraseuController {
                             @RequestParam(name = "dificultate", required = false) List<Dificultate> dificultati,
                             @RequestParam(name = "grupaMuntoasa", required = false) Long grupaMuntoasaId,
                             @RequestParam(name = "distanta", required = false, defaultValue = "0") Long distanta,
-                            @RequestParam(name = "titlu", required = false, defaultValue = "Caută după titlu...") String titlu,
+                            @RequestParam(name = "titlu", required = false) String titlu,
                             @RequestParam(name = "durata", required = false, defaultValue = "0") String durata){
 
         model.addAttribute("paginaPrincipala", true);
@@ -107,7 +105,7 @@ public class TraseuController {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("distanta"), distanta));
         }
 
-        if (titlu != null && !titlu.isBlank() && !titlu.equals("Caută după titlu...")) {
+        if (titlu != null && !titlu.isBlank()) {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("titlu"), "%" + titlu + "%"));
         }
 
@@ -127,8 +125,16 @@ public class TraseuController {
     }
 
     @GetMapping("/propuneri")
-    public String propuneriTrasee(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
-        Page<Traseu> trasee = traseuService.getAllTraseeNeaprobate(PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
+    public String propuneriTrasee(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo,
+                                  @RequestParam(name = "search", required = false) String titlu){
+        Specification<Traseu> spec = Specification.where(null);
+        if (titlu != null && !titlu.isEmpty()) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("titlu"), "%" + titlu + "%"));
+        }
+        spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("aprobat"), false));
+
+        Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
+        model.addAttribute("titlu", titlu);
         model.addAttribute("trasee", trasee);
         addCommonAttributesTrasee(model, pageNo);
 
@@ -136,26 +142,45 @@ public class TraseuController {
     }
 
     @GetMapping("/traseeAdaugate")
-    public String traseeAdaugate(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+    public String traseeAdaugate(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo,
+                                 @RequestParam(name = "search", required = false) String titlu){
         String username = Utility.getLoggedUser();
         UserEntity user = userService.findByUsername(username);
 
-        Page<Traseu> trasee = traseuService.getAllByUser(user, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
-        model.addAttribute("trasee", trasee);
+        Specification<Traseu> spec = Specification.where(null);
+        if (titlu != null && !titlu.isEmpty()) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("titlu"), "%" + titlu + "%"));
+        }
+        spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("user"), user));
 
+        Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
+//        Page<Traseu> trasee = traseuService.getAllByUser(user, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
+
+        model.addAttribute("trasee", trasee);
         addCommonAttributesTrasee(model, pageNo);
         model.addAttribute("aprobare", true);
+        model.addAttribute("titlu", titlu);
 
         return "trasee";
     }
 
     @GetMapping("/traseeParcurse")
-    public String traseeParcurse(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+    public String traseeParcurse(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo,
+                                 @RequestParam(name = "search", required = false) String titlu){
         String username = Utility.getLoggedUser();
         UserEntity user = userService.findByUsername(username);
 
-        Page<Traseu> trasee = userService.getTraseeParcurseByUser(user, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending());
+        Page<Traseu> trasee = userService.getTraseeParcurseByUser(user, pageable);
+
+        if(titlu != null && !titlu.isEmpty()) {
+            List<Traseu> traseeFiltrate = trasee.stream()
+                    .filter(t -> t.getTitlu().toLowerCase().contains(titlu.toLowerCase()))
+                    .collect(Collectors.toList());
+            trasee = new PageImpl<>(traseeFiltrate, pageable, traseeFiltrate.size());
+        }
         model.addAttribute("trasee", trasee);
+        model.addAttribute("titlu", titlu);
 
         addCommonAttributesTrasee(model, pageNo);
 
