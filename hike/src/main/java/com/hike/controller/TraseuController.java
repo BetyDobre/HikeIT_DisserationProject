@@ -3,9 +3,10 @@ package com.hike.controller;
 import com.hike.dto.TraseuCommentDto;
 import com.hike.dto.TraseuDto;
 import com.hike.models.*;
+import com.hike.models.WeatherData;
+import com.hike.service.WeatherService;
 import com.hike.service.*;
 import jakarta.mail.MessagingException;
-import jakarta.persistence.criteria.Join;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -34,16 +35,18 @@ public class TraseuController {
     private TraseuCommentService traseuCommentService;
     private MarcajService marcajService;
     private MailService mailService;
+    private WeatherService weatherService;
     private final int pageSize = 6;
 
     @Autowired
-    public TraseuController(TraseuService traseuService, GrupaMuntoasaService grupaMuntoasaService, UserService userService, MarcajService marcajService, TraseuCommentService traseuCommentService, MailService mailService) {
+    public TraseuController(TraseuService traseuService, GrupaMuntoasaService grupaMuntoasaService, UserService userService, MarcajService marcajService, TraseuCommentService traseuCommentService, MailService mailService, WeatherService weatherService) {
         this.traseuService = traseuService;
         this.grupaMuntoasaService = grupaMuntoasaService;
         this.userService = userService;
         this.marcajService = marcajService;
         this.traseuCommentService = traseuCommentService;
         this.mailService = mailService;
+        this.weatherService = weatherService;
     }
 
     @InitBinder
@@ -262,6 +265,10 @@ public class TraseuController {
 
         model.addAttribute("comentariuNou", new TraseuCommentDto());
         addCommonAttributesComments(model, pageNo, id);
+
+        List<String> coordonate = List.of(traseu.get().getPunctSosire().split(","));
+        List<WeatherData> weatherData = weatherService.getWeatherData(Double.parseDouble(coordonate.get(0)), Double.parseDouble(coordonate.get(0)));
+        model.addAttribute("weather", weatherData);
 
         return "traseuDetails";
     }

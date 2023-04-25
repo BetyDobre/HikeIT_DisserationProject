@@ -17,4 +17,6 @@ public interface TraseuRepository extends JpaRepository<Traseu, Long> {
     int countAllByUserAndAprobat(UserEntity user, boolean aprobat);
 
     Page<Traseu> findAll(Specification<Traseu> spec, Pageable pageable);
+
+
 }

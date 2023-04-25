@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,6 +108,9 @@ public class TraseuServiceImpl implements TraseuService {
             for (TraseuComment comentariu : comentarii) {
                 traseuCommentService.delete(comentariu.getId());
             }
+            traseu.getUsersParcurs().forEach(u -> u.getTraseeParcurse().remove(traseu));
+            traseu.setUsersParcurs(Collections.emptyList());
+
         } catch (Exception ex) {
             throw new RuntimeException("Nu s-a putut sterge postarea cu ID-ul " + id, ex);
         }
