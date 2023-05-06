@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="fragments :: head_fragment(pageTitle = ${traseu.titlu})"/>
-<body>
+<head th:replace="fragments :: head_fragment(pageTitle = ${traseu.titlu})">
+</head>
+<body onload="initMap()">
 <header th:replace="fragments :: header_fragment"/>
 
 <section th:replace="fragments :: banner_fragment(title = ${traseu.titlu}, link = 'trasee/' + ${traseu.id}, button = null)"/>
@@ -10,6 +11,7 @@
     <div class="contents order-2 order-md-1">
         <div class="container">
             <p th:if="${param.marcatSuccess}" class="alert alert-success">Statusul traseului a fost modificat cu succes!</p>
+<!--            Slider-->
             <div class="row align-items-center justify-content-center">
                     <div class="col-md-8">
                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -31,19 +33,127 @@
                             </a>
                         </div>
                     </div>
-                </div>
+            </div>
 
-                <div class="d-flex justify-content-center mt-3">
-                    <div th:each="day,dayIdx : ${weather}" class="card text-center mx-2 p-1">
-                        <img th:src="${day.getIconUrl()}" />
-                        <span><span th:text="${#temporals.format(day.getDate(), 'dd/MM/yyyy')}"></span></span>
-                        <span th:text="'Temp: ' + ${day.getTemperature()} + '°C'"></span>
-                        <span th:text="'Se simte ca: ' + ${day.getFeelsLike() + '°C'}"></span>
-                        <span th:text="'Umid.: ' + ${day.getHumidity() + '%'}"></span>
-                        <span th:text="'Viteza vântului: ' + ${day.getWindSpeed() + 'km/h'}"></span>
+            <div class="row mt-5">
+                <div class="col-3">
+                    <div class="row align-items-center mb-2">
+                        <div class="col-auto">
+                            <i class="fa fa-road fa-2x"></i>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 font-weight-bold">Distanta:</p>
+                            <p class="mb-0" th:text="${traseu.distanta} + ' km'"></p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-2">
+                        <div class="col-auto">
+                            <i class="fa fa-clock-o fa-2x"></i>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 font-weight-bold">Durată minimă de parcurs:</p>
+                            <p class="mb-0" th:text="${traseu.durataMinima}+ ' ore'"></p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-2">
+                        <div class="col-auto">
+                            <i class="fa fa-clock-o fa-2x"></i>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 font-weight-bold">Durată maximă de parcurs:</p>
+                            <p class="mb-0" th:text="${traseu.durataMaxima} +' ore'"></p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-2">
+                        <div class="col-auto">
+                            <i class="fa fa-arrow-up fa-2x"></i>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 font-weight-bold">Urcare:</p>
+                            <p class="mb-0" th:text="${traseu.urcare} +'m'"></p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-2">
+                        <div class="col-auto">
+                            <i class="fa fa-arrow-down fa-2x"></i>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 font-weight-bold">Coborâre:</p>
+                            <p class="mb-0" th:text="${traseu.coborare}+'m'"></p>
+                        </div>
                     </div>
                 </div>
 
+                <div class="col-3">
+                    <div class="row align-items-center mb-2">
+                        <div class="col-auto">
+                            <i class="fa fa-map-o fa-2x"></i>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 font-weight-bold">Grupă muntoasă:</p>
+                            <p class="mb-0" th:text="${traseu.grupaMuntoasa.getTitlu()}"></p>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mb-2">
+                        <div class="col-auto">
+                            <img th:src="@{'/marcaje/getMarcajPhoto/' + ${traseu.marcaj.id}}" style="width: 2.5em; height: 2.5rem;" onerror="this.src='/img/trasee/addFormCover.jpg';">
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 font-weight-bold">Marcajul traseului:</p>
+                            <p class="mb-0" th:text="${traseu.marcaj.getTitlu()}"></p>
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mb-2">
+                        <div class="col-auto">
+                            <i class="fa fa-line-chart fa-2x"></i>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 font-weight-bold">Dificultate:</p>
+                            <p class="mb-0" th:text="${traseu.dificultate.displayName()}"></p>
+                        </div>
+                    </div>
+
+                    <div class="row align-items-center mb-2">
+                        <div class="col-auto">
+                            <i class="fa fa-sun-o fa-2x"></i>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 font-weight-bold">Sezon:</p>
+                            <p class="mb-0" th:text="${traseu.sezon}"></p>
+                        </div>
+                    </div>
+                </div>
+
+            <!--Vreme-->
+                <div class="col-6">
+                    <h4>Vremea în punctul de sosire:</h4>
+                    <div class="d-flex justify-content-center">
+                        <div th:each="day,dayIdx : ${weather}" class="card text-center mx-2 p-1">
+                            <img th:src="${day.getIconUrl()}" />
+                            <span><span th:text="${#temporals.format(day.getDate(), 'dd/MM/yyyy')}"></span></span>
+                            <span th:text="'Temp: ' + ${day.getTemperature()} + '°C'"></span>
+                            <span th:text="'Se simte ca: ' + ${day.getFeelsLike() + '°C'}"></span>
+                            <span th:text="'Umid.: ' + ${day.getHumidity() + '%'}"></span>
+                            <span th:text="'Viteza vântului: ' + ${day.getWindSpeed() + 'km/h'}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <div class="mb-1" id="map" style="width: 100%; height: 400px;"></div>
+                <span th:text="'Coordonate punct plecare: ' + ${traseu.punctPlecare}"></span>
+                <br/>
+                <span th:text="'Coordonate punct sosire: ' + ${traseu.punctSosire}"></span>
+            </div>
+
+            <div class="mt-4">
+                <h3 style="margin-bottom: 0px;">Descrierea traseului:</h3>
+                <div class="quotes" th:text="${traseu.descriere}"></div>
+            </div>
+
+<!--            Comentarii-->
                 <div sec:authorize="hasAuthority('ADMIN')" th:if="${traseu.aprobat} == false" class="row text-center mt-5">
                     <div class="col-md-6">
                         <a th:href="@{'/trasee/' + ${traseu.id} + '/aproba'}" class="btn btn-success">Aprobă</a>
@@ -56,7 +166,6 @@
                 <div sec:authorize="hasAuthority('ADMIN')" th:if="${traseu.aprobat}" class="d-flex justify-content-center align-items-center mt-5">
                     <a th:href="@{'/trasee/' + ${traseu.id} + '/sterge'}" class="btn btn-danger">Șterge</a>
                 </div>
-
 
                 <div sec:authorize="isAuthenticated()" th:if="${traseu.aprobat}" class="d-flex justify-content-center align-items-center mt-3">
                     <a th:if="${traseuParcurs} != true" th:href="@{'/trasee/' + ${traseu.id} + '/parcurs'}" class="genric-btn primary-border circle">Marchează ca parcurs</a>
@@ -90,6 +199,7 @@
                         </div>
                     </div>
 
+<!--                    Paginare comentarii-->
                     <nav class="blog-pagination justify-content-center d-flex">
                         <ul class="pagination">
                             <li class="page-item" th:if="${currentPage gt 1}" th:class="${currentPage == 1} ? disabled : ''">
@@ -114,6 +224,7 @@
                     </nav>
                 </div>
 
+<!--            Lasa un comentariu-->
                 <div th:if="${traseu.aprobat}" class="comment-form">
                     <h4>Lasă un comentariu</h4>
                     <form sec:authorize="isAuthenticated()" method="post" th:action="@{'/trasee/' + ${traseu.id}}" th:object="${comentariuNou}">
@@ -125,6 +236,7 @@
                     </form>
                     <p sec:authorize="isAnonymous()">Pentru a lăsa un comentariu trebuie să te <a th:href="@{/login}">autentifici</a>.</p>
                 </div>
+
             </div>
         </div>
     </div>
@@ -146,5 +258,29 @@
 <script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_VW5BhR0sVQkxA_QDNLGJPwnAA6pMqXQ&callback=Function.prototype"></script>
+<script th:inline="javascript">
+    var plecare = /*[[${traseu.punctPlecare}]]*/ '';
+    var sosire = /*[[${traseu.punctSosire}]]*/ '';
+
+    function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: {lat: (parseFloat(plecare.split(',')[0]) + parseFloat(sosire.split(',')[0]))/2, lng: (parseFloat(plecare.split(',')[1]) + parseFloat(sosire.split(',')[1]))/2}
+        });
+        var markerPlecare = new google.maps.Marker({
+            position: new google.maps.LatLng(parseFloat(plecare.split(',')[0]), parseFloat(plecare.split(',')[1])),
+            map: map,
+            title: 'Punct plecare',
+            label: 'P',
+        });
+        var markerSosire = new google.maps.Marker({
+            position: new google.maps.LatLng(parseFloat(sosire.split(',')[0]), parseFloat(sosire.split(',')[1])),
+            map: map,
+            title: 'Punct sosire',
+            label: 'S',
+        });
+    }
+</script>
 </body>
 </html>
