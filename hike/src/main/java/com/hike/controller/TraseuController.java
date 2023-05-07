@@ -2,6 +2,7 @@ package com.hike.controller;
 
 import com.hike.dto.TraseuCommentDto;
 import com.hike.dto.TraseuDto;
+import com.hike.mapper.TraseuMapper;
 import com.hike.models.*;
 import com.hike.models.WeatherData;
 import com.hike.service.WeatherService;
@@ -117,7 +118,7 @@ public class TraseuController {
         }
 
         spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("aprobat"), true));
-        Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
+        Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo-1, pageSize, Sort.by("updatedOn").descending()));
 
         model.addAttribute("trasee", trasee);
         model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
@@ -136,7 +137,7 @@ public class TraseuController {
         }
         spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("aprobat"), false));
 
-        Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
+        Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo-1, pageSize, Sort.by("updatedOn").descending()));
         model.addAttribute("titlu", titlu);
         model.addAttribute("trasee", trasee);
         addCommonAttributesTrasee(model, pageNo);
@@ -156,7 +157,7 @@ public class TraseuController {
         }
         spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("user"), user));
 
-        Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
+        Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo-1, pageSize, Sort.by("updatedOn").descending()));
 //        Page<Traseu> trasee = traseuService.getAllByUser(user, PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending()));
 
         model.addAttribute("trasee", trasee);
@@ -173,7 +174,7 @@ public class TraseuController {
         String username = Utility.getLoggedUser();
         UserEntity user = userService.findByUsername(username);
 
-        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("createdOn").descending());
+        Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("updatedOn").descending());
         Page<Traseu> trasee = userService.getTraseeParcurseByUser(user, pageable);
 
         if(titlu != null && !titlu.isEmpty()) {
@@ -202,12 +203,12 @@ public class TraseuController {
 
     @PostMapping("/adauga")
     public String adaugaTraseu(@Valid @ModelAttribute("traseu") TraseuDto traseuDto,
-                               BindingResult result, Model model, @RequestParam("pozeTraseu") List<MultipartFile> files){
+                               BindingResult result, Model model, @RequestParam(value = "pozeTraseu", required = false) List<MultipartFile> files) {
         Traseu traseuExisting = traseuService.getTraseuByTitlu(traseuDto.getTitlu());
-        if(traseuExisting != null && traseuExisting.getTitlu() != null && !traseuExisting.getTitlu().isEmpty()){
-            result.rejectValue("titlu", "error.titlu","Există deja un traseu cu aceast titlu.");
+        if (traseuExisting != null && traseuExisting.getTitlu() != null && !traseuExisting.getTitlu().isEmpty()) {
+            result.rejectValue("titlu", "error.titlu", "Există deja un traseu cu aceast titlu.");
         }
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             System.out.println(result.getAllErrors());
 
             model.addAttribute("traseu", traseuDto);
@@ -221,24 +222,31 @@ public class TraseuController {
         traseuDto.setUser(user);
 
         boolean isAdmin = user.getRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"));
-        if(isAdmin){
+        if (isAdmin) {
             traseuDto.setAprobat(true);
-        }
-        else{
+        } else {
             traseuDto.setAprobat(false);
         }
 
-        try {
-            List<byte[]> poze = new ArrayList<>();
-            for (MultipartFile file : files) {
-                byte[] poza = file.getBytes();
-                poze.add(poza);
+        if (!files.get(0).isEmpty()){
+            try {
+                List<byte[]> poze = new ArrayList<>();
+                for (MultipartFile file : files) {
+                    if (file.getOriginalFilename() != "") {
+                        byte[] poza = file.getBytes();
+                        poze.add(poza);
+                    }
+                }
+                traseuDto.setPozeTraseu(poze);
+            } catch (IOException e) {
+                e.printStackTrace();
+                model.addAttribute("error", "A apărut o eroare la încărcarea pozelor.");
             }
-            traseuDto.setPozeTraseu(poze);
-        } catch (IOException e) {
-            e.printStackTrace();
-            model.addAttribute("error", "A apărut o eroare la încărcarea pozelor.");
         }
+        else{
+            traseuDto.setPozeTraseu(null);
+        }
+
 
         traseuService.save(traseuDto);
 
@@ -324,6 +332,57 @@ public class TraseuController {
         addCommonAttributesTrasee(model, pageNo);
 
         return "redirect:/trasee?stergeSuccess";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editareTraseu(@PathVariable Long id, Model model){
+        Traseu traseu = traseuService.getTraseuById(id).get();
+        TraseuDto traseuDto = TraseuMapper.mapToTraseuDto(traseu);
+
+        model.addAttribute("traseu", traseuDto);
+        model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
+        model.addAttribute("marcaje", marcajService.getAllMarcaje());
+
+        return "traseuEdit";
+    }
+
+    @PostMapping("/edit")
+    public String updateTraseu(@Valid @ModelAttribute("traseu") TraseuDto traseuDto,
+                               BindingResult result, Model model, @RequestParam("pozeTraseu") List<MultipartFile> files){
+        Traseu traseuExisting = traseuService.getTraseuByTitlu(traseuDto.getTitlu());
+        if(traseuExisting != null && traseuExisting.getTitlu() != null && !traseuExisting.getTitlu().isEmpty() && traseuExisting.getId() != traseuDto.getId()){
+            result.rejectValue("titlu", "error.titlu","Există deja un traseu cu aceast titlu.");
+        }
+        if(result.hasErrors()){
+            System.out.println(result.getAllErrors());
+
+            model.addAttribute("traseu", traseuDto);
+            model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
+            model.addAttribute("marcaje", marcajService.getAllMarcaje());
+            return "traseuForm";
+        }
+
+
+        if (files.get(0).isEmpty()) {
+            traseuDto.setPozeTraseu(traseuService.getTraseuById(traseuDto.getId()).get().getPozeTraseu());
+        }
+        else{
+            try {
+                List<byte[]> poze = new ArrayList<>();
+                for (MultipartFile file : files) {
+                    byte[] poza = file.getBytes();
+                    poze.add(poza);
+                }
+                traseuDto.setPozeTraseu(poze);
+            } catch (IOException e) {
+                e.printStackTrace();
+                model.addAttribute("error", "A apărut o eroare la încărcarea pozelor.");
+            }
+        }
+
+        traseuService.save(traseuDto);
+
+        return "redirect:/trasee?modificaSuccess";
     }
 
     @GetMapping("/{id}/parcurs")

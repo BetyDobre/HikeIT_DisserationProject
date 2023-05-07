@@ -1,11 +1,11 @@
 	<!DOCTYPE html>
 	<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 	<!--	head-->
-	<head th:replace="fragments :: head_fragment(pageTitle = 'HikeIT', link = '')"/>
+	<head th:replace="~{fragments :: head_fragment(pageTitle = 'HikeIT', link = '')}"/>
 	<!--	end head-->
 	<body>
 	<!--	header-->
-	<header th:replace="fragments :: header_fragment"/>
+	<header th:replace="~{fragments :: header_fragment}"/>
 
 	<!-- start banner Area -->
 	<section class="banner-area relative">
@@ -171,7 +171,7 @@
 		<!-- End home-about Area -->
 
 		<!-- start footer Area -->
-		<footer th:replace="fragments :: footer_fragment"/>
+		<footer th:replace="~{fragments :: footer_fragment}"/>
 		<!-- End footer Area -->
 
 		<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>

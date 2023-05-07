@@ -1,13 +1,13 @@
 <!DOCTYPE html>
   <html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="fragments :: head_fragment(pageTitle = 'Resetare parolă')"/>
+  <head th:replace="~{fragments :: head_fragment(pageTitle = 'Resetare parolă')}"/>
   <body>
   <!--  header-->
-  <header th:replace="fragments :: header_fragment"/>
+  <header th:replace="~{fragments :: header_fragment}"/>
   <!-- #header -->
 
   <!-- start banner Area -->
-  <section th:replace="fragments :: banner_fragment(title = 'Resetare parolă', link = 'resetParola', button = null)"/>
+  <section th:replace="~{fragments :: banner_fragment(title = 'Resetare parolă', link = 'resetParola', button = null)}"/>
   <!-- End banner Area -->
 
   <section class="sample-text-area">
@@ -42,7 +42,7 @@
   </section>
 
   <!-- start footer Area -->
-  <footer th:replace="fragments :: footer_fragment"/>
+  <footer th:replace="~{fragments :: footer_fragment}"/>
   <!-- End footer Area -->
 
   <script type="text/javascript">

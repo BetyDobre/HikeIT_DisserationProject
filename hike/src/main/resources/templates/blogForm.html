@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
-<head th:replace="fragments :: head_fragment(pageTitle = 'Postare nouă')"/>
+<head th:replace="~{fragments :: head_fragment(pageTitle = 'Postare nouă')}"/>
 <body>
-<header th:replace="fragments :: header_fragment"/>
+<header th:replace="~{fragments :: header_fragment}"/>
 
-<section th:replace="fragments :: banner_fragment(title = 'Postare nouă', link = 'blog/adauga', button = null)"/>
+<section th:replace="~{fragments :: banner_fragment(title = 'Postare nouă', link = 'blog/adauga', button = null)}"/>
 
 <section class="sample-text-area">
     <div class="contents order-2 order-md-1">
@@ -62,7 +62,7 @@
 </section>
 
 <!-- start footer Area -->
-<footer th:replace="fragments :: footer_fragment"/>
+<footer th:replace="~{fragments :: footer_fragment}"/>
 <!-- End footer Area -->
 
 <script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>

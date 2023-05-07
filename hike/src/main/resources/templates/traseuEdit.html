@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:insert="~{fragments :: head_fragment(pageTitle = 'Editare traseu')}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+</head>
+<body onload="initMap()">
+<header th:replace="~{fragments :: header_fragment}"/>
+
+<section th:replace="~{fragments :: banner_fragment(title = 'Editare traseu', link = 'trasee/' + ${traseu.getId()} + '/edit', button = null)}"/>
+
+<section class="sample-text-area">
+  <div class="contents order-2 order-md-1">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+        <p class="text-info" sec:authorize="hasAuthority('USER')">Atenție! După trimiterea formularului corespunzător traseului, acesta va fi verificat și analizat de unul din administratorii paginii. Administratorul va aproba traseul pentru a fi vizualizat de toti utilizatorii paginii sau va respinge propunerea de traseu în funcție de informațiile regăsite. Decizia va fi comunicată prin email însoțită de un feedback când este cazul. Mulțumim pentru contribuție!</p>
+        <div class="col-md-8">
+          <div class="form-block">
+            <form id="traseuForm" method="post" th:action="@{/trasee/edit}" th:object="${traseu}" enctype="multipart/form-data">
+              <input type="hidden" th:field="*{id}"/>
+              <input type="hidden" th:field="*{user}"/>
+              <input type="hidden" th:field="*{aprobat}"/>
+              <input type="hidden" th:field="*{createdOn}"/>
+              <div class="form-group" style="text-align: center;">
+                <img id= "thumbnail" class="img-fluid" style="width: 500px; height: 300px; border-radius: 30px;" th:src="@{'/trasee/getTraseuPhotos/' + ${traseu.id} +'/0'}" onerror="this.src='/img/trasee/addFormCover.jpg'">
+                <br/>
+                <br/>
+                <input id="pozeTraseu" name="pozeTraseu" type="file" multiple accept="image/png, image/jpeg">
+              </div>
+              <p th:if="${#fields.hasErrors('pozeTraseu')}" class="text-danger">Pozele nu au putut fi încărcate corect. Încercați din nou.</p>
+
+              <div class="form-group first">
+                <label for="titlu">Titlu sugestiv pentru traseu tău(poate fi compus din destinația de plecare și punctul de sosire sau dintr-un nume consacrat)*</label>
+                <input th:field="*{titlu}" th:placeholder="${traseu.getTitlu()}"  type="text" name="titlu" id="titlu" placeholder="Adaugă titlu..." class="single-input">
+                <p th:if="${#fields.hasErrors('titlu')}" th:errors="*{titlu}" class="text-danger"></p>
+              </div>
+
+              <div class="form-group first">
+                <p class="mt-2">Alegeți pe hartă punctul de plecare(P) și punctul de sosire(S) al traseului. Pin-urile pot fi mutate odată adăugate.</p>
+                <div id="map" style="height: 400px;"></div>
+                <input type="hidden" th:field="*{punctPlecare}" th:placeholder="${traseu.getPunctPlecare()}" id="punctPlecare" name="punctPlecare" />
+                <p th:if="${#fields.hasErrors('punctPlecare')}" th:errors="*{punctPlecare}" class="text-danger"></p>
+                <input type="hidden" th:field="*{punctSosire}" th:placeholder="${traseu.getPunctSosire()}"  id="punctSosire" name="punctSosire" />
+                <p th:if="${#fields.hasErrors('punctSosire')}" th:errors="*{punctSosire}" class="text-danger"></p>
+              </div>
+
+              <div class="form-group first">
+                <label for="durataMinima">Durata minimă de parcurs a traseului sau durata pentru cei experimentați, în ore. (ex: 1:30h)*</label>
+                <input th:field="*{durataMinima}" th:placeholder="${traseu.getDurataMinima()}"  type="text" name="durataMinima" id="durataMinima" placeholder="Adaugă durata minima a traseului..." class="single-input">
+                <p th:if="${#fields.hasErrors('durataMinima')}" th:errors="*{durataMinima}" class="text-danger"></p>
+              </div>
+
+              <div class="form-group first">
+                <label for="durataMaxima">Durata maximă de parcurs a traseului, pentru o condiție fizică mai puțin bună sau din cauza unor condiții de vreme nefavorabile, în ore. (ex: 4:15h)*</label>
+                <input th:field="*{durataMaxima}" th:placeholder="${traseu.getDurataMaxima()}"  type="text" name="durataMaxima" id="durataMaxima" placeholder="Adaugă durata maxima a traseului..." class="single-input">
+                <p th:if="${#fields.hasErrors('durataMaxima')}" th:errors="*{durataMaxima}" class="text-danger"></p>
+              </div>
+
+              <div class="form-group first">
+                <label for="distanta">Distanța de parcurs a traseului în km.*</label>
+                <input th:field="*{distanta}" th:placeholder="${traseu.getDistanta()}"  type="number" min="0" max="100" name="distanta" id="distanta" placeholder="Adaugă distanta traseului..." class="single-input">
+                <p th:if="${#fields.hasErrors('distanta')}" th:errors="*{distanta}" class="text-danger"></p>
+              </div>
+
+              <div class="form-group first">
+                <label for="urcare">Diferența de nivel în urcare(în metri)*</label>
+                <input th:field="*{urcare}" th:placeholder="${traseu.getUrcare()}"  type="number" min="0" name="urcare" id="urcare" placeholder="Adaugă urcarea..." class="single-input">
+                <p th:if="${#fields.hasErrors('urcare')}" th:errors="*{urcare}" class="text-danger"></p>
+              </div>
+
+              <div class="form-group first">
+                <label for="coborare">Diferența de nivel în coborâre(în metri)*</label>
+                <input th:field="*{coborare}" th:placeholder="${traseu.getCoborare()}" type="number" min="0" name="urcare" id="coborare" placeholder="Adaugă coborarea..." class="single-input">
+                <p th:if="${#fields.hasErrors('coborare')}" th:errors="*{coborare}" class="text-danger"></p>
+              </div>
+
+              <div class="form-group first">
+                <label for="descriere">Descriere, cu cât mai multe detalii importante despre traseu*</label>
+                <textarea th:field="*{descriere}" th:placeholder="${traseu.getDescriere()}" type="text" name="descriere" id = "descriere" placeholder="Adaugă descrierea traseului.." class="common-textarea form-control"></textarea>
+                <p th:if="${#fields.hasErrors('descriere')}" th:errors="*{descriere}" class="text-danger"/>
+              </div>
+
+              <div class="form-group last mb-3">
+                <label for="marcaj">Marcajul care semnalizează traseul*</label>
+                <div class="default-select">
+                  <select class="select2" id="marcaj" name="marcaj" th:field="*{marcajId}">
+                    <option th:each="marcaj : ${marcaje}"
+                            th:value="${marcaj.id}"
+                            th:text="${marcaj.titlu}"
+                            th:data-icon="@{'/marcaje/getMarcajPhoto/' + ${marcaj.id}}">
+                  </select>
+                </div>
+                <p th:if="${#fields.hasErrors('marcajId')}" th:errors="*{marcajId}" class="text-danger"></p>
+              </div>
+
+              <div class="form-group last mb-3">
+                <label for="grupaMuntoasa">Grupa din care fac parte munții în care se desfășoară traseul*</label>
+                <div class="default-select">
+                  <select class="nice-select open" id="grupaMuntoasa" name="grupaMuntoasa" th:field="*{grupaMuntoasaId}">
+                    <option value="">Selectează o grupă</option>
+                    <option th:each="grupa : ${grupeMuntoase}"
+                            th:value="${grupa.id}"
+                            th:text="${grupa.titlu}">
+                    </option>
+                  </select>
+                </div>
+                <p th:if="${#fields.hasErrors('grupaMuntoasaId')}" th:errors="*{grupaMuntoasaId}" class="text-danger"></p>
+              </div>
+
+              <div class="form-group last mb-3">
+                <label for="dificultate">Dificultate: </label>
+                <div class="default-select">
+                  <select class="nice-select open" id="dificultate" name="dificultate" th:field="*{dificultate}">
+                    <option
+                            th:each="dificultateOpt:${T(com.hike.models.Dificultate).values()}"
+                            th:value="${dificultateOpt.name()}" th:text="${dificultateOpt.displayName()}">
+                    </option>
+                  </select>
+                </div>
+                <p th:if="${#fields.hasErrors('dificultate')}" th:errors="*{dificultate}" class="text-danger"></p>
+              </div>
+
+              <div class="form-group last mb-3">
+                <label for="sezon">Sezon: </label>
+                <div class="default-select">
+                  <select class="nice-select open" id="sezon" name="category" th:field="*{sezon}">
+                    <option
+                            th:each="sezonOpt:${T(com.hike.models.Sezon).values()}"
+                            th:value="${sezonOpt.name()}" th:text="${sezonOpt.displayName()}">
+                    </option>
+                  </select>
+                </div>
+                <p th:if="${#fields.hasErrors('sezon')}" th:errors="*{sezon}" class="text-danger"></p>
+              </div>
+
+              <button type = "submit" class="genric-btn primary circle" style="width: 100%">SALVEAZĂ MODIFICĂRILE</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- start footer Area -->
+<footer th:replace="~{fragments :: footer_fragment}"/>
+<!-- End footer Area -->
+
+<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+<script type="text/javascript" th:src="@{/js/vendor/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery-ui.js}"></script>
+<script type="text/javascript" th:src="@{/js/easing.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/hoverIntent.js}"></script>
+<script type="text/javascript" th:src="@{/js/superfish.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.ajaxchimp.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.magnific-popup.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.nice-select.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('.select2').select2({
+      templateResult: formatState
+    });
+    $('.select2-arrow').append('<i class="fa fa-angle-down"></i>');
+  });
+
+  function formatState (state) {
+    if (!state.id) { return state.text; }
+    var $state = $(
+            '<span><img src="' + $(state.element).data('icon') + '" class="img-fluid" style="height: 30px; width: 30px; margin-right: 10px;" /> ' + state.text + '</span>'
+    );
+    return $state;
+  };
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_VW5BhR0sVQkxA_QDNLGJPwnAA6pMqXQ&callback=Function.prototype"></script>
+<script th:inline="javascript">
+  var plecare = /*[[${traseu.getPunctPlecare()}]]*/ '';
+  var sosire = /*[[${traseu.getPunctSosire()}]]*/ '';
+
+  function initMap() {
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 11,
+      center: {lat: (parseFloat(plecare.split(',')[0]) + parseFloat(sosire.split(',')[0]))/2, lng: (parseFloat(plecare.split(',')[1]) + parseFloat(sosire.split(',')[1]))/2}
+    });
+    var markerPlecare = new google.maps.Marker({
+      position: new google.maps.LatLng(parseFloat(plecare.split(',')[0]), parseFloat(plecare.split(',')[1])),
+      map: map,
+      title: 'Punct plecare',
+      label: 'P',
+      draggable: true
+    });
+    document.getElementById('punctPlecare').value = markerPlecare.getPosition().lat() + ',' + markerPlecare.getPosition().lng();
+
+    google.maps.event.addListener(markerPlecare, 'dragend', function () {
+      document.getElementById('punctPlecare').value = markerPlecare.getPosition().lat() + ',' + markerPlecare.getPosition().lng();
+    });
+    var markerSosire = new google.maps.Marker({
+      position: new google.maps.LatLng(parseFloat(sosire.split(',')[0]), parseFloat(sosire.split(',')[1])),
+      map: map,
+      title: 'Punct sosire',
+      label: 'S',
+      draggable: true
+    });
+    document.getElementById('punctSosire').value = markerSosire.getPosition().lat() + ',' + markerSosire.getPosition().lng();
+
+    google.maps.event.addListener(markerSosire, 'dragend', function () {
+      document.getElementById('punctSosire').value = markerSosire.getPosition().lat() + ',' + markerSosire.getPosition().lng();
+    });
+  }
+</script>
+</body>
+</html>

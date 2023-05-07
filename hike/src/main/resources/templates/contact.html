@@ -1,11 +1,11 @@
 	<!DOCTYPE html>
 	<html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org">
-	<head th:replace="fragments :: head_fragment(pageTitle = 'Contact')"/>
+	<head th:replace="~{fragments :: head_fragment(pageTitle = 'Contact')}"/>
 	<body>
-	<header th:replace="fragments :: header_fragment"/>
+	<header th:replace="~{fragments :: header_fragment}"/>
 
 	<!-- start banner Area -->
-	<section th:replace="fragments :: banner_fragment(title = 'Contact', link = 'contact', button = null)"/>
+	<section th:replace="~{fragments :: banner_fragment(title = 'Contact', link = 'contact', button = null)}"/>
 	<!-- End banner Area -->
 
 		<!-- Start contact-page Area -->
@@ -70,7 +70,7 @@
 		<!-- End contact-page Area -->
 
 		<!-- start footer Area -->
-		<footer th:replace="fragments :: footer_fragment"/>
+		<footer th:replace="~{fragments :: footer_fragment}"/>
 		<!-- End footer Area -->
 
 		<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>

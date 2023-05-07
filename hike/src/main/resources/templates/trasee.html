@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="fragments :: head_fragment(pageTitle = 'Trasee')"/>
+<head th:replace="~{fragments :: head_fragment(pageTitle = 'Trasee')}"/>
 <body>
-<header th:replace="fragments :: header_fragment"/>
+<header th:replace="~{fragments :: header_fragment}"/>
 
-<section sec:authorize="isAuthenticated()" th:replace="fragments :: banner_fragment(title = 'Trasee', link = 'trasee', button = 'Adaugă traseu')"/>
-<section sec:authorize="isAnonymous()" th:replace="fragments :: banner_fragment(title = 'Trasee', link = 'trasee', button = null)"/>
+<section sec:authorize="isAuthenticated()" th:replace="~{fragments :: banner_fragment(title = 'Trasee', link = 'trasee', button = 'Adaugă traseu')}"/>
+<section sec:authorize="isAnonymous()" th:replace="~{fragments :: banner_fragment(title = 'Trasee', link = 'trasee', button = null)}"/>
 
 <!-- Start Trasee Area -->
 <section class="destinations-area section-gap">
     <div class="container">
         <p th:if="${param.adaugaSuccess}" class="alert alert-success">Traseu adăugat cu succes!</p>
+        <p th:if="${param.modificaSuccess}" class="alert alert-success">Traseu modificat cu succes!</p>
         <p th:if="${param.stergeSuccess}" class="alert alert-success">Traseu șters cu succes!</p>
         <div class="row d-flex justify-content-center">
             <div class="menu-content pb-40 col-lg-12">
@@ -158,7 +159,7 @@
 <!-- End destinations Area -->
 
 <!-- start footer Area -->
-<footer th:replace="fragments :: footer_fragment"/>
+<footer th:replace="~{fragments :: footer_fragment}"/>
 <!-- End footer Area -->
 
 <script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>

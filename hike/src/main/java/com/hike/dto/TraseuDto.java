@@ -81,4 +81,7 @@ public class TraseuDto {
     private Long marcajId;
 
     private LocalDateTime createdOn;
+
+    private LocalDateTime updatedOn;
+
 }

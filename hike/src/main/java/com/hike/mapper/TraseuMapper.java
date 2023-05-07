@@ -24,6 +24,7 @@ public class TraseuMapper {
                 .punctSosire(traseuDto.getPunctSosire())
                 .marcaj(traseuDto.getMarcaj())
                 .createdOn(traseuDto.getCreatedOn())
+                .updatedOn(traseuDto.getUpdatedOn())
                 .build();
         return traseu;
     }
@@ -48,6 +49,9 @@ public class TraseuMapper {
                 .punctSosire(traseu.getPunctSosire())
                 .marcaj(traseu.getMarcaj())
                 .createdOn(traseu.getCreatedOn())
+                .updatedOn(traseu.getUpdatedOn())
+                .marcajId(traseu.getMarcaj().getId())
+                .grupaMuntoasaId(traseu.getGrupaMuntoasa().getId())
                 .build();
         return traseuDto;
     }

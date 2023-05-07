@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
       xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:insert="fragments :: head_fragment(pageTitle = 'Profilul meu')">
+<head th:insert="~{fragments :: head_fragment(pageTitle = 'Profilul meu')}">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" th:href="@{/css/sidebar.css}">
 </head>
 <body>
     <!--  header-->
-    <header th:replace="fragments :: header_fragment"/>
+    <header th:replace="~{fragments :: header_fragment}"/>
     <!-- #header -->
     <!-- start banner Area -->
-    <section th:replace="fragments :: banner_fragment(title = 'Profilul meu', link = 'user/profil', button = null)"/>
+    <section th:replace="~{fragments :: banner_fragment(title = 'Profilul meu', link = 'user/profil', button = null)}"/>
     <!-- End banner Area -->
     <section class="section-bg">
         <div class="custom-menu">
@@ -266,7 +266,7 @@
 
 
     <!-- start footer Area -->
-    <footer th:replace="fragments :: footer_fragment"/>
+    <footer th:replace="~{fragments :: footer_fragment}"/>
     <!-- End footer Area -->
     <script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
     <script type="text/javascript" th:src="@{/js/popper.min.js}"></script>

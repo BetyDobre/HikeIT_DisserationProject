@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 	<html lang="zxx" class="no-js">
-	<head th:replace="fragments :: head_fragment(pageTitle = 'Blog')"/>
+	<head th:replace="~{fragments :: head_fragment(pageTitle = 'Blog')}"/>
 	<body>
 	<!--	header-->
-	<header th:replace="fragments :: header_fragment"/>
+	<header th:replace="~{fragments :: header_fragment}"/>
 	<!-- #header -->
 
 	<!-- start banner Area -->
-	<section th:replace="fragments :: banner_fragment(title = 'Blog', link = 'blog', button = ${access})"/>
+	<section th:replace="~{fragments :: banner_fragment(title = 'Blog', link = 'blog', button = ${access})}"/>
 	<!-- End banner Area -->
 
 	<!-- Start post-content Area -->
@@ -68,14 +68,14 @@
 					</nav>
 				</div>
 
-				<footer th:replace="fragments :: blog_sidebar_fragment"/>
+				<footer th:replace="~{fragments :: blog_sidebar_fragment}"/>
 			</div>
 		</div>
 	</section>
 	<!-- End post-content Area -->
 
 	<!-- start footer Area -->
-	<footer th:replace="fragments :: footer_fragment"/>
+	<footer th:replace="~{fragments :: footer_fragment}"/>
 	<!-- End footer Area -->
 	<script type="text/javascript" th:src="@{/js/vendor/jquery-2.2.4.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
