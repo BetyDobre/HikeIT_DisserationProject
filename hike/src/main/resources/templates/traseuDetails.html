@@ -132,6 +132,15 @@
                             <p class="mb-0" th:text="${#temporals.format(traseu.updatedOn, 'dd-MM-yyyy, HH:mm')}"></p>
                         </div>
                     </div>
+                    <div th:if="${salvamont != null}" class="row align-items-center mb-2">
+                        <div class="col-auto">
+                            <i class="fa fa-phone fa-2x"></i>
+                        </div>
+                        <div class="col">
+                            <p class="mb-0 font-weight-bold">Telefon salvamont:</p>
+                            <p class="mb-0" th:text="${salvamont.telefon}"></p>
+                        </div>
+                    </div>
                 </div>
 
             <!--Vreme-->

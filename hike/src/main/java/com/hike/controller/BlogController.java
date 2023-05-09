@@ -213,9 +213,13 @@ public class BlogController {
     }
 
     @GetMapping("/{id}")
-    public String getSinglePost(Model model, @PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+    public String getSinglePost(@RequestParam(required = false) String search, Model model, @PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
         model.addAttribute("comentariuNou", new BlogCommentDto());
         addCommonAttributesBlogPost(model, pageNo, id);
+
+        if(search != null){
+            return "redirect:/blog?search=" + search;
+        }
 
         return "blogPost";
     }

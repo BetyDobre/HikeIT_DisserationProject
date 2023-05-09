@@ -22,4 +22,7 @@ public class GrupaMuntoasa {
 
     @OneToMany(mappedBy = "grupaMuntoasa", cascade = CascadeType.REMOVE)
     private Set<Traseu> trasee;
+
+    @OneToOne(mappedBy = "grupaMuntoasa")
+    private Salvamont salvamont;
 }
