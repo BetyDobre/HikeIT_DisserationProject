@@ -15,11 +15,16 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
@@ -39,10 +44,13 @@ public class TraseuController {
     private MailService mailService;
     private WeatherService weatherService;
     private SalvamontService salvamontService;
+    private StireService stireService;
     private final int pageSize = 6;
 
     @Autowired
-    public TraseuController(TraseuService traseuService, GrupaMuntoasaService grupaMuntoasaService, UserService userService, MarcajService marcajService, TraseuCommentService traseuCommentService, MailService mailService, WeatherService weatherService, SalvamontService salvamontService) {
+    public TraseuController(TraseuService traseuService, GrupaMuntoasaService grupaMuntoasaService, UserService userService,
+                            MarcajService marcajService, TraseuCommentService traseuCommentService, MailService mailService,
+                            WeatherService weatherService, SalvamontService salvamontService, StireService stireService) {
         this.traseuService = traseuService;
         this.grupaMuntoasaService = grupaMuntoasaService;
         this.userService = userService;
@@ -51,6 +59,7 @@ public class TraseuController {
         this.mailService = mailService;
         this.weatherService = weatherService;
         this.salvamontService = salvamontService;
+        this.stireService = stireService;
     }
 
     @InitBinder
@@ -286,6 +295,8 @@ public class TraseuController {
             model.addAttribute("salvamont", salvamont);
         }
 
+        model.addAttribute("stiri", stireService.findStiriByTraseu(traseu.get()));
+
         return "traseuDetails";
     }
 
@@ -468,5 +479,48 @@ public class TraseuController {
         addCommonAttributesComments(model, pageNo, traseuId);
 
         return "redirect:/trasee/" + traseuId +"?stergeSucces";
+    }
+
+    @GetMapping("/actualizareStiri")
+    public String actualizareStiri(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer token");
+        headers.setBearerAuth("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJUTkVOMEl5T1RWQk1UZEVRVEEzUlRZNE16UkJPVU00UVRRM016TXlSalUzUmpnMk4wSTBPQSJ9.eyJodHRwczovL3VpcGF0aC9lbWFpbCI6Im1paGFlbGEtYmVhdHJpY2UuZG9icmVAbXkuZm1pLnVuaWJ1Yy5ybyIsImh0dHBzOi8vdWlwYXRoL2VtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczovL2FjY291bnQudWlwYXRoLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwOTAzODM3MzM5MDU4MDA5NzU2OSIsImF1ZCI6WyJodHRwczovL29yY2hlc3RyYXRvci5jbG91ZC51aXBhdGguY29tIiwiaHR0cHM6Ly91aXBhdGguZXUuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTY4MzkxNzc3OCwiZXhwIjoxNjg0MDA0MTc4LCJhenAiOiI4REV2MUFNTlhjelczeTRVMTVMTDNqWWY2MmpLOTNuNSIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwgb2ZmbGluZV9hY2Nlc3MifQ.mleDz5SGmI7UmArk9XE-IArIem_oVCczfAmTWxGw5DVpqhQ1PUZ1Yur15UQEcSZ4ObVe5JybXMBW1MzIky7T3hKbsm13BVS8c4VT_tDxs4f4zirh8M8IXv5MSuFzgWV0GnAB-ab8_N-LQ0WOnTxtmiGQhjddmN8W9RyZkseALSyR4x28g0UNSTtPf2QET-9WwmNkXF3m_f_-8QyG8arciM8Zss939aTHnbq9xMj65gESXwl91-_wUlM5kCqxJamOjbywLTBsu65sUNPdgPKONiQJkFsDlhzaXQZQ8eV6cBdEiTj0XSn3SeW6faf8JE6iD4zyaTZUper8B9zRoTIM_g");
+        headers.set("X-UIPATH-OrganizationUnitId", "4365602");
+
+        String jsonBody = "{" +
+                            "\"startInfo\": {" +
+                                "\"ReleaseKey\": \"b804c2aa-a84d-40cc-9f84-8678a386a148\","+
+                                " \"Strategy\": \"Specific\"," +
+                                " \"RobotIds\": [1252894],"+
+                                " \"NoOfRobots\": 0"+
+                                "}" +
+                            "}";
+
+//        {
+//            "startInfo": {
+//            "ReleaseKey": "b804c2aa-a84d-40cc-9f84-8678a386a148",
+//                    "Strategy": "Specific",
+//                    "RobotIds":[1252894],
+//            "NoOfRobots": 0
+//        }
+//        }
+
+        HttpEntity<String> request = new HttpEntity<>(jsonBody, headers);
+
+        String url = "https://cloud.uipath.com/betydbr/DefaultTenant/orchestrator_/odata/Jobs/UiPath.Server.Configuration.OData.StartJobs";
+
+        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+
+        model.addAttribute("paginaPrincipala", true);
+        Page<Traseu> trasee = traseuService.getAllTraseeAprobate(PageRequest.of(pageNo-1, pageSize, Sort.by("updatedOn").descending()));
+        model.addAttribute("trasee", trasee);
+        model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
+        addCommonAttributesTrasee(model, pageNo);
+
+        return "trasee";
     }
 }

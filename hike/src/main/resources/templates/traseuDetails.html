@@ -167,7 +167,7 @@
             </div>
 
             <div class="mt-4">
-                <h3 style="margin-bottom: 0px;">Descrierea traseului:</h3>
+                <h3 style="margin-bottom: 0px; color: #f8b600;">Descrierea traseului:</h3>
                 <div class="quotes" th:text="${traseu.descriere}"></div>
             </div>
 
@@ -193,6 +193,23 @@
                     <a th:if="${traseuParcurs} != true" th:href="@{'/trasee/' + ${traseu.id} + '/parcurs'}" class="genric-btn primary-border circle">Marchează ca parcurs</a>
                     <a th:if="${traseuParcurs}" th:href="@{'/trasee/' + ${traseu.id} + '/parcurs'}" class="genric-btn danger-border circle">Marchează ca neparcurs</a>
                 </div>
+
+<!--            stiri-->
+            <div th:if="${stiri.size() > 0}" class="comments-area">
+                <h3 style="color: #f8b600;" class="mb-5">Știri recente despre traseu:</h3>
+                <div th:each="stire : ${stiri}" class="comment-list">
+                    <div class="single-comment justify-content-between d-flex">
+                        <div class="user justify-content-between d-flex">
+                            <div class="desc">
+                                <a class="link-dark" th:href="${stire.url}" th:text="${stire.titlu}" style="font-weight: bold; font-size: 18px; text-decoration: underline;"></a>
+                                <p class="website" th:text="${stire.website}" ></p>
+                                <p class="comment" th:text="${stire.rezumat}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4>...</h4>
+            </div>
 
 <!--                comments area-->
                 <div th:if="${traseu.aprobat}" class="comments-area">

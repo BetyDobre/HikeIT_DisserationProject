@@ -154,6 +154,10 @@
                 </li>
             </ul>
         </nav>
+<!-- uipath bot-->
+        <form sec:authorize="hasAuthority('ADMIN')" action="#" th:action="@{/trasee/actualizareStiri}" method="get" class="d-flex justify-content-center">
+            <button type="submit" class="genric-btn primary arrow circle m-3">Actualizează știri<span class="lnr lnr-arrow-right"></span></button>
+        </form>
     </div>
 </section>
 <!-- End destinations Area -->

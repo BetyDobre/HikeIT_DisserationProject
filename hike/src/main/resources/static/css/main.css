@@ -4027,6 +4027,11 @@ body.mobile-nav-active #mobile-nav-toggle {
   color: #cccccc;
 }
 
+.comments-area .website {
+  font-size: 16px;
+  color: #cccccc;
+}
+
 .comments-area .comment {
   color: #777777;
 }

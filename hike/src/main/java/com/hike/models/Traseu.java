@@ -62,6 +62,9 @@ public class Traseu {
     @ManyToMany(mappedBy = "traseeParcurse")
     private List<UserEntity> usersParcurs;
 
+    @OneToMany(mappedBy = "traseu", cascade = CascadeType.REMOVE)
+    private Set<Stire> stiri;
+
     @CreationTimestamp
     private LocalDateTime createdOn;
 
