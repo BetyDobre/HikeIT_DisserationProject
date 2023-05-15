@@ -24,6 +24,7 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.web.util.WebUtils;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 @Configuration
 @EnableWebSecurity
@@ -49,17 +50,21 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/","/404","/login", "/register","/logout","/subscribe","/parolaUitata/**","/resetParola/**","/trasee/**","/contact","/blog/**", "/blog/categorie/**","/blog/getBlogPhoto/**","/grupaMuntoasa/**", "/marcaje/getMarcajPhoto/**", "/salvamont/**")
+                .requestMatchers("/","/404","/login", "/register","/subscribe","/parolaUitata/**","/resetParola/**","/contact","/blog","/blog/getBlogPhoto/**", "/blog/categorie/**", "/marcaje/getMarcajPhoto/**","/grupaMuntoasa/**","/trasee","/trasee/getTraseuPhotos/**")
                 .permitAll()
-               // requestMatchers(request -> {
-                //    String path = request.getServletPath();
-                //    String query = request.getQueryString();
-                //    return path.matches("/blog/\\d+")
-                //            && (query == null || Pattern.compile("[\\w\\-]+=[\\w\\-]+(&[\\w\\-]+=[\\w\\-]+)*").matcher(query).matches());
-                //})
-                .requestMatchers("/user/**", "/blog/postarilemele", "/blog/adauga", "/blog/*/sterge", "/blog/*/*/sterge").authenticated()
-                .requestMatchers("/admin/**", "/blog/categorii/**", "/marcaje/**").hasAuthority("ADMIN")
-//                .requestMatchers("/admin/**").permitAll()
+                .requestMatchers(request ->
+                        request.getServletPath().matches("/blog/\\d+(\\?[a-zA-Z]+)?")
+                )
+                .permitAll()
+                .requestMatchers(request ->
+                        request.getServletPath().matches("/trasee/\\d+(\\?[a-zA-Z]+)?")
+                )
+                .permitAll()
+                .requestMatchers("/admin/**", "/blog/categorii/**", "/marcaje/**","/salvamont/**", "/trasee/propuneri","/trasee/*/sterge","/trasee/*/aproba","/trasee/*/respinge","/trasee/*/edit","/trasee/edit","/trasee/actualizareStiri")
+                .hasAuthority("ADMIN")
+                //for the blog additional role checks are done in the controller
+                .requestMatchers("/user/**", "/blog/postarilemele", "/blog/adauga", "/blog/*/sterge", "/blog/*/*/sterge","/trasee/*/*/sterge", "/trasee/adauga","/trasee/traseeAdaugate","/trasee/traseeParcurse","/trasee/*/parcurs","/logout")
+                .authenticated()
                 .and()
                 .formLogin()
                         .loginPage("/login")

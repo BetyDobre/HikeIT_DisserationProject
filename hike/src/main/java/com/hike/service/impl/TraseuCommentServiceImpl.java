@@ -6,6 +6,7 @@ import com.hike.models.TraseuComment;
 import com.hike.models.UserEntity;
 import com.hike.repository.TraseuCommentRepository;
 import com.hike.service.TraseuCommentService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +51,7 @@ public class TraseuCommentServiceImpl implements TraseuCommentService {
     }
 
     @Override
+    @Transactional
     public void delete(Long commId) {
         traseuCommentRepository.deleteById(commId);
     }

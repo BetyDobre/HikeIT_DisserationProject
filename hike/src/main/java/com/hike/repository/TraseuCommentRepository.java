@@ -16,4 +16,5 @@ public interface TraseuCommentRepository extends JpaRepository<TraseuComment, Lo
     @Query("SELECT count(c) from comentarii_traseu c where c.traseu.id = :traseuId")
     int noOfCommentsByTraseu(Long traseuId);
     int countAllByUser(UserEntity user);
+    void deleteById(Long id);
 }

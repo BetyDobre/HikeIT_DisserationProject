@@ -12,6 +12,7 @@ import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -302,6 +303,7 @@ public class TraseuController {
 
     @GetMapping("/{id}/sterge")
     public String stergeTraseuAdmin(Model model, @PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        Traseu traseu = traseuService.getTraseuById(id).get();
         traseuService.delete(id);
         addCommonAttributesTrasee(model, pageNo);
 
@@ -475,6 +477,7 @@ public class TraseuController {
     @GetMapping("/{traseuId}/{commId}/sterge")
     public String stergeComentariu(Model model, @PathVariable("traseuId") Long traseuId, @PathVariable("commId") Long commId,
                                    @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
+        Traseu traseu = traseuService.getTraseuById(traseuId).get();
         traseuCommentService.delete(commId);
         addCommonAttributesComments(model, pageNo, traseuId);
 
