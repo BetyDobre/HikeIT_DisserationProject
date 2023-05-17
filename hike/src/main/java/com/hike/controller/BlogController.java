@@ -146,6 +146,7 @@ public class BlogController {
             return "blogForm";
         }
 
+        postare.setText(postare.getText().replaceAll("\n", "<br>"));
         String username = Utility.getLoggedUser();
         UserEntity user = userService.findByUsername(username);
         postare.setUser(user);

@@ -54,6 +54,7 @@ public class SalvamontController {
 
         if(result.hasErrors()){
             model.addAttribute("salvamont", salvamontDto);
+            model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
             return "salvamontForm";
         }
 

@@ -168,7 +168,7 @@
 
             <div class="mt-4">
                 <h3 style="margin-bottom: 0px; color: #f8b600;">Descrierea traseului:</h3>
-                <div class="quotes" th:text="${traseu.descriere}"></div>
+                <div class="quotes" id="descriere" th:utext="${traseu.descriere}"></div>
             </div>
 
                 <div sec:authorize="hasAuthority('ADMIN')" th:if="${traseu.aprobat} == false" class="row text-center mt-5">

@@ -241,6 +241,8 @@ public class TraseuController {
             traseuDto.setAprobat(false);
         }
 
+        traseuDto.setDescriere(traseuDto.getDescriere().replaceAll("\n", "<br>"));
+
         if (!files.get(0).isEmpty()){
             try {
                 List<byte[]> poze = new ArrayList<>();
@@ -359,6 +361,7 @@ public class TraseuController {
     public String editareTraseu(@PathVariable Long id, Model model){
         Traseu traseu = traseuService.getTraseuById(id).get();
         TraseuDto traseuDto = TraseuMapper.mapToTraseuDto(traseu);
+        traseuDto.setDescriere(traseuDto.getDescriere().replaceAll("<br>", "\n"));
 
         model.addAttribute("traseu", traseuDto);
         model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
@@ -383,6 +386,7 @@ public class TraseuController {
             return "traseuForm";
         }
 
+        traseuDto.setDescriere(traseuDto.getDescriere().replaceAll("\n", "<br>"));
 
         if (files.get(0).isEmpty()) {
             traseuDto.setPozeTraseu(traseuService.getTraseuById(traseuDto.getId()).get().getPozeTraseu());

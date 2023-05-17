@@ -28,6 +28,8 @@ public class Traseu {
     private Long distanta;
     private Long urcare;
     private Long coborare;
+
+    @Column(name = "descriere", length = 10000)
     private String descriere;
 
     @Enumerated(EnumType.STRING)
