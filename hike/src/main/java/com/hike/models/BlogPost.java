@@ -20,6 +20,8 @@ public class BlogPost {
 
     private String titlu;
     private String descriere;
+
+    @Column(name = "text", length = 10000)
     private String text;
 
     @Lob

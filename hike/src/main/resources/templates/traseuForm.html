@@ -76,6 +76,12 @@
                                 <p th:if="${#fields.hasErrors('descriere')}" th:errors="*{descriere}" class="text-danger"/>
                             </div>
 
+                            <div class="form-group first">
+                                <label for="altitudineMaxima">Altitudinea maximă la care ajunge traseul(în metri)*</label>
+                                <input th:field="*{altitudineMaxima}" type="number" min="0"  name="altitudineMaxima" id = "altitudineMaxima" placeholder="Adaugă altiduinea maximă a traseului.." class="common-textarea form-control">
+                                <p th:if="${#fields.hasErrors('altitudineMaxima')}" th:errors="*{altitudineMaxima}" class="text-danger"/>
+                            </div>
+
                             <div class="form-group last mb-3">
                                 <label for="marcaj">Marcajul care semnalizează traseul*</label>
                                 <div class="default-select">

@@ -25,6 +25,7 @@ public class BlogPostDto {
     private String descriere;
 
     @NotEmpty(message = "Conținutul este obligatoriu.")
+    @Length(min = 10, max = 10000, message = "Conținutul trebuie să aibă între 10 și 10000 de caractere.")
     private String text;
 
     @Lob

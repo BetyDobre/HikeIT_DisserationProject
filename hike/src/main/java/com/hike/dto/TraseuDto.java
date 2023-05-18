@@ -54,8 +54,12 @@ public class TraseuDto {
     private Long coborare;
 
     @NotEmpty(message = "Trebuie să existe o descriere a traseului.")
-    @Length(min = 10, max = 10000, message = "Descrierea trebuie să aibă între 10 și 4000 de caractere.")
+    @Length(min = 10, max = 10000, message = "Descrierea trebuie să aibă între 10 și 10000 de caractere.")
     private String descriere;
+
+    @NotNull(message = "Acest câmp este obligatoriu.")
+    @Digits(integer = 4, fraction = 0, message = "Doar cifre permise")
+    private Long altitudineMaxima;
 
     private Marcaj marcaj;
 

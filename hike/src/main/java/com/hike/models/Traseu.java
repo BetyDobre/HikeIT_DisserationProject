@@ -28,6 +28,7 @@ public class Traseu {
     private Long distanta;
     private Long urcare;
     private Long coborare;
+    private Long altitudineMaxima;
 
     @Column(name = "descriere", length = 10000)
     private String descriere;
