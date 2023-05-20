@@ -25,7 +25,7 @@ import java.util.List;
 public class UserDto {
     private Long id;
 
-    @Length(min = 4, max = 100, message = "Numele trebuie să aibă între 4 și 100 de caractere.")
+    @Length(min = 3, max = 100, message = "Numele trebuie să aibă între 3 și 100 de caractere.")
     @OnlyLetters(message = "Numele trebuie să conțină doar litere.")
     private String nume;
 

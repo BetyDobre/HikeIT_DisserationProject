@@ -22,10 +22,11 @@ public class BlogPostDto {
     private String titlu;
 
     @NotEmpty(message = "Descrierea este obligatorie.")
+    @Length(min = 10, max = 1000, message = "Descrierea trebuie să aibă între 10 și 1000 de caractere.")
     private String descriere;
 
     @NotEmpty(message = "Conținutul este obligatoriu.")
-    @Length(min = 10, max = 10000, message = "Conținutul trebuie să aibă între 10 și 10000 de caractere.")
+    @Length(min = 10, max = 30000, message = "Conținutul trebuie să aibă între 10 și 30000 de caractere.")
     private String text;
 
     @Lob

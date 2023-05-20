@@ -19,9 +19,11 @@ public class BlogPost {
     private Long id;
 
     private String titlu;
+
+    @Column(name = "descriere", length = 1000)
     private String descriere;
 
-    @Column(name = "text", length = 10000)
+    @Column(name = "text", length = 30000)
     private String text;
 
     @Lob
