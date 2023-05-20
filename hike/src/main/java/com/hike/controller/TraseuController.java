@@ -1,5 +1,7 @@
 package com.hike.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hike.dto.SalvamontDto;
 import com.hike.dto.TraseuCommentDto;
 import com.hike.dto.TraseuDto;
@@ -14,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpEntity;
@@ -47,6 +50,9 @@ public class TraseuController {
     private SalvamontService salvamontService;
     private StireService stireService;
     private final int pageSize = 6;
+
+    @Autowired
+    private Environment env;
 
     @Autowired
     public TraseuController(TraseuService traseuService, GrupaMuntoasaService grupaMuntoasaService, UserService userService,
@@ -491,43 +497,73 @@ public class TraseuController {
     @GetMapping("/actualizareStiri")
     public String actualizareStiri(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
         RestTemplate restTemplate = new RestTemplate();
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer token");
-        headers.setBearerAuth("eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlJUTkVOMEl5T1RWQk1UZEVRVEEzUlRZNE16UkJPVU00UVRRM016TXlSalUzUmpnMk4wSTBPQSJ9.eyJodHRwczovL3VpcGF0aC9lbWFpbCI6Im1paGFlbGEtYmVhdHJpY2UuZG9icmVAbXkuZm1pLnVuaWJ1Yy5ybyIsImh0dHBzOi8vdWlwYXRoL2VtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczovL2FjY291bnQudWlwYXRoLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwOTAzODM3MzM5MDU4MDA5NzU2OSIsImF1ZCI6WyJodHRwczovL29yY2hlc3RyYXRvci5jbG91ZC51aXBhdGguY29tIiwiaHR0cHM6Ly91aXBhdGguZXUuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTY4MzkxNzc3OCwiZXhwIjoxNjg0MDA0MTc4LCJhenAiOiI4REV2MUFNTlhjelczeTRVMTVMTDNqWWY2MmpLOTNuNSIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwgb2ZmbGluZV9hY2Nlc3MifQ.mleDz5SGmI7UmArk9XE-IArIem_oVCczfAmTWxGw5DVpqhQ1PUZ1Yur15UQEcSZ4ObVe5JybXMBW1MzIky7T3hKbsm13BVS8c4VT_tDxs4f4zirh8M8IXv5MSuFzgWV0GnAB-ab8_N-LQ0WOnTxtmiGQhjddmN8W9RyZkseALSyR4x28g0UNSTtPf2QET-9WwmNkXF3m_f_-8QyG8arciM8Zss939aTHnbq9xMj65gESXwl91-_wUlM5kCqxJamOjbywLTBsu65sUNPdgPKONiQJkFsDlhzaXQZQ8eV6cBdEiTj0XSn3SeW6faf8JE6iD4zyaTZUper8B9zRoTIM_g");
-        headers.set("X-UIPATH-OrganizationUnitId", "4365602");
-
+        headers.set("X-UIPATH-TenantName", "DefaultTenant");
         String jsonBody = "{" +
-                            "\"startInfo\": {" +
-                                "\"ReleaseKey\": \"b804c2aa-a84d-40cc-9f84-8678a386a148\","+
-                                " \"Strategy\": \"Specific\"," +
-                                " \"RobotIds\": [1252894],"+
-                                " \"NoOfRobots\": 0"+
-                                "}" +
-                            "}";
-
-//        {
-//            "startInfo": {
-//            "ReleaseKey": "b804c2aa-a84d-40cc-9f84-8678a386a148",
-//                    "Strategy": "Specific",
-//                    "RobotIds":[1252894],
-//            "NoOfRobots": 0
-//        }
-//        }
-
+                                "\"grant_type\": \"refresh_token\","+
+                                " \"client_id\": \""+env.getProperty("uipath.clientid")+"\"," +
+                                " \"refresh_token\": \""+env.getProperty("uipath.refreshtoken")+"\""+
+                        "}";
+        String url= "https://account.uipath.com/oauth/token";
         HttpEntity<String> request = new HttpEntity<>(jsonBody, headers);
+        ResponseEntity<String> bearerToken = restTemplate.postForEntity(url, request, String.class);
+        if (bearerToken.getStatusCode().is2xxSuccessful()) {
+            String responseBody = bearerToken.getBody();
+            if (responseBody != null) {
+                try {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    JsonNode jsonNode = objectMapper.readTree(responseBody);
+                    String accessToken = jsonNode.get("access_token").asText();
 
-        String url = "https://cloud.uipath.com/betydbr/DefaultTenant/orchestrator_/odata/Jobs/UiPath.Server.Configuration.OData.StartJobs";
+                    restTemplate = new RestTemplate();
+                    headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_JSON);
+                    headers.set("Authorization", "Bearer token");
+                    headers.setBearerAuth(accessToken);
+                    headers.set("X-UIPATH-OrganizationUnitId", "4365602");
 
-        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+                    jsonBody = "{" +
+                                    "\"startInfo\": {" +
+                                    "\"ReleaseKey\": \""+env.getProperty("uipath.releasekey")+"\","+
+                                    " \"Strategy\": \"Specific\"," +
+                                    " \"RobotIds\": "+env.getProperty("uipath.robotids")+","+
+                                    " \"NoOfRobots\": 0"+
+                                    "}" +
+                                "}";
 
-        model.addAttribute("paginaPrincipala", true);
-        Page<Traseu> trasee = traseuService.getAllTraseeAprobate(PageRequest.of(pageNo-1, pageSize, Sort.by("updatedOn").descending()));
-        model.addAttribute("trasee", trasee);
-        model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
-        addCommonAttributesTrasee(model, pageNo);
+            //        {
+            //            "startInfo": {
+            //            "ReleaseKey": "b804c2aa-a84d-40cc-9f84-8678a386a148",
+            //                    "Strategy": "Specific",
+            //                    "RobotIds":[1252894],
+            //            "NoOfRobots": 0
+            //        }
+            //        }
 
-        return "trasee";
+                    request = new HttpEntity<>(jsonBody, headers);
+                    url = "https://cloud.uipath.com/betydbr/DefaultTenant/orchestrator_/odata/Jobs/UiPath.Server.Configuration.OData.StartJobs";
+                    ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+
+                    model.addAttribute("paginaPrincipala", true);
+                    Page<Traseu> trasee = traseuService.getAllTraseeAprobate(PageRequest.of(pageNo-1, pageSize, Sort.by("updatedOn").descending()));
+                    model.addAttribute("trasee", trasee);
+                    model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
+                    addCommonAttributesTrasee(model, pageNo);
+
+                } catch (Exception e) {
+                    System.out.println("Error in processing HTTP request..");
+                    model.addAttribute("paginaPrincipala", true);
+                    Page<Traseu> trasee = traseuService.getAllTraseeAprobate(PageRequest.of(pageNo-1, pageSize, Sort.by("updatedOn").descending()));
+                    model.addAttribute("trasee", trasee);
+                    model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
+                    addCommonAttributesTrasee(model, pageNo);
+
+                    return "redirect:/trasee?actualizareError";
+                }
+            }
+        }
+
+        return "redirect:/trasee?actualizareSuccess";
     }
 }

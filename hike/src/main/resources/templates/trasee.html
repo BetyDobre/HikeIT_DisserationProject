@@ -13,6 +13,8 @@
         <p th:if="${param.adaugaSuccess}" class="alert alert-success">Traseu adăugat cu succes!</p>
         <p th:if="${param.modificaSuccess}" class="alert alert-success">Traseu modificat cu succes!</p>
         <p th:if="${param.stergeSuccess}" class="alert alert-success">Traseu șters cu succes!</p>
+        <p th:if="${param.actualizareSuccess}" class="alert alert-success">Robotul pentru actualizare știri pornit cu succes!</p>
+        <p th:if="${param.actualizareError}" class="alert alert-danger">Robotul pentru actualizare știri nu a pornit, verificați logurile!</p>
         <div class="row d-flex justify-content-center">
             <div class="menu-content pb-40 col-lg-12">
                 <div class="typography text-center">
