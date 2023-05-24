@@ -59,7 +59,7 @@
 									</div>
 									<div class="desc">
 										<h5 th:text="${comentariu.user.username}"></h5>
-										<p class="date" th:text="${#temporals.format(postare.createdOn, 'dd-MMM-yyyy HH:mm')}" ></p>
+										<p class="date" th:text="${#temporals.format(comentariu.createdOn, 'dd-MMM-yyyy HH:mm')}" ></p>
 										<p class="comment" th:text="${comentariu.text}"></p>
 									</div>
 								</div>

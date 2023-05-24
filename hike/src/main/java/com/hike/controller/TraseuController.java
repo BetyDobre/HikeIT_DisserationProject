@@ -125,7 +125,7 @@ public class TraseuController {
         }
 
         if (distanta != null && distanta != 0) {
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("distanta"), distanta));
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("distanta"), distanta));
         }
 
         if (titlu != null && !titlu.isBlank()) {
@@ -143,6 +143,7 @@ public class TraseuController {
         model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
 
         addCommonAttributesTrasee(model, pageNo);
+        model.addAttribute("side","");
 
         return "trasee";
     }
@@ -183,6 +184,7 @@ public class TraseuController {
         addCommonAttributesTrasee(model, pageNo);
         model.addAttribute("aprobare", true);
         model.addAttribute("titlu", titlu);
+        model.addAttribute("side"," adăugate");
 
         return "trasee";
     }
@@ -204,6 +206,7 @@ public class TraseuController {
         }
         model.addAttribute("trasee", trasee);
         model.addAttribute("titlu", titlu);
+        model.addAttribute("side", " parcurse");
 
         addCommonAttributesTrasee(model, pageNo);
 

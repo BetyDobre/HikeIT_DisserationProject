@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head th:replace="~{fragments :: head_fragment(pageTitle = 'Trasee')}"/>
+<head th:replace="~{fragments :: head_fragment(pageTitle = 'Trasee' + ${side})}"/>
 <body>
 <header th:replace="~{fragments :: header_fragment}"/>
 
-<section sec:authorize="isAuthenticated()" th:replace="~{fragments :: banner_fragment(title = 'Trasee', link = 'trasee', button = 'Adaugă traseu')}"/>
+<section sec:authorize="isAuthenticated()" th:replace="~{fragments :: banner_fragment(title = 'Trasee'+ ${side}, link = 'trasee', button = 'Adaugă traseu')}"/>
 <section sec:authorize="isAnonymous()" th:replace="~{fragments :: banner_fragment(title = 'Trasee', link = 'trasee', button = null)}"/>
 
 <!-- Start Trasee Area -->
@@ -122,6 +122,10 @@
                             <li class="d-flex justify-content-between align-items-center">
                                 <span>Distanță</span>
                                 <span th:text="${traseu.distanta} + 'km'"></span>
+                            </li>
+                            <li class="d-flex justify-content-between align-items-center">
+                                <span>Grupă </span>
+                                <span th:text="'Munții '+${traseu.grupaMuntoasa.getTitlu()}"></span>
                             </li>
                             <li class="d-flex justify-content-between align-items-center">
                                 <span class="text-info font-weight-bold" th:if="${aprobare}" th:text="${traseu.aprobat} ? 'APROBAT' : 'ÎN AȘTEPTARE'" ></span>
