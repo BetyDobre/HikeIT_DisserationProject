@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                             <div class="row align-items-center">
-                                <div class="col-sm-3 mb-3">
+                                <div class="col-sm-2 mb-3 mt-3">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownAnotimp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Sezoane
@@ -59,7 +59,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-3 mb-3">
+                                <div class="col-sm-2 mb-3 mt-3">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownDificultate" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Dificultate
@@ -71,6 +71,27 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="col-md-3 mb-1 default-select">
+                                    <select id="ordonare" class="nice-select" name="ordonare">
+                                        <option value="">Ordonează după:</option>
+                                        <option
+                                                th:value="noi" th:text="'Cele mai noi'" th:selected="${ordonare == 'noi'}">
+                                        </option>
+                                        <option
+                                                th:value="az" th:text="'A-Z'" th:selected="${ordonare == 'az'}">
+                                        </option>
+                                        <option
+                                                th:value="za" th:text="'Z-A'" th:selected="${ordonare == 'za'}">
+                                        </option>
+                                        <option
+                                                th:value="distantaCrescator" th:text="'Crescător după distanță'" th:selected="${ordonare == 'distantaCrescator'}">
+                                        </option>
+                                        <option
+                                                th:value="distantaDescrescator" th:text="'Descrescător după distanță'" th:selected="${ordonare == 'distantaDescrescator'}">
+                                        </option>
+                                    </select>
                                 </div>
 
                                 <button type="submit" class="genric-btn primary circle arrow m-3">Filtrează <span class="lnr lnr-arrow-right"></span></button>
@@ -186,7 +207,8 @@
 <script type="text/javascript" th:src="@{/js/owl.carousel.min.js}"></script>
 
 </body>
-</html><script>
+</html>
+<script>
     function updateDurataLabel(input) {
         document.getElementById("durata-label").innerHTML = input.value + "ore";
     }

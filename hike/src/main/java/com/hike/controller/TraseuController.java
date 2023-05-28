@@ -98,7 +98,8 @@ public class TraseuController {
                             @RequestParam(name = "grupaMuntoasa", required = false) Long grupaMuntoasaId,
                             @RequestParam(name = "distanta", required = false, defaultValue = "0") Long distanta,
                             @RequestParam(name = "titlu", required = false) String titlu,
-                            @RequestParam(name = "durata", required = false, defaultValue = "0") String durata){
+                            @RequestParam(name = "durata", required = false, defaultValue = "0") String durata,
+                            @RequestParam(name = "ordonare", required = false) String ordonare){
 
         model.addAttribute("paginaPrincipala", true);
 
@@ -108,6 +109,7 @@ public class TraseuController {
         model.addAttribute("distanta", distanta);
         model.addAttribute("titlu", titlu);
         model.addAttribute("durata", durata);
+        model.addAttribute("ordonare", ordonare);
 
         Specification<Traseu> spec = Specification.where(null);
 
@@ -137,7 +139,23 @@ public class TraseuController {
         }
 
         spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("aprobat"), true));
-        Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo-1, pageSize, Sort.by("updatedOn").descending()));
+
+        Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo - 1, pageSize, Sort.by("updatedOn").descending()));
+        if(ordonare != null && ordonare.equals("noi")) {
+            trasee = traseuService.findAll(spec, PageRequest.of(pageNo - 1, pageSize, Sort.by("createdOn").descending()));
+        }
+        else if (ordonare != null && ordonare.equals("distantaCrescator")){
+            trasee = traseuService.findAll(spec, PageRequest.of(pageNo - 1, pageSize, Sort.by("distanta").ascending()));
+        }
+        else if (ordonare != null && ordonare.equals("distantaDescrescator")){
+            trasee = traseuService.findAll(spec, PageRequest.of(pageNo - 1, pageSize, Sort.by("distanta").descending()));
+        }
+        else if(ordonare != null && ordonare.equals("az")){
+            trasee = traseuService.findAll(spec, PageRequest.of(pageNo - 1, pageSize, Sort.by("titlu").ascending()));
+        }
+        else if(ordonare != null && ordonare.equals("za")){
+            trasee = traseuService.findAll(spec, PageRequest.of(pageNo - 1, pageSize, Sort.by("titlu").descending()));
+        }
 
         model.addAttribute("trasee", trasee);
         model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());

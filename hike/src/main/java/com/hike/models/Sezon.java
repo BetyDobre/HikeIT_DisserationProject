@@ -7,7 +7,8 @@ public enum Sezon {
     IARNA("Iarnă"),
     TOATE_SEZOANELE("Toate sezoanele"),
     PRIMAVARA_VARA("Primăvară-Vară"),
-    TOAMNA_IARNA("Toamnă-Iarnă");
+    TOAMNA_IARNA("Toamnă-Iarnă"),
+    INTERZIS_IARNA("Interzis iarna");
 
     public static boolean contains(String test) {
         for (Sezon s : Sezon.values()) {
