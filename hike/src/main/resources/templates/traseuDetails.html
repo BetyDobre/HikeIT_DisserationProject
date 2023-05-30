@@ -243,7 +243,7 @@
                                     <p class="comment" th:text="${comentariu.text}"></p>
                                 </div>
                             </div>
-                            <div th:if="${comentariu.user.id} == ${userId}" class="d-flex align-items-center">
+                            <div th:if="${comentariu.user.id} == ${userId} or ${isAdmin}" class="d-flex align-items-center">
                                 <a th:href="@{'/trasee/'+${traseu.id}+'/'+${comentariu.id}+'/sterge'}" class="genric-btn primary-border radius">Șterge</a>
                             </div>
                         </div>

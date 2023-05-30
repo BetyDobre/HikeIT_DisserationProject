@@ -3,6 +3,7 @@ package com.hike.controller;
 import com.hike.dto.GrupaMuntoasaDto;
 import com.hike.exception.ObjectNotFoundException;
 import com.hike.models.UserEntity;
+import com.hike.models.Utility;
 import com.hike.repository.UserRepository;
 import com.hike.service.GrupaMuntoasaService;
 import com.hike.service.MailService;
@@ -47,19 +48,28 @@ public class MainController {
 
     @GetMapping("/subscribe")
     public String subscribeToNewsletter(HttpServletRequest request, Model model){
-        String content = "<p>Salut,</p>"
-                + "<p>Mulțumim ca te-ai abonat la newsletter-ul nostru!</p>"
-                + "<p>În acest fel vei afla primul noutățile despre site-ul nostru si despre traseele din România.</p>"
-                + "<p>Pe curând!</p>";
-
         try{
-            mailService.sendEmail("newsletter",request.getParameter("email"), content);
             UserEntity user = userService.findByEmail(request.getParameter("email"));
             if (user != null){
+                String content = "<p>Salut,</p>"
+                        + "<p>Mulțumim ca te-ai abonat la newsletter-ul nostru!</p>"
+                        + "<p>În acest fel vei afla primul noutățile despre site-ul nostru si despre traseele din România.</p>"
+                        + "<p>Pe curând!</p>";
+                mailService.sendEmail("newsletter",request.getParameter("email"), content);
                 user.setNewsletter(true);
                 userRepository.save(user);
+                model.addAttribute("status", "Abonarea a fost efectuată cu succes!");
             }
-            model.addAttribute("status", "Abonarea a fost efectuată cu succes!");
+            else {
+                String registerLink = Utility.getSiteURL(request) + "/register";
+                String content = "<p>Salut,</p>"
+                        + "<p>Mulțumim ca vrei sa te abonezi la newsletter-ul nostru!</p>"
+                        + "<p>În acest fel vei afla primul noutățile despre site-ul nostru si despre traseele din România.</p>"
+                        + "<p>Pentru asta, mai întâi trebuie să te înregistrezi cu o adresă de email. Poti face asta <b><a href=\"" + registerLink + "\">aici</a><b>.<p>"
+                        + "<p>Pe curând!</p>";
+                mailService.sendEmail("newsletter",request.getParameter("email"), content);
+                model.addAttribute("status", "A fost trimis un mail cu informații!");
+            }
         }
         catch (MessagingException | UnsupportedEncodingException e){
             model.addAttribute("status", "Emailul nu a putut fi trimis. Încearcă din nou mai târziu.");

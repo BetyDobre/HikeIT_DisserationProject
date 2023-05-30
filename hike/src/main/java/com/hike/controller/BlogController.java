@@ -190,9 +190,17 @@ public class BlogController {
         UserEntity user = userService.findByUsername(username);
         if(user != null){
             model.addAttribute("userId", user.getId());
+            boolean isAdmin = user.getRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"));
+            if(isAdmin){
+                model.addAttribute("isAdmin", true);
+            }
+            else{
+                model.addAttribute("isAdmin", false);
+            }
         }
         else {
             model.addAttribute("userId", null);
+            model.addAttribute("isAdmin", false);
         }
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("categorii", blogPostService.countPostsByCategory());
