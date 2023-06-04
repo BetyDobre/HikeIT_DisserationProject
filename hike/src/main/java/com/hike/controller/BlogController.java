@@ -64,6 +64,13 @@ public class BlogController {
             else{
                 model.addAttribute("access", null);
             }
+            boolean isAdmin = user.getRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"));
+            if(isAdmin){
+                model.addAttribute("isAdmin", true);
+            }
+            else{
+                model.addAttribute("isAdmin", false);
+            }
         }
         else{
             model.addAttribute("userId", null);

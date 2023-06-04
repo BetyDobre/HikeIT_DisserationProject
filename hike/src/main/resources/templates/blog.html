@@ -39,7 +39,7 @@
 							<p class="posts-title"><h3 th:text="${postare.titlu}"></h3></p>
 							<p class="excert" th:text="${postare.descriere}"></p>
 							<a th:href="@{'/blog/' + ${postare.id}}" class="genric-btn primary-border radius arrow">Citește<span class="lnr lnr-arrow-right"></span></a>
-							<a th:if="${postare.user.id} == ${userId}" th:href="@{'/blog/'+${postare.id}+'/sterge'}" class="genric-btn primary-border radius">Șterge</a>
+							<a th:if="${postare.user.id} == ${userId} or ${isAdmin}" th:href="@{'/blog/'+${postare.id}+'/sterge'}" class="genric-btn primary-border radius">Șterge</a>
 						</div>
 					</div>
 

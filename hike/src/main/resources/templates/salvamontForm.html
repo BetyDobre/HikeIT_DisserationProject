@@ -31,6 +31,7 @@
                 <p th:if="${#fields.hasErrors('grupaMuntoasaId')}" th:errors="*{grupaMuntoasaId}" class="text-danger"></p>
               </div>
               <div class="form-group first">
+                <label for="telefon">Nr. telefon*</label>
                 <input th:field="*{telefon}" type="text" placeholder="Număr de telefon..."
                        id="telefon" name = "telefon" required class="single-input" th:placeholder="*{telefon}">
               </div>

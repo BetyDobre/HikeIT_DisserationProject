@@ -178,6 +178,7 @@ public class TraseuController {
         Page<Traseu> trasee = traseuService.findAll(spec, PageRequest.of(pageNo-1, pageSize, Sort.by("updatedOn").descending()));
         model.addAttribute("titlu", titlu);
         model.addAttribute("trasee", trasee);
+        model.addAttribute("side"," propuse");
         addCommonAttributesTrasee(model, pageNo);
 
         return "trasee";
