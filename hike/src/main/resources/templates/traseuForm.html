@@ -41,13 +41,13 @@
                             </div>
 
                             <div class="form-group first">
-                                <label for="durataMinima">Durata minimă de parcurs a traseului sau durata pentru cei experimentați, în ore. (ex: 1:30h)*</label>
+                                <label for="durataMinima">Durata minimă de parcurs a traseului sau durata pentru cei experimentați, în ore. (ex: 1:30)*</label>
                                 <input th:field="*{durataMinima}" type="text" name="durataMinima" id="durataMinima" placeholder="Adaugă durata minima a traseului..." class="single-input">
                                 <p th:if="${#fields.hasErrors('durataMinima')}" th:errors="*{durataMinima}" class="text-danger"></p>
                             </div>
 
                             <div class="form-group first">
-                                <label for="durataMaxima">Durata maximă de parcurs a traseului, pentru o condiție fizică mai puțin bună sau din cauza unor condiții de vreme nefavorabile, în ore. (ex: 4:15h)*</label>
+                                <label for="durataMaxima">Durata maximă de parcurs a traseului, pentru o condiție fizică mai puțin bună sau din cauza unor condiții de vreme nefavorabile, în ore. (ex: 4:15)*</label>
                                 <input th:field="*{durataMaxima}" type="text" name="durataMaxima" id="durataMaxima" placeholder="Adaugă durata maxima a traseului..." class="single-input">
                                 <p th:if="${#fields.hasErrors('durataMaxima')}" th:errors="*{durataMaxima}" class="text-danger"></p>
                             </div>

@@ -1,5 +1,9 @@
 package com.hike.security;
 
+import com.hike.models.UserEntity;
+import com.hike.service.UserService;
+import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -10,8 +14,11 @@ public class CustomOAuth2User implements OAuth2User {
 
     private OAuth2User oAuth2User;
 
-    public CustomOAuth2User(OAuth2User oAuth2User) {
+    private UserService userService;
+
+    public CustomOAuth2User(OAuth2User oAuth2User, UserService userService) {
         this.oAuth2User = oAuth2User;
+        this.userService = userService;
     }
 
     @Override
@@ -58,4 +65,9 @@ public class CustomOAuth2User implements OAuth2User {
     }
 
     public String getProvider() {return "GOOGLE";}
+
+    public boolean getBloggerRole() {
+        UserEntity user = userService.findByUsername(this.getUsername());
+        return user.getRoles().stream().anyMatch(role -> role.getName().equals("BLOGGER"));
+    }
 }

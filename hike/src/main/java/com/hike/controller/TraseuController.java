@@ -2,6 +2,7 @@ package com.hike.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hike.dto.GrupaMuntoasaDto;
 import com.hike.dto.SalvamontDto;
 import com.hike.dto.TraseuCommentDto;
 import com.hike.dto.TraseuDto;
@@ -158,7 +159,7 @@ public class TraseuController {
         }
 
         model.addAttribute("trasee", trasee);
-        model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups());
+        model.addAttribute("grupeMuntoase", grupaMuntoasaService.findAllGroups().stream().sorted(Comparator.comparing(GrupaMuntoasaDto::getTitlu)));
 
         addCommonAttributesTrasee(model, pageNo);
         model.addAttribute("side","");

@@ -2,6 +2,7 @@ package com.hike.controller;
 
 import com.hike.dto.GrupaMuntoasaDto;
 import com.hike.exception.ObjectNotFoundException;
+import com.hike.models.GrupaMuntoasa;
 import com.hike.models.UserEntity;
 import com.hike.models.Utility;
 import com.hike.repository.UserRepository;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -38,7 +40,7 @@ public class MainController {
     public String mainPage(Model model)
     {
         List<GrupaMuntoasaDto> grupe = grupaMuntoasaService.findAllGroups();
-        model.addAttribute("grupe", grupe);
+        model.addAttribute("grupe", grupe.stream().sorted(Comparator.comparing(GrupaMuntoasaDto::getTitlu)));
 
         return "index";
     }

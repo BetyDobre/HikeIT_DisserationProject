@@ -16,3 +16,4 @@ insert ignore into grupe_muntoase(id, titlu, pozaHarta) values (8, 'Ciucas', LOA
 insert ignore into grupe_muntoase(id, titlu, pozaHarta) values (9, 'Cozia', LOAD_FILE('C:\\Users\\Betty\\Desktop\\HikeIT_DisserationProject\\hike\\src\\main\\resources\\static\\img\\grupeMuntoase\\cozia1.jpg'));
 insert ignore into grupe_muntoase(id, titlu, pozaHarta) values (10, 'Godeanu', LOAD_FILE('C:\\Users\\Betty\\Desktop\\HikeIT_DisserationProject\\hike\\src\\main\\resources\\static\\img\\grupeMuntoase\\godeanu.jpg'));
 insert ignore into grupe_muntoase(id, titlu, pozaHarta) values (11, 'Macin', LOAD_FILE('C:\\Users\\Betty\\Desktop\\HikeIT_DisserationProject\\hike\\src\\main\\resources\\static\\img\\grupeMuntoase\\macin.jpg'));
+insert ignore into grupe_muntoase(id, titlu, pozaHarta) values (12, 'Apuseni', LOAD_FILE('C:\\Users\\Betty\\Desktop\\HikeIT_DisserationProject\\hike\\src\\main\\resources\\static\\img\\grupeMuntoase\\apuseni.jpg'));

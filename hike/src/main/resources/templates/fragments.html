@@ -79,6 +79,10 @@
                             <li><a th:href="@{/blog}">Articole</a></li>
                             <li><a th:href="@{/blog/postarilemele}">Postările mele</a></li>
                         </ul>
+                        <ul sec:authorize="isAuthenticated()" th:if="${(#authentication.getPrincipal().getProvider().equals('GOOGLE')) and (#authentication.getPrincipal().getBloggerRole() == true)}">
+                            <li><a th:href="@{/blog}">Articole</a></li>
+                            <li><a th:href="@{/blog/postarilemele}">Postările mele</a></li>
+                        </ul>
                         <ul sec:authorize="hasAuthority('ADMIN')">
                             <li><a th:href="@{/blog}">Articole</a></li>
                             <li><a th:href="@{/blog/categorii}">Categorii</a></li>
