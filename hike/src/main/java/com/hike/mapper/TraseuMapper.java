@@ -26,6 +26,7 @@ public class TraseuMapper {
                 .createdOn(traseuDto.getCreatedOn())
                 .updatedOn(traseuDto.getUpdatedOn())
                 .altitudineMaxima(traseuDto.getAltitudineMaxima())
+                .durataMaximaLong(Long.valueOf(traseuDto.getDurataMaxima().split(":")[0]))
                 .build();
         return traseu;
     }
@@ -54,6 +55,7 @@ public class TraseuMapper {
                 .marcajId(traseu.getMarcaj().getId())
                 .grupaMuntoasaId(traseu.getGrupaMuntoasa().getId())
                 .altitudineMaxima(traseu.getAltitudineMaxima())
+                .durataMaximaLong(Long.valueOf(traseu.getDurataMaxima().split(":")[0]))
                 .build();
         return traseuDto;
     }

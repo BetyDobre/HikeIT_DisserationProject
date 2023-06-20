@@ -136,7 +136,7 @@ public class TraseuController {
         }
 
         if (durata != null && !durata.isBlank() && !durata.equals("0")) {
-            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("durataMaxima"), durata + ":%h"));
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("durataMaximaLong"), durata));
         }
 
         spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("aprobat"), true));

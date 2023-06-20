@@ -88,4 +88,6 @@ public class TraseuDto {
 
     private LocalDateTime updatedOn;
 
+    private Long durataMaximaLong;
+
 }

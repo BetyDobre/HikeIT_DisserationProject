@@ -25,6 +25,7 @@ public class Traseu {
     private String punctSosire;
     private String durataMinima;
     private String durataMaxima;
+    private Long durataMaximaLong;
     private Long distanta;
     private Long urcare;
     private Long coborare;
