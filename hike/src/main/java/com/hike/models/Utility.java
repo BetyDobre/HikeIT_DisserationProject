@@ -15,14 +15,14 @@ public class Utility {
         return siteURL.replace(request.getServletPath(), "");
     }
 
-    public static String getLoggedUser() {
+    public static Long getLoggedUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof CustomOAuth2User) {
             CustomOAuth2User oauth2User = (CustomOAuth2User) principal;
             return oauth2User.getAttribute("name");
         } else if (principal instanceof CustomUserDetails) {
             CustomUserDetails userDetails = (CustomUserDetails) principal;
-            return userDetails.getUsername();
+            return userDetails.getId();
         }
         return null;
     }

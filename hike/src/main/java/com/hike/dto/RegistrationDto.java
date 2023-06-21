@@ -27,10 +27,11 @@ public class RegistrationDto {
     @OnlyLettersAndDigits(message = "Numele de utilizator trebuie să conțină numai litere și/sau cifre.")
     private String username;
 
-    @Length(min = 4, max = 100, message = "Parola trebuie să conțină minimum 8 caractere.")
+
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$", message = "Parola trebuie să conțină minimum 6 caractere, o literă mică, o literă mare și un număr.")
     private String parola;
 
-    @Length(min = 4, max = 100, message = "Parola trebuie să conțină minimum 8 caractere.")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{6,}$", message = "Parola trebuie să conțină minimum 6 caractere, o literă mică, o literă mare și un număr.")
     private String confirmareParola;
 
     @NotEmpty(message = "Acest câmp este obligatoriu.")

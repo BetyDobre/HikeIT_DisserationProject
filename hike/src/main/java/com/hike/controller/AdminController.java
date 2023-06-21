@@ -54,7 +54,7 @@ public class AdminController {
         model.addAttribute("users", users);
         model.addAttribute("currentPage", pageNo);
 
-        return "redirect:/admin/users";
+        return "redirect:/admin/users?stergeSucces";
     }
 
     @GetMapping("/user/{id}/toggleBlogger")
@@ -84,7 +84,7 @@ public class AdminController {
         Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, pageSize));
         model.addAttribute("users", users);
         model.addAttribute("currentPage", pageNo);
-        return "redirect:/admin/users";
+        return "redirect:/admin/users?modificareSucces";
     }
 
     @GetMapping("/user/{id}/toggleAdmin")
@@ -114,6 +114,6 @@ public class AdminController {
         Page<UserEntity> users = userService.getAllUsers(PageRequest.of(pageNo-1, pageSize));
         model.addAttribute("users", users);
         model.addAttribute("currentPage", pageNo);
-        return "redirect:/admin/users";
+        return "redirect:/admin/users?modificareSucces";
     }
 }

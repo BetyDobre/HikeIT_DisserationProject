@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class TraseuCommentDto {
     private Long id;
 
-    @NotEmpty(message = "Textul este obligatoriu")
+    @NotEmpty(message = "Textul este obligatoriu.")
     private String text;
 
     private Traseu traseu;

@@ -9,6 +9,9 @@
     <!-- start banner Area -->
     <section th:replace="~{fragments :: banner_fragment(title = 'Utilizatori', link = 'admin/users', button = null)}"/>
 
+    <p th:if="${param.stergeSucces}" class="alert alert-success container d-flex mt-4">Utilizator șters cu success!</p>
+    <p th:if="${param.modificareSucces}" class="alert alert-success container d-flex mt-4">Modificare efectuată cu success!</p>
+
     <div class="container marginTop centered d-flex justify-content-center pt-4">
         <tr th:if="${users.content.size() == 0}" style="margin-top:5rem;">
             <h2 class="m-5 centered"><span>Niciun utilizator!</span></h2>

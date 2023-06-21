@@ -188,8 +188,8 @@ public class TraseuController {
     @GetMapping("/traseeAdaugate")
     public String traseeAdaugate(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo,
                                  @RequestParam(name = "search", required = false) String titlu){
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
 
         Specification<Traseu> spec = Specification.where(null);
         if (titlu != null && !titlu.isEmpty()) {
@@ -212,8 +212,8 @@ public class TraseuController {
     @GetMapping("/traseeParcurse")
     public String traseeParcurse(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo,
                                  @RequestParam(name = "search", required = false) String titlu){
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
 
         Pageable pageable = PageRequest.of(pageNo-1, pageSize, Sort.by("updatedOn").descending());
         Page<Traseu> trasee = userService.getTraseeParcurseByUser(user, pageable);
@@ -259,8 +259,8 @@ public class TraseuController {
             return "traseuForm";
         }
 
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
         traseuDto.setUser(user);
 
         boolean isAdmin = user.getRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"));
@@ -308,8 +308,8 @@ public class TraseuController {
             return "404";
         }
 
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
         if(user != null){
             boolean traseuParcurs = user.getTraseeParcurse().stream().anyMatch(t -> Objects.equals(t.getId(), id));
             model.addAttribute("traseuParcurs", traseuParcurs);
@@ -442,8 +442,8 @@ public class TraseuController {
     @GetMapping("/{id}/parcurs")
     public String marcheazaCaRealizat(Model model, @PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
         Optional<Traseu> traseuOpt = traseuService.getTraseuById(id);
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
         if(traseuOpt.isPresent()){
             List<Traseu> traseeParcurse = user.getTraseeParcurse();
             boolean traseuParcursBool = traseeParcurse.stream().anyMatch(t -> Objects.equals(t.getId(), id));
@@ -468,8 +468,8 @@ public class TraseuController {
 
     public void addCommonAttributesComments(Model model, int pageNo, Long id){
         Traseu traseu = traseuService.getTraseuById(id).get();
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
         if(user != null){
             model.addAttribute("userId", user.getId());
             boolean isAdmin = user.getRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"));
@@ -492,7 +492,7 @@ public class TraseuController {
 
     @PostMapping("/{id}")
     public String adaugaComentariu(Model model, @PathVariable("id") Long id,
-                                   @ModelAttribute("comentariuNou") TraseuCommentDto traseuCommentDto,
+                                   @Valid @ModelAttribute("comentariuNou") TraseuCommentDto traseuCommentDto,
                                    BindingResult result,
                                    @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
 
@@ -501,11 +501,11 @@ public class TraseuController {
             model.addAttribute("comentariuNou", traseuCommentDto);
             addCommonAttributesComments(model, pageNo, id);
 
-            return "blogForm";
+            return "redirect:/trasee/" + id;
         }
 
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
         traseuCommentDto.setTraseu(traseuService.getTraseuById(id).get());
         traseuCommentDto.setUser(user);
 

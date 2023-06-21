@@ -50,7 +50,7 @@ public class SecurityConfig{
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/","/404","/login", "/register","/subscribe","/parolaUitata/**","/resetParola/**","/contact","/blog","/blog/getBlogPhoto/**", "/blog/categorie/**", "/marcaje/getMarcajPhoto/**","/grupaMuntoasa/**","/trasee","/trasee/getTraseuPhotos/**")
+                .requestMatchers("/","/404","/login", "/register","/subscribe","/parolaUitata/**","/resetParola/**","/contact","/blog","/blog/getBlogPhoto/**", "/blog/categorie/**", "/marcaje/getMarcajPhoto/**","/grupaMuntoasa/**","/trasee","/trasee/getTraseuPhotos/**", "/dezabonare/*")
                 .permitAll()
                 .requestMatchers(request ->
                         request.getServletPath().matches("/blog/\\d+(\\?[a-zA-Z]+)?")

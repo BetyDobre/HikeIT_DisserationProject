@@ -1,6 +1,7 @@
 package com.hike.controller;
 
 import com.hike.dto.UserDto;
+import com.hike.models.AuthProvider;
 import com.hike.models.Role;
 import com.hike.models.UserEntity;
 import com.hike.models.Utility;
@@ -51,8 +52,8 @@ public class UserController {
 
     @GetMapping("/profil")
     public String getProfil(Model model){
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
         if(user == null){
             model.addAttribute("error", "Niciun user logat!");
             return "404";
@@ -82,24 +83,40 @@ public class UserController {
             result.rejectValue("username","error.username", "Există deja un user cu acest nume de utilizator.");
         }
 
-        try {
-            byte[] byteObjects = file.getBytes();
-            userDto.setPozaProfil(byteObjects);
-        } catch (IOException e) {
-            System.out.println("Couldn't set image for user: " + e.getMessage());
-            model.addAttribute("error", "Imaginea aleasă nu poate fi încărcată. Încercați altă imagine.");
-            model.addAttribute("informatii", "true");
-            return "profil";
+        boolean needsLogout = false;
+        UserEntity existingUser = userService.findById(userDto.getId()).get();
+        if(!userDto.getEmail().equals(existingUser.getEmail())){
+            needsLogout = true;
         }
+
+        if (file.isEmpty() && userDto.getAuthProvider().equals(AuthProvider.LOCAL)) {
+            userDto.setPozaProfil(existingUser.getPozaProfil());
+        }
+        else {
+            try {
+                byte[] byteObjects = file.getBytes();
+                userDto.setPozaProfil(byteObjects);
+            } catch (IOException e) {
+                System.out.println("Couldn't set image for user: " + e.getMessage());
+                model.addAttribute("error", "Imaginea aleasă nu poate fi încărcată. Încercați altă imagine.");
+                model.addAttribute("informatii", "true");
+                return "profil";
+            }
+        }
+
         userService.updateUser(userDto);
+
+        if(needsLogout){
+            return "redirect:/login?changeEmail";
+        }
 
         return "redirect:/user/profil?success";
     }
 
     @GetMapping("/securitate")
     public String getProfilSecuritate(Model model){
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
 
         if(user == null){
             model.addAttribute("error", "Niciun user logat!");
@@ -113,8 +130,8 @@ public class UserController {
 
     @PostMapping("/schimbaParola")
     public String schimbaParola(Model model, HttpServletRequest request, HttpServletResponse response) {
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
         if (user == null) {
             model.addAttribute("error", "Niciun user logat!");
             return "404";
@@ -144,8 +161,8 @@ public class UserController {
 
     @GetMapping("/sterge")
     public String deleteUser(Model model) {
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
         if(user == null){
             model.addAttribute("error", "Niciun user logat!");
             return "404";
@@ -158,8 +175,8 @@ public class UserController {
 
     @GetMapping("/statistici")
     public String getProfilStatistici(Model model){
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
         if(user == null){
             model.addAttribute("error", "Niciun user logat!");
             return "404";
@@ -178,8 +195,8 @@ public class UserController {
 
     @GetMapping("/termeni")
     public String getProfilTermeni(Model model){
-        String username = Utility.getLoggedUser();
-        UserEntity user = userService.findByUsername(username);
+        Long loggedUserId = Utility.getLoggedUser();
+        UserEntity user = userService.findById(loggedUserId).orElse(null);
         if(user == null){
             model.addAttribute("error", "Niciun user logat!");
             return "404";

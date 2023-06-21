@@ -1,6 +1,7 @@
 package com.hike.controller;
 
 import com.hike.dto.GrupaMuntoasaDto;
+import com.hike.dto.UserDto;
 import com.hike.exception.ObjectNotFoundException;
 import com.hike.models.GrupaMuntoasa;
 import com.hike.models.UserEntity;
@@ -15,11 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Comparator;
 import java.util.List;
+
+import static com.hike.mapper.UserEditMapper.mapToUserDto;
 
 @Controller
 public class MainController {
@@ -53,10 +57,12 @@ public class MainController {
         try{
             UserEntity user = userService.findByEmail(request.getParameter("email"));
             if (user != null){
+                String dezabonareLink = Utility.getSiteURL(request) + "/dezabonare/"+ user.getId();
                 String content = "<p>Salut,</p>"
                         + "<p>Mulțumim ca te-ai abonat la newsletter-ul nostru!</p>"
                         + "<p>În acest fel vei afla primul noutățile despre site-ul nostru si despre traseele din România.</p>"
-                        + "<p>Pe curând!</p>";
+                        + "<p>Pe curând!</p><b>"
+                        + "<p>Pentru dezabonare apasa aici: <a href=\"" + dezabonareLink + "\">"+dezabonareLink+"</a><b></p>";
                 mailService.sendEmail("newsletter",request.getParameter("email"), content);
                 user.setNewsletter(true);
                 userRepository.save(user);
@@ -78,5 +84,21 @@ public class MainController {
         }
 
         return "index";
+    }
+
+    @GetMapping("/dezabonare/{id}")
+    public String dezabonare(Model model, @PathVariable Long id){
+        UserEntity user = userService.findById(id).orElse(null);
+        if(user!= null) {
+            user.setNewsletter(false);
+            UserDto userDto = mapToUserDto(user);
+            userService.updateUser(userDto);
+            model.addAttribute("message", "Dezabonarea a fost efectuată cu succes!");
+        }
+        else {
+            model.addAttribute("message", "Utilizatorul nu a fost găsit!");
+        }
+
+        return "login";
     }
 }

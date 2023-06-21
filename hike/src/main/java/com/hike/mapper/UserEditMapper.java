@@ -21,6 +21,7 @@ public class UserEditMapper {
                     .parola(userDto.getParola())
                     .roles(userDto.getRoles())
                     .pozaGoogle(userDto.getPozaGoogle())
+                    .traseeParcurse(userDto.getTraseeParcurse())
                     .build();
             return user;
         }
@@ -42,6 +43,7 @@ public class UserEditMapper {
                     .parola(user.getParola())
                     .roles(user.getRoles())
                     .pozaGoogle(user.getPozaGoogle())
+                    .traseeParcurse(user.getTraseeParcurse())
                     .build();
             return userDto;
         }

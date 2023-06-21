@@ -55,7 +55,7 @@
 								<div class="user justify-content-between d-flex">
 									<div th:switch="*{comentariu.user.authProvider.name}" class="thumb">
 										<img th:case="'GOOGLE'" th:src="${comentariu.user.pozaGoogle}"onerror="this.src='/img/user.png';" style="width: 5rem; height: 5rem;" alt="">
-										<img th:case="'LOCAL'" th:src="@{/user/getProfilePhoto/{username}(username=${comentariu.user.username})}" onerror="this.src='/img/user.png';" style="width: 5rem; height: 5rem;" alt="">
+										<img th:case="'LOCAL'" th:src="@{/user/getProfilePhoto/{id}(id=${comentariu.user.id})}" onerror="this.src='/img/user.png';" style="width: 5rem; height: 5rem;" alt="">
 									</div>
 									<div class="desc">
 										<h5 th:text="${comentariu.user.username}"></h5>

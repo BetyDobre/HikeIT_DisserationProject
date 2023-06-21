@@ -50,10 +50,11 @@
                 <input type="hidden" th:field="*{newsletter}">
                 <input type="hidden" th:field="*{resetParolaToken}">
                 <input type="hidden" th:field="*{createdOn}">
+                <input type="hidden" th:field="*{traseeParcurse}">
                 <p th:if="${param.success}" class="alert alert-success">Modificările au fost efectuate cu success!</p>
                 <div th:switch="*{authProvider.name}" class="form-group" style="text-align: center;">
                     <img id = "thumbnail" th:case="'GOOGLE'" th:src="*{pozaGoogle}" onerror="this.src='/img/user.png';"  class="rounded-circle">
-                    <img id = "thumbnail" th:case="'LOCAL'" th:src="@{/user/getProfilePhoto/{username}(username=${user.username})}"  onerror="this.src='/img/user.png';" class="rounded-circle" style="width: 90px; height: 80px;">
+                    <img id = "thumbnail" th:case="'LOCAL'" th:src="@{/user/getProfilePhoto/{id}(id=${#authentication.getPrincipal().getId()})}"  onerror="this.src='/img/user.png';" class="rounded-circle" style="width: 90px; height: 80px;">
                     </br>
                     <input th:if="${user.authProvider.name} == 'LOCAL'" id="pozaProfil" name="pozaProfil" type="file" accept="image/png, image/jpeg">
                 </div>
@@ -81,7 +82,7 @@
                 </div>
 
                 <div th:switch="*{authProvider.name}" class="form-group first">
-                    <label for="email">Email*</label>
+                    <label for="email">Email(necesită reautentificare)*</label>
                     <input th:case="'GOOGLE'" readonly th:field="*{email}" type="email" name="Email" id = "email" placeholder="andrei@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" class="single-input">
                     <input th:case="'LOCAL'" th:field="*{email}" type="email" name="Email" id = "email" placeholder="andrei@gmail.com" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" class="single-input">
                     <p th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}">Email-ul introdus nu este valid.</p>
@@ -121,18 +122,17 @@
                         <div class="form-group last mb-3">
                             <label for="parola">Parola actuală*</label>
                             <input type="password" id = "parola" name="parola" placeholder="Parola veche..." required class="single-input" minlength="4">
-                            <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
                         </div>
                         <div class="form-group last mb-3">
                             <label for="parolaNoua">Parola nouă*</label>
-                            <input type="password" id = "parolaNoua" name="parolaNoua" placeholder="Parola nouă..." required class="single-input" minlength="4">
-                            <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
+                            <input type="password" id = "parolaNoua" name="parolaNoua" placeholder="Parola nouă..." required class="single-input" minlength="6" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$" title="Introduceți o parolă care să conțină cel puțin o literă mică, o literă mare și un număr, având o lungime de minim 6 caractere.">
+                            <div class="invalid-feedback">Parola trebuie să conțină minimum 6 caractere, o literă mică, o literă mare și un număr.</div>
                         </div>
                         <div class="form-group last mb-3">
                             <label for="confParola">Confirmare parolă*</label>
-                            <input type="password" id = "confParola" name="confParola" placeholder="Confirmare parola..." required class="single-input" minlength="4"
+                            <input type="password" id = "confParola" name="confParola" placeholder="Confirmare parola..." required class="single-input"
                                    oninput="checkPasswordMatch(this);">
-                            <div class="invalid-feedback">Parola trebuie să aibă minim 8 caractere.</div>
+                            <div class="invalid-feedback">Parola trebuie să conțină minimum 6 caractere, o literă mică, o literă mare și un număr.</div>
                         </div>
                         <button type="submit" value="Schimbă parola" class="genric-btn primary circle" style="width: 100%">Schimbă parola</button>
                     </div>
@@ -286,7 +286,7 @@
                 showImageThumbnail(this);
             })
             $("#thumbnail").on("error", function(){
-                $(this).attr('src', './img/user.png');
+                $(this).attr('src', '/img/user.png');
             });
         });
         function showImageThumbnail(fileInput){

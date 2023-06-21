@@ -49,9 +49,9 @@ public class ImageController {
         }
     }
 
-    @GetMapping("/user/getProfilePhoto/{username}")
-    public void downloadUserImage(@PathVariable String username, HttpServletResponse response) throws IOException {
-        UserEntity user = userService.findByUsername(username);
+    @GetMapping("/user/getProfilePhoto/{id}")
+    public void downloadUserImage(@PathVariable Long id, HttpServletResponse response) throws IOException {
+        UserEntity user = userService.findById(id).orElse(null);
 
         if (user.getPozaProfil() != null) {
             response.setContentType("image/jpeg");

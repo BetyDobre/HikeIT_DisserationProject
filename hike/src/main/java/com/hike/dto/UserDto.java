@@ -2,6 +2,7 @@ package com.hike.dto;
 
 import com.hike.models.AuthProvider;
 import com.hike.models.Role;
+import com.hike.models.Traseu;
 import com.hike.validator.OnlyLetters;
 import com.hike.validator.OnlyLettersAndDigits;
 import jakarta.persistence.EnumType;
@@ -64,4 +65,6 @@ public class UserDto {
     private String resetParolaToken;
 
     private LocalDateTime createdOn;
+
+    private List<Traseu> traseeParcurse;
 }

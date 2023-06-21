@@ -1,3 +1,4 @@
+<!--HEAD PENTRU TOATE PAGINILE-->
 <head th:fragment="head_fragment(pageTitle)">
     <!-- Mobile Specific Meta -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,6 +30,7 @@
     <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 
+<!--HEADER PENTRU TOATE PAGINILE-->
 <header th:fragment = "header_fragment" id="header" xmlns:sec="http://www.w3.org/1999/xhtml">
     <div class="header-top">
         <div class="container">
@@ -100,7 +102,7 @@
                         <ul>
                             <li class="text-center" th:switch="${#authentication.getPrincipal().getProvider()}">
                                 <img th:case="'GOOGLE'" th:src="${#authentication.getPrincipal().getPhoto()}" class="rounded-circle">
-                                <img th:case="'LOCAL'" th:src="@{/user/getProfilePhoto/{username}(username=${#authentication.getPrincipal().getUsername()})}" onerror="this.src='/img/user.png';" class="rounded-circle" style="width: 90px; height: 80px;">
+                                <img th:case="'LOCAL'" th:src="@{/user/getProfilePhoto/{id}(id=${#authentication.getPrincipal().getId()})}" onerror="this.src='/img/user.png';" class="rounded-circle" style="width: 90px; height: 80px;">
                             </li>
                             <div th:switch="${#authentication.getPrincipal().getProvider()}">
                                 <li th:case="'GOOGLE'" class="text-center"><p th:text="${#authentication.getPrincipal().getUsername()}" class="font-weight-bold"></p></li>
@@ -116,7 +118,7 @@
     </div>
 </header>
 
-
+<!--BANNER PENTRU TOATE PAGINILE-->
 <section th:fragment = "banner_fragment(title, link, button)" class="relative about-banner">
     <div class="overlay overlay-bg"></div>
     <div class="container">
@@ -133,7 +135,7 @@
     </div>
 </section>
 
-
+<!--FOOTER PENTRU TOATE PAGINILE-->
 <footer th:fragment="footer_fragment" class="footer-area section-gap">
     <div class="container">
         <div class="row">
@@ -208,7 +210,7 @@
     </div>
 </footer>
 
-<!--Blog Sidebar-->
+<!--BLOG SIDEBAR-->
 <div th:fragment="blog_sidebar_fragment" class="col-lg-4 sidebar-widgets">
     <div class="widget-wrap">
         <div class="single-sidebar-widget search-widget">
