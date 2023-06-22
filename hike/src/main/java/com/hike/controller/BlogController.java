@@ -54,8 +54,8 @@ public class BlogController {
     }
 
     void addCommonAttributes(Model model, int pageNo){
-        Long loggedUserId = Utility.getLoggedUser();
-        UserEntity user = userService.findById(loggedUserId).orElse(null);
+        String loggedUserUsername= Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(loggedUserUsername);
         if(user != null){
             model.addAttribute("userId", user.getId());
             boolean isBlogger = user.getRoles().stream().anyMatch(role -> role.getName().equals("BLOGGER"));
@@ -156,8 +156,8 @@ public class BlogController {
         }
 
         postare.setText(postare.getText().replaceAll("\n", "<br>"));
-        Long loggedUserId = Utility.getLoggedUser();
-        UserEntity user = userService.findById(loggedUserId).orElse(null);
+        String loggedUserUsername= Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(loggedUserUsername);
         postare.setUser(user);
 
         try {
@@ -175,8 +175,8 @@ public class BlogController {
 
     @GetMapping("/postarilemele")
     public String getPostariUserConectat(Model model, @RequestParam(value = "page", defaultValue = "1", required = false) int pageNo){
-        Long loggedUserId = Utility.getLoggedUser();
-        UserEntity user = userService.findById(loggedUserId).orElse(null);
+        String loggedUserUsername= Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(loggedUserUsername);
 
         model.addAttribute("postari", blogPostService.findByUser(user, PageRequest.of(pageNo - 1, pageSize, Sort.by("createdOn").descending())));
         addCommonAttributes(model, pageNo);
@@ -194,8 +194,8 @@ public class BlogController {
 
 //    comentarii si single post
     void addCommonAttributesBlogPost(Model model, int pageNo, Long postId){
-        Long loggedUserId = Utility.getLoggedUser();
-        UserEntity user = userService.findById(loggedUserId).orElse(null);
+        String loggedUserUsername= Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(loggedUserUsername);
         if(user != null){
             model.addAttribute("userId", user.getId());
             boolean isAdmin = user.getRoles().stream().anyMatch(role -> role.getName().equals("ADMIN"));
@@ -254,8 +254,8 @@ public class BlogController {
             addCommonAttributesBlogPost(model, pageNo, id);
             return "redirect:/blog/" + id;
         }
-        Long loggedUserId = Utility.getLoggedUser();
-        UserEntity user = userService.findById(loggedUserId).orElse(null);
+        String loggedUserUsername= Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(loggedUserUsername);;
         blogCommentDto.setPostare(blogPostService.getById(id));
         blogCommentDto.setUser(user);
 

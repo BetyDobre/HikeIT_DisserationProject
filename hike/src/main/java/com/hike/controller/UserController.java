@@ -52,8 +52,8 @@ public class UserController {
 
     @GetMapping("/profil")
     public String getProfil(Model model){
-        Long loggedUserId = Utility.getLoggedUser();
-        UserEntity user = userService.findById(loggedUserId).orElse(null);
+        String loggedUserUsername= Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(loggedUserUsername);
         if(user == null){
             model.addAttribute("error", "Niciun user logat!");
             return "404";
@@ -85,7 +85,7 @@ public class UserController {
 
         boolean needsLogout = false;
         UserEntity existingUser = userService.findById(userDto.getId()).get();
-        if(!userDto.getEmail().equals(existingUser.getEmail())){
+        if(!userDto.getUsername().equals(existingUser.getUsername())){
             needsLogout = true;
         }
 
@@ -107,7 +107,7 @@ public class UserController {
         userService.updateUser(userDto);
 
         if(needsLogout){
-            return "redirect:/login?changeEmail";
+            return "redirect:/login?changeUsername";
         }
 
         return "redirect:/user/profil?success";
@@ -115,8 +115,8 @@ public class UserController {
 
     @GetMapping("/securitate")
     public String getProfilSecuritate(Model model){
-        Long loggedUserId = Utility.getLoggedUser();
-        UserEntity user = userService.findById(loggedUserId).orElse(null);
+        String loggedUserUsername= Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(loggedUserUsername);
 
         if(user == null){
             model.addAttribute("error", "Niciun user logat!");
@@ -130,8 +130,8 @@ public class UserController {
 
     @PostMapping("/schimbaParola")
     public String schimbaParola(Model model, HttpServletRequest request, HttpServletResponse response) {
-        Long loggedUserId = Utility.getLoggedUser();
-        UserEntity user = userService.findById(loggedUserId).orElse(null);
+        String loggedUserUsername= Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(loggedUserUsername);
         if (user == null) {
             model.addAttribute("error", "Niciun user logat!");
             return "404";
@@ -161,8 +161,8 @@ public class UserController {
 
     @GetMapping("/sterge")
     public String deleteUser(Model model) {
-        Long loggedUserId = Utility.getLoggedUser();
-        UserEntity user = userService.findById(loggedUserId).orElse(null);
+        String loggedUserUsername= Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(loggedUserUsername);
         if(user == null){
             model.addAttribute("error", "Niciun user logat!");
             return "404";
@@ -175,8 +175,8 @@ public class UserController {
 
     @GetMapping("/statistici")
     public String getProfilStatistici(Model model){
-        Long loggedUserId = Utility.getLoggedUser();
-        UserEntity user = userService.findById(loggedUserId).orElse(null);
+        String loggedUserUsername= Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(loggedUserUsername);
         if(user == null){
             model.addAttribute("error", "Niciun user logat!");
             return "404";
@@ -195,8 +195,8 @@ public class UserController {
 
     @GetMapping("/termeni")
     public String getProfilTermeni(Model model){
-        Long loggedUserId = Utility.getLoggedUser();
-        UserEntity user = userService.findById(loggedUserId).orElse(null);
+        String loggedUserUsername= Utility.getLoggedUser();
+        UserEntity user = userService.findByUsername(loggedUserUsername);
         if(user == null){
             model.addAttribute("error", "Niciun user logat!");
             return "404";
